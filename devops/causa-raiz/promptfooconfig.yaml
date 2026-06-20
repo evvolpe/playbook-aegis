@@ -1,0 +1,55 @@
+# Gate de qualidade com LLM-as-judge (Checkpoint 09)
+# Saída aberta — sem resposta única verificável por regex; avaliada por rubrica.
+description: causa-raiz — gate LLM-as-judge (rubrica 4 critérios, corte >= 6/8)
+
+prompts:
+  - file://prompt.md
+
+providers:
+  - anthropic:messages:claude-3-5-sonnet-20241022 # gera a análise
+
+defaultTest:
+  assert:
+    - type: latency
+      threshold: 8000
+    - type: cost
+      threshold: 0.03
+
+tests:
+  - vars:
+      config: file://fixtures/cerebro.yaml
+      metricas: file://fixtures/metricas.txt
+      logs: file://fixtures/logs.txt
+    assert:
+      - type: llm-rubric
+        provider: openai:gpt-4o # juiz de outro fornecedor: evita auto-aprovação
+        rubricPrompt: |
+          Você é um revisor técnico avaliando uma análise de causa-raiz.
+          Avalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:
+
+          1. Causa-raiz correta (0-2): a resposta identifica que a reindexação
+             agendada (02:00) não terminou e ficou travada em ~41% às 10:00,
+             consumindo heap continuamente até saturar e disparar o circuit
+             breaker? 2 = identifica a cadeia completa; 1 = cita só parte
+             (reindex OU heap, sem ligar os dois); 0 = não identifica.
+          2. Correlação x causa (0-2): a resposta separa explicitamente o que é
+             efeito (ex. queda do cache_hit_pct, timeouts de busca) do que é
+             causa (reindex/heap)? 2 = separa claramente; 1 = menciona mas
+             mistura; 0 = trata sintoma como causa.
+          3. Ação proporcional (0-2): a ação recomendada é pausar/reagendar a
+             reindexação e investigar a causa da lentidão (ou equivalente),
+             sem ser nem genérica nem desproporcional? 2 = sim, concreta e
+             proporcional; 1 = correta mas vaga; 0 = genérica ou desproporcional.
+          4. Honestidade epistêmica (0-2): a resposta reconhece explicitamente o
+             que os dados não permitem concluir (ex. por que a reindexação ficou
+             5x mais lenta, se outros nós são afetados)? 2 = reconhece
+             especificamente; 1 = reconhece de forma genérica; 0 = afirma
+             certeza não sustentada pelos dados.
+
+          Para cada critério dê a nota e uma justificativa de 1 linha. Some as
+          4 notas. Aprove (pass: true) se a soma for >= 6 E nenhum critério
+          tiver nota 0. Caso contrário, pass: false.
+
+          RESPOSTA A AVALIAR:
+          {{output}}
+        threshold: 1
