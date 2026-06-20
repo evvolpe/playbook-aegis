@@ -5,7 +5,7 @@ versao: 1.0.0
 tags: [devops, sre, observabilidade, causa-raiz]
 inputs:
   - nome: config
-    descricao: Arquivo de configuração do cluster/serviço degradado (ex.: cerebro.yaml).
+    descricao: "Arquivo de configuração do cluster/serviço degradado (ex.: cerebro.yaml)."
   - nome: metricas
     descricao: Série de métricas da janela do incidente (latência, vazão, heap, cache, etc.).
   - nome: logs
