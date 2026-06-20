@@ -1,0 +1,50 @@
+# Gate de qualidade com LLM-as-judge (Checkpoint 10 — cobertura estendida)
+# Saída aberta — mesmo molde do CP09, critérios adaptados para a decisão de backpressure.
+description: backpressure-relay — gate LLM-as-judge (rubrica 4 critérios, corte >= 6/8)
+
+prompts:
+  - file://prompt.md
+
+providers:
+  - anthropic:messages:claude-3-5-sonnet-20241022
+
+defaultTest:
+  assert:
+    - type: latency
+      threshold: 8000
+    - type: cost
+      threshold: 0.03
+
+tests:
+  - vars:
+      cenario: file://fixtures/cenario.txt
+    assert:
+      - type: llm-rubric
+        provider: openai:gpt-4o # juiz de outro fornecedor
+        rubricPrompt: |
+          Você é um revisor avaliando uma análise de decisão de backpressure.
+          Avalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:
+
+          1. Comparação de estratégias (0-2): compara pelo menos 3 estratégias
+             defensáveis (ex. priorizar Sentinel, DLQ, particionar por tenant,
+             autoscaling)? 2 = >=3 com prós e contras; 1 = 2 estratégias ou sem
+             contras; 0 = uma resposta única sem comparação.
+          2. Aderência às restrições (0-2): pesa as restrições reais do cenário
+             (SLA de 60s do Sentinel, 15min do Forge, orçamento 8% estourado,
+             não-perda de mensagem)? 2 = liga cada opção às restrições; 1 =
+             cita restrições genericamente; 0 = ignora as restrições.
+          3. Recomendação justificada (0-2): recomenda uma opção/combinação
+             justificada pelas restrições específicas, não pelo "padrão de
+             mercado"? 2 = sim, justificada; 1 = recomenda mas vago; 0 = não
+             recomenda ou recomenda sem justificar.
+          4. Trade-off aberto (0-2): aponta o trade-off que permanece mesmo na
+             opção recomendada? 2 = aponta explicitamente; 1 = menção vaga;
+             0 = vende a recomendação como sem custo.
+
+          Para cada critério dê a nota e uma justificativa de 1 linha. Some as
+          4 notas. Aprove (pass: true) se a soma for >= 6 E nenhum critério
+          tiver nota 0. Caso contrário, pass: false.
+
+          RESPOSTA A AVALIAR:
+          {{output}}
+        threshold: 1
