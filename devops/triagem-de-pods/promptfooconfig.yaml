@@ -1,0 +1,47 @@
+# Testes determinísticos da triagem de pods (Checkpoint 08)
+# Roda contra os 3 snapshots do Checkpoint 01.
+description: triagem-de-pods — causa provável por pod a partir do snapshot
+
+prompts:
+  - file://prompt.md
+
+providers:
+  - openai:gpt-4o-mini
+  - anthropic:messages:claude-3-5-haiku-20241022 # segundo provider, outro fornecedor
+
+defaultTest:
+  assert:
+    - type: latency
+      threshold: 5000
+    - type: cost
+      threshold: 0.01
+
+tests:
+  # Entrada 1 — pod reiniciando (OOMKilled)
+  - vars:
+      snapshot: file://fixtures/entrada-1.txt
+    assert:
+      - type: contains
+        value: "sentinel-api-7d9c8b6f4-h4m2t"
+      - type: javascript
+        value: "/OOMKilled|mem[oó]ria/i.test(output)"
+  # Entrada 2 — dois pods que não sobem
+  - vars:
+      snapshot: file://fixtures/entrada-2.txt
+    assert:
+      - type: contains
+        value: "sentinel-api-7d9c8b6f4-zzp10"
+      - type: contains
+        value: "sentinel-ingest-8f7a9c5b-4dkqm"
+      - type: javascript
+        value: "/2\\.9\\.2|ImagePullBackOff/i.test(output)"
+      - type: javascript
+        value: "/cpu|insufficient/i.test(output)"
+  # Entrada 3 — tudo saudável (não pode classificar nada como falha)
+  - vars:
+      snapshot: file://fixtures/entrada-3.txt
+    assert:
+      - type: javascript
+        value: "/nenhum pod (problem[aá]tico|com problema)|0 pods problem[aá]ticos|tudo saud[aá]vel/i.test(output)"
+      - type: not-contains
+        value: "CrashLoopBackOff"
