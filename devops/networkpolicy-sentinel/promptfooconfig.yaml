@@ -1,0 +1,38 @@
+# Testes determinísticos da NetworkPolicy endurecida (Checkpoint 08)
+# Roda contra o manifesto permissivo + regras + mapa de serviços do Checkpoint 06.
+description: networkpolicy-sentinel — NetworkPolicy endurecida e default-deny
+
+prompts:
+  - file://prompt.md
+
+providers:
+  - openai:gpt-4o-mini
+  - anthropic:messages:claude-3-5-haiku-20241022 # segundo provider, outro fornecedor
+
+defaultTest:
+  assert:
+    - type: latency
+      threshold: 5000
+    - type: cost
+      threshold: 0.01
+
+tests:
+  - vars:
+      manifesto: file://fixtures/manifesto-permissivo.yaml
+      regras: file://fixtures/regras.txt
+      mapa_servicos: file://fixtures/mapa-servicos.txt
+    assert:
+      - type: contains
+        value: "kind: NetworkPolicy"
+      - type: contains
+        value: "Ingress"
+      - type: contains
+        value: "Egress"
+      - type: not-contains # nada de allow-all
+        value: "- {}"
+      - type: javascript # egress libera Forge (5432) e Cerebro (9200)
+        value: "output.includes('5432') && output.includes('9200')"
+      - type: javascript # ingress libera o Relay
+        value: "/app:\\s*relay/.test(output)"
+      - type: regex # toda regra tem comentário
+        value: "#.+"
