@@ -1,0 +1,54 @@
+# Gate de qualidade com LLM-as-judge (Checkpoint 10 — cobertura estendida)
+# Cadeia de saída aberta — avaliada no insumo do primeiro elo (estado_atual);
+# diagnostico/plano_etapas ficam vazios aqui, e a rubrica avalia se a saída já
+# demonstra etapas incrementais e reversíveis.
+description: migracao-forge — gate LLM-as-judge (rubrica 4 critérios, corte >= 6/8)
+
+prompts:
+  - file://prompt.md
+
+providers:
+  - anthropic:messages:claude-3-5-sonnet-20241022
+
+defaultTest:
+  assert:
+    - type: latency
+      threshold: 8000
+    - type: cost
+      threshold: 0.03
+
+tests:
+  - vars:
+      estado_atual: file://fixtures/estado-atual.txt
+      restricoes: file://fixtures/restricoes.txt
+      diagnostico: ""
+      plano_etapas: ""
+    assert:
+      - type: llm-rubric
+        provider: openai:gpt-4o # juiz de outro fornecedor
+        rubricPrompt: |
+          Você é um revisor avaliando um plano de migração de pipeline batch para
+          event-driven. Avalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:
+
+          1. Diagnóstico ancorado (0-2): identifica os pontos presos à semântica
+             de "lote fechado" (tabelas particionadas por hora, billing noturno)
+             e os riscos por dependente (Sentinel, Cerebro, billing)? 2 = ambos;
+             1 = parcial; 0 = genérico.
+          2. Etapas incrementais (0-2): propõe a migração em etapas em ordem, não
+             big-bang? 2 = etapas claras e ordenadas; 1 = etapas vagas; 0 = virada
+             única ou sem etapas.
+          3. Reversibilidade (0-2): cada etapa tem rollback/forma de voltar atrás e
+             paralelo old+new onde necessário? 2 = reversibilidade explícita por
+             etapa; 1 = menção genérica; 0 = sem rollback.
+          4. Dependente sensível por último (0-2): trata o billing (partição
+             fechada, custo financeiro) como o mais sensível, migrado por último e
+             só após paridade validada? 2 = sim; 1 = menciona sem priorizar;
+             0 = ignora.
+
+          Para cada critério dê a nota e uma justificativa de 1 linha. Some as
+          4 notas. Aprove (pass: true) se a soma for >= 6 E nenhum critério
+          tiver nota 0. Caso contrário, pass: false.
+
+          RESPOSTA A AVALIAR:
+          {{output}}
+        threshold: 1
