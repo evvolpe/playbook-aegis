@@ -1,0 +1,62 @@
+name: Avaliação do playbook de prompts
+
+on:
+  pull_request:
+    paths:
+      - "devops/**"
+  push:
+    branches: [main]
+    paths:
+      - "devops/**"
+
+jobs:
+  # --- Caminho crítico do PR: roda só os prompts alterados (rápido e barato) ---
+  eval-pr:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detectar configs alterados
+        id: changed
+        uses: tj-actions/changed-files@v44
+        with:
+          files: devops/**/promptfooconfig.yaml
+
+      - name: Rodar avaliação (promptfoo) nos prompts alterados
+        if: steps.changed.outputs.any_changed == 'true'
+        uses: promptfoo/promptfoo-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          config: ${{ steps.changed.outputs.all_changed_files }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          no-share: true
+          cache-path: .promptfoo-cache
+          fail-on-error: true # falha o build em qualquer assert reprovado (determinístico OU juiz)
+
+  # --- Rede de segurança: roda a suíte INTEIRA no push para main (fora do PR) ---
+  eval-full:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Rodar a suíte completa
+        run: |
+          status=0
+          for cfg in devops/*/promptfooconfig.yaml; do
+            echo "::group::$cfg"
+            npx -y promptfoo@latest eval -c "$cfg" --no-cache || status=1
+            echo "::endgroup::"
+          done
+          exit $status

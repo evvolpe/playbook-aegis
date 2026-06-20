@@ -1,0 +1,5 @@
+.promptfoo-cache/
+.env
+node_modules/
+*.log
+output.json
