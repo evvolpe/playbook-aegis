@@ -10,6 +10,11 @@ on:
       - "devops/**"
   workflow_dispatch:
 
+# Necessário para a promptfoo-action comentar o resultado no PR.
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   # Caminho crítico do PR: roda só os prompts alterados (rápido e barato).
   eval-pr:
