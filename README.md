@@ -133,17 +133,40 @@ confiança quebrada no playbook.
   bloqueio, mas "nenhuma alteração entra sem passar nos testes" deixa de valer
   justamente para os prompts mais arriscados de regredir silenciosamente.
 
-**Escopo de execução:** no PR roda só os configs alterados (`tj-actions/changed-files`)
-→ tempo e custo de token proporcionais ao PR, não à biblioteca.
-- *Perda:* mudança "lateral" (fixture compartilhado) pode escapar do filtro de path.
-- *Mitigação / alternativa:* a suíte **inteira** roda no `push` para `main` (job
-  `eval-full`), como rede de segurança fora do caminho crítico do PR. Rodar tudo em
-  todo PR seria mais seguro, mas caro e lento à medida que a biblioteca cresce, e a
-  maioria dos PRs altera um prompt só.
+**Escopo de execução:** no PR (`eval-pr`) roda só os prompts alterados — o
+`tj-actions/changed-files` detecta a **pasta** de qualquer arquivo modificado
+(`dir_names`), então mudar `prompt.md`, `promptfooconfig.yaml` *ou* um fixture dispara a
+reavaliação daquele prompt. Tempo e custo proporcionais ao PR, não à biblioteca. A
+`promptfoo-action` comenta o resultado direto no PR. Reprovação bloqueia via
+`fail-on-threshold: 100` (exige 100% de pass).
+- *Perda:* mudança "lateral" (fixture compartilhado entre prompts) ainda pode escapar.
+- *Mitigação / alternativa:* a suíte **inteira** roda no `push` para `main` e no
+  `workflow_dispatch` (job `eval-full`), como rede de segurança fora do caminho crítico
+  do PR. Rodar tudo em todo PR seria mais seguro, mas caro e lento à medida que a
+  biblioteca cresce, e a maioria dos PRs altera um prompt só.
 
 **Secrets:** `OPENAI_API_KEY` e `ANTHROPIC_API_KEY` ficam em *repository secrets* do
 GitHub, nunca versionados. A `promptfoo-action` não expõe secrets para PRs de fork sem
 permissão explícita, o que também limita quem consegue gastar o orçamento de API.
+
+### Evidência de execução real (GitHub Actions)
+- **Suíte completa** (`eval-full`, run manual): 5 dos 6 prompts verdes — `causa-raiz`,
+  `backpressure`, `migracao` (juiz 8/8), `nota-de-triagem` e `triagem-de-pods` (6/6
+  cada). O único vermelho é `networkpolicy-sentinel` no `gpt-4o-mini` por latência (o
+  trade-off documentado), que faz o build falhar — o gate funciona.
+- **Falha provocada** ([PR #1](https://github.com/evvolpe/playbook-aegis/pull/1)):
+  quebrei o formato do `nota-de-triagem/prompt.md` (removi o rótulo obrigatório
+  `ESCALAR PARA:`). O `eval-pr` disparou pela mudança no `prompt.md` (graças ao
+  `dir_names`), os asserts `contains`/`regex` reprovaram de forma determinística e o PR
+  ficou vermelho, com a `promptfoo-action` comentando o resultado — o gate barra
+  regressão.
+- **Achado honesto sobre o gate de juiz:** antes da versão acima, tentei provocar a
+  falha sabotando o `causa-raiz/prompt.md` (removendo e depois proibindo a honestidade
+  epistêmica). O juiz **não** reprovou: `claude-sonnet-4-6` manteve as ressalvas mesmo
+  contrariado e o `gpt-4o` deu nota de aprovação. Lição: o gate de juiz pega queda
+  **real** de qualidade, mas uma geração robusta pode absorver um empurrão no prompt —
+  por isso a camada determinística é quem garante o que é garantível (formato), e o
+  juiz cobre o que exige julgamento.
 
 ## Sanitização de dado sensível
 Os cenários são fictícios, mas vários trazem o que, em produção, seriam dados sensíveis
