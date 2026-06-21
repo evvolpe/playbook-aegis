@@ -20,19 +20,33 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Detectar configs alterados
+      # Detecta a PASTA de qualquer arquivo alterado (prompt.md, config, fixture),
+      # para que uma regressao no prompt.md tambem dispare a reavaliacao.
+      - name: Detectar pastas de prompt alteradas
         id: changed
         uses: tj-actions/changed-files@v44
         with:
-          files: devops/**/promptfooconfig.yaml
+          files: devops/**
+          dir_names: true
+          dir_names_max_depth: 2
 
-      - name: Rodar avaliacao (promptfoo) nos prompts alterados
+      - name: Montar lista de configs afetados
+        id: cfgs
         if: steps.changed.outputs.any_changed == 'true'
+        run: |
+          list=""
+          for dir in ${{ steps.changed.outputs.all_changed_files }}; do
+            [ -f "$dir/promptfooconfig.yaml" ] && list="$list $dir/promptfooconfig.yaml"
+          done
+          echo "list=$(echo $list | xargs)" >> "$GITHUB_OUTPUT"
+
+      - name: Rodar avaliacao (promptfoo-action comenta no PR)
+        if: steps.cfgs.outputs.list != ''
         uses: promptfoo/promptfoo-action@v1
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
-          config: ${{ steps.changed.outputs.all_changed_files }}
+          config: ${{ steps.cfgs.outputs.list }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           no-share: true
           cache-path: .promptfoo-cache
