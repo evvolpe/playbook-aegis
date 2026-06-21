@@ -8,9 +8,10 @@ on:
     branches: [main]
     paths:
       - "devops/**"
+  workflow_dispatch:
 
 jobs:
-  # --- Caminho crítico do PR: roda só os prompts alterados (rápido e barato) ---
+  # Caminho crítico do PR: roda só os prompts alterados (rápido e barato).
   eval-pr:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
@@ -25,7 +26,7 @@ jobs:
         with:
           files: devops/**/promptfooconfig.yaml
 
-      - name: Rodar avaliação (promptfoo) nos prompts alterados
+      - name: Rodar avaliacao (promptfoo) nos prompts alterados
         if: steps.changed.outputs.any_changed == 'true'
         uses: promptfoo/promptfoo-action@v1
         with:
@@ -35,11 +36,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           no-share: true
           cache-path: .promptfoo-cache
-          fail-on-error: true # falha o build em qualquer assert reprovado (determinístico OU juiz)
+          fail-on-threshold: 100
 
-  # --- Rede de segurança: roda a suíte INTEIRA no push para main (fora do PR) ---
+  # Rede de seguranca: roda a suite INTEIRA no push para main e no dispatch manual.
   eval-full:
-    if: github.event_name == 'push'
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -51,7 +52,7 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Rodar a suíte completa
+      - name: Rodar a suite completa
         run: |
           status=0
           for cfg in devops/*/promptfooconfig.yaml; do
