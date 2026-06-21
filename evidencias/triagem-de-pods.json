@@ -1,0 +1,1376 @@
+{
+  "evalId": "eval-aeU-2026-06-20T23:42:39",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-06-20T23:42:39.848Z",
+    "prompts": [
+      {
+        "raw": "---\nnome: Triagem de pods\ndescricao: Analisa um snapshot de cluster Kubernetes (pods + eventos + logs) e aponta quais pods estão problemáticos, com causa provável e ação recomendada.\nversao: 1.0.0\ntags: [devops, kubernetes, sre, triagem]\ninputs:\n  - nome: snapshot\n    descricao: Saída combinada de `kubectl get pods`, `kubectl describe pod` e `kubectl logs` dos pods relevantes do namespace.\n---\n\nVocê é um SRE sênior de plantão, responsável pela triagem rápida de pods em produção.\n\nVocê vai receber um SNAPSHOT de um cluster Kubernetes, composto por até três blocos\n(nem sempre os três estarão presentes):\n1. saída de `kubectl get pods`\n2. saída de `kubectl describe pod` dos pods suspeitos\n3. trecho de `kubectl logs` desses pods\n\nSNAPSHOT:\n{{snapshot}}\n\nTarefa: para cada pod no snapshot:\n1. Diga se está saudável ou problemático — não confie só na coluna STATUS, cruze com\n   os eventos e os logs antes de concluir. Um único restart antigo (RESTARTS baixo,\n   ocorrido há dias) em um pod que está Running/Ready, sem CrashLoopBackOff nem\n   reinícios recentes, NÃO é por si só um problema — não classifique o pod como\n   problemático só por causa disso.\n2. Se problemático, aponte a causa provável citando a evidência (evento ou linha de\n   log) que sustenta essa causa.\n3. Recomende a próxima ação concreta para quem está de plantão.\n4. Se nenhum pod estiver problemático, diga isso claramente e não invente problema.\n\nFormato de saída (conciso, em TEXTO PURO — não use tabela markdown):\n- Linha 1, SEMPRE: \"Resumo: N pods problemáticos\" (N = número exato; use 0 se nenhum).\n- Uma linha por pod problemático: Pod | Causa provável | Evidência | Ação recomendada.\n- Se N = 0: apenas a linha de resumo + uma frase curta confirmando que está tudo\n  saudável, sem listar pod por pod.\n\nSeja direto e curto. Não repita o STATUS como se fosse a causa.\n",
+        "label": "devops/triagem-de-pods/prompt.md: ---\nnome: Triagem de pods\ndescricao: Analisa um sn...",
+        "id": "711c84503d179822b189e433bb81f3f00606d84a150987a053db1895f54aedec",
+        "provider": "openai:gpt-4o-mini",
+        "metrics": {
+          "score": 3,
+          "testPassCount": 3,
+          "testFailCount": 0,
+          "testErrorCount": 0,
+          "assertPassCount": 14,
+          "assertFailCount": 0,
+          "totalLatencyMs": 4623,
+          "tokenUsage": {
+            "prompt": 2588,
+            "completion": 215,
+            "cached": 0,
+            "total": 2803,
+            "numRequests": 3,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "namedScoreWeights": {},
+          "cost": 0.0005172
+        }
+      },
+      {
+        "raw": "---\nnome: Triagem de pods\ndescricao: Analisa um snapshot de cluster Kubernetes (pods + eventos + logs) e aponta quais pods estão problemáticos, com causa provável e ação recomendada.\nversao: 1.0.0\ntags: [devops, kubernetes, sre, triagem]\ninputs:\n  - nome: snapshot\n    descricao: Saída combinada de `kubectl get pods`, `kubectl describe pod` e `kubectl logs` dos pods relevantes do namespace.\n---\n\nVocê é um SRE sênior de plantão, responsável pela triagem rápida de pods em produção.\n\nVocê vai receber um SNAPSHOT de um cluster Kubernetes, composto por até três blocos\n(nem sempre os três estarão presentes):\n1. saída de `kubectl get pods`\n2. saída de `kubectl describe pod` dos pods suspeitos\n3. trecho de `kubectl logs` desses pods\n\nSNAPSHOT:\n{{snapshot}}\n\nTarefa: para cada pod no snapshot:\n1. Diga se está saudável ou problemático — não confie só na coluna STATUS, cruze com\n   os eventos e os logs antes de concluir. Um único restart antigo (RESTARTS baixo,\n   ocorrido há dias) em um pod que está Running/Ready, sem CrashLoopBackOff nem\n   reinícios recentes, NÃO é por si só um problema — não classifique o pod como\n   problemático só por causa disso.\n2. Se problemático, aponte a causa provável citando a evidência (evento ou linha de\n   log) que sustenta essa causa.\n3. Recomende a próxima ação concreta para quem está de plantão.\n4. Se nenhum pod estiver problemático, diga isso claramente e não invente problema.\n\nFormato de saída (conciso, em TEXTO PURO — não use tabela markdown):\n- Linha 1, SEMPRE: \"Resumo: N pods problemáticos\" (N = número exato; use 0 se nenhum).\n- Uma linha por pod problemático: Pod | Causa provável | Evidência | Ação recomendada.\n- Se N = 0: apenas a linha de resumo + uma frase curta confirmando que está tudo\n  saudável, sem listar pod por pod.\n\nSeja direto e curto. Não repita o STATUS como se fosse a causa.\n",
+        "label": "devops/triagem-de-pods/prompt.md: ---\nnome: Triagem de pods\ndescricao: Analisa um sn...",
+        "id": "711c84503d179822b189e433bb81f3f00606d84a150987a053db1895f54aedec",
+        "provider": "anthropic:claude-haiku-4-5-20251001",
+        "metrics": {
+          "score": 3,
+          "testPassCount": 3,
+          "testFailCount": 0,
+          "testErrorCount": 0,
+          "assertPassCount": 14,
+          "assertFailCount": 0,
+          "totalLatencyMs": 7615,
+          "tokenUsage": {
+            "prompt": 2936,
+            "completion": 432,
+            "cached": 0,
+            "total": 3368,
+            "numRequests": 3,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "namedScoreWeights": {},
+          "cost": 0.005096
+        }
+      }
+    ],
+    "results": [
+      {
+        "cost": 0.00017894999999999999,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "sentinel-api-7d9c8b6f4-h4m2t"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "/OOMKilled|mem[oó]ria/i.test(output)"
+              }
+            }
+          ]
+        },
+        "id": "49325a8d-30ea-4c71-b5b2-291ad820f28d",
+        "latencyMs": 1581,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Triagem de pods\ndescricao: Analisa um snapshot de cluster Kubernetes (pods + eventos + logs) e aponta quais pods estão problemáticos, com causa provável e ação recomendada.\nversao: 1.0.0\ntags: [devops, kubernetes, sre, triagem]\ninputs:\n  - nome: snapshot\n    descricao: Saída combinada de `kubectl get pods`, `kubectl describe pod` e `kubectl logs` dos pods relevantes do namespace.\n---\n\nVocê é um SRE sênior de plantão, responsável pela triagem rápida de pods em produção.\n\nVocê vai receber um SNAPSHOT de um cluster Kubernetes, composto por até três blocos\n(nem sempre os três estarão presentes):\n1. saída de `kubectl get pods`\n2. saída de `kubectl describe pod` dos pods suspeitos\n3. trecho de `kubectl logs` desses pods\n\nSNAPSHOT:\n$ kubectl get pods -n sentinel-prod\nNAME                            READY   STATUS             RESTARTS       AGE\nsentinel-api-7d9c8b6f4-2xk9p    1/1     Running            0              6d\nsentinel-api-7d9c8b6f4-h4m2t    0/1     CrashLoopBackOff   14 (90s ago)   42m\nsentinel-worker-5b8f9c8d-jq7rs  1/1     Running            0              6d\nsentinel-scheduler-6c4d7f-nn8vx 1/1     Running            0              6d\n\n$ kubectl describe pod sentinel-api-7d9c8b6f4-h4m2t -n sentinel-prod\n    State:          Waiting\n      Reason:       CrashLoopBackOff\n    Last State:     Terminated\n      Reason:       OOMKilled\n      Exit Code:    137\n    Limits:         memory: 512Mi\n    Requests:       memory: 256Mi\nEvents:\n  Type     Reason   Age                 From     Message\n  ----     ------   ----                ----     -------\n  Warning  BackOff  2m (x18 over 40m)   kubelet  Back-off restarting failed container api\n\n$ kubectl logs sentinel-api-7d9c8b6f4-h4m2t -n sentinel-prod --previous\n2026-05-13 10:14:02 [INFO]  [api] startup complete, version 2.9.1\n2026-05-13 10:14:48 [INFO]  [cache] loading 6h alert cache (heap 410Mi/512Mi)\n2026-05-13 10:15:10 [WARN]  [runtime] high GC pressure, heap 498Mi/512Mi\n2026-05-13 10:15:12 [FATAL] [runtime] out of memory, shutting down process\n\nTarefa: para cada pod no snapshot:\n1. Diga se está saudável ou problemático — não confie só na coluna STATUS, cruze com\n   os eventos e os logs antes de concluir. Um único restart antigo (RESTARTS baixo,\n   ocorrido há dias) em um pod que está Running/Ready, sem CrashLoopBackOff nem\n   reinícios recentes, NÃO é por si só um problema — não classifique o pod como\n   problemático só por causa disso.\n2. Se problemático, aponte a causa provável citando a evidência (evento ou linha de\n   log) que sustenta essa causa.\n3. Recomende a próxima ação concreta para quem está de plantão.\n4. Se nenhum pod estiver problemático, diga isso claramente e não invente problema.\n\nFormato de saída (conciso, em TEXTO PURO — não use tabela markdown):\n- Linha 1, SEMPRE: \"Resumo: N pods problemáticos\" (N = número exato; use 0 se nenhum).\n- Uma linha por pod problemático: Pod | Causa provável | Evidência | Ação recomendada.\n- Se N = 0: apenas a linha de resumo + uma frase curta confirmando que está tudo\n  saudável, sem listar pod por pod.\n\nSeja direto e curto. Não repita o STATUS como se fosse a causa.\n",
+          "label": "devops/triagem-de-pods/prompt.md: ---\nnome: Triagem de pods\ndescricao: Analisa um sn...",
+          "config": {}
+        },
+        "promptId": "711c84503d179822b189e433bb81f3f00606d84a150987a053db1895f54aedec",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "Resumo: 1 pod problemático  \nsentinel-api-7d9c8b6f4-h4m2t | OOMKilled | \"FATAL [runtime] out of memory, shutting down process\" | Aumentar o limite de memória para o pod ou investigar o uso de memória para otimização.",
+          "tokenUsage": {
+            "total": 995,
+            "prompt": 929,
+            "completion": 66,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            }
+          },
+          "cached": false,
+          "latencyMs": 1581,
+          "finishReason": "stop",
+          "cost": 0.00017894999999999999,
+          "guardrails": {
+            "flagged": false
+          },
+          "metadata": {
+            "http": {
+              "status": 200,
+              "statusText": "OK",
+              "headers": {
+                "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+                "alt-svc": "h3=\":443\"; ma=86400",
+                "cf-cache-status": "[REDACTED]",
+                "cf-ray": "[REDACTED]",
+                "connection": "keep-alive",
+                "content-type": "application/json",
+                "date": "Sat, 20 Jun 2026 23:42:41 GMT",
+                "openai-organization": "[REDACTED]",
+                "openai-processing-ms": "953",
+                "openai-project": "[REDACTED]",
+                "openai-version": "[REDACTED]",
+                "server": "cloudflare",
+                "set-cookie": "[REDACTED]",
+                "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                "transfer-encoding": "chunked",
+                "x-content-type-options": "nosniff",
+                "x-openai-proxy-wasm": "[REDACTED]",
+                "x-ratelimit-limit-requests": "[REDACTED]",
+                "x-ratelimit-limit-tokens": "[REDACTED]",
+                "x-ratelimit-remaining-requests": "[REDACTED]",
+                "x-ratelimit-remaining-tokens": "[REDACTED]",
+                "x-ratelimit-reset-requests": "[REDACTED]",
+                "x-ratelimit-reset-tokens": "[REDACTED]",
+                "x-request-id": "[REDACTED]"
+              }
+            }
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "snapshot": "file://fixtures/entrada-1.txt"
+          },
+          "assert": [
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            },
+            {
+              "type": "contains",
+              "value": "sentinel-api-7d9c8b6f4-h4m2t"
+            },
+            {
+              "type": "javascript",
+              "value": "/OOMKilled|mem[oó]ria/i.test(output)"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "tokenUsage": {
+          "prompt": 929,
+          "completion": 66,
+          "cached": 0,
+          "total": 995,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "snapshot": "file://fixtures/entrada-1.txt"
+        },
+        "metadata": {
+          "http": {
+            "status": 200,
+            "statusText": "OK",
+            "headers": {
+              "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+              "alt-svc": "h3=\":443\"; ma=86400",
+              "cf-cache-status": "[REDACTED]",
+              "cf-ray": "[REDACTED]",
+              "connection": "keep-alive",
+              "content-type": "application/json",
+              "date": "Sat, 20 Jun 2026 23:42:41 GMT",
+              "openai-organization": "[REDACTED]",
+              "openai-processing-ms": "953",
+              "openai-project": "[REDACTED]",
+              "openai-version": "[REDACTED]",
+              "server": "cloudflare",
+              "set-cookie": "[REDACTED]",
+              "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+              "transfer-encoding": "chunked",
+              "x-content-type-options": "nosniff",
+              "x-openai-proxy-wasm": "[REDACTED]",
+              "x-ratelimit-limit-requests": "[REDACTED]",
+              "x-ratelimit-limit-tokens": "[REDACTED]",
+              "x-ratelimit-remaining-requests": "[REDACTED]",
+              "x-ratelimit-remaining-tokens": "[REDACTED]",
+              "x-ratelimit-reset-requests": "[REDACTED]",
+              "x-ratelimit-reset-tokens": "[REDACTED]",
+              "x-request-id": "[REDACTED]"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.001761,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "sentinel-api-7d9c8b6f4-h4m2t"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "/OOMKilled|mem[oó]ria/i.test(output)"
+              }
+            }
+          ]
+        },
+        "id": "c6e73ffb-4c1a-4cc5-87eb-16803aa34914",
+        "latencyMs": 3220,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Triagem de pods\ndescricao: Analisa um snapshot de cluster Kubernetes (pods + eventos + logs) e aponta quais pods estão problemáticos, com causa provável e ação recomendada.\nversao: 1.0.0\ntags: [devops, kubernetes, sre, triagem]\ninputs:\n  - nome: snapshot\n    descricao: Saída combinada de `kubectl get pods`, `kubectl describe pod` e `kubectl logs` dos pods relevantes do namespace.\n---\n\nVocê é um SRE sênior de plantão, responsável pela triagem rápida de pods em produção.\n\nVocê vai receber um SNAPSHOT de um cluster Kubernetes, composto por até três blocos\n(nem sempre os três estarão presentes):\n1. saída de `kubectl get pods`\n2. saída de `kubectl describe pod` dos pods suspeitos\n3. trecho de `kubectl logs` desses pods\n\nSNAPSHOT:\n$ kubectl get pods -n sentinel-prod\nNAME                            READY   STATUS             RESTARTS       AGE\nsentinel-api-7d9c8b6f4-2xk9p    1/1     Running            0              6d\nsentinel-api-7d9c8b6f4-h4m2t    0/1     CrashLoopBackOff   14 (90s ago)   42m\nsentinel-worker-5b8f9c8d-jq7rs  1/1     Running            0              6d\nsentinel-scheduler-6c4d7f-nn8vx 1/1     Running            0              6d\n\n$ kubectl describe pod sentinel-api-7d9c8b6f4-h4m2t -n sentinel-prod\n    State:          Waiting\n      Reason:       CrashLoopBackOff\n    Last State:     Terminated\n      Reason:       OOMKilled\n      Exit Code:    137\n    Limits:         memory: 512Mi\n    Requests:       memory: 256Mi\nEvents:\n  Type     Reason   Age                 From     Message\n  ----     ------   ----                ----     -------\n  Warning  BackOff  2m (x18 over 40m)   kubelet  Back-off restarting failed container api\n\n$ kubectl logs sentinel-api-7d9c8b6f4-h4m2t -n sentinel-prod --previous\n2026-05-13 10:14:02 [INFO]  [api] startup complete, version 2.9.1\n2026-05-13 10:14:48 [INFO]  [cache] loading 6h alert cache (heap 410Mi/512Mi)\n2026-05-13 10:15:10 [WARN]  [runtime] high GC pressure, heap 498Mi/512Mi\n2026-05-13 10:15:12 [FATAL] [runtime] out of memory, shutting down process\n\nTarefa: para cada pod no snapshot:\n1. Diga se está saudável ou problemático — não confie só na coluna STATUS, cruze com\n   os eventos e os logs antes de concluir. Um único restart antigo (RESTARTS baixo,\n   ocorrido há dias) em um pod que está Running/Ready, sem CrashLoopBackOff nem\n   reinícios recentes, NÃO é por si só um problema — não classifique o pod como\n   problemático só por causa disso.\n2. Se problemático, aponte a causa provável citando a evidência (evento ou linha de\n   log) que sustenta essa causa.\n3. Recomende a próxima ação concreta para quem está de plantão.\n4. Se nenhum pod estiver problemático, diga isso claramente e não invente problema.\n\nFormato de saída (conciso, em TEXTO PURO — não use tabela markdown):\n- Linha 1, SEMPRE: \"Resumo: N pods problemáticos\" (N = número exato; use 0 se nenhum).\n- Uma linha por pod problemático: Pod | Causa provável | Evidência | Ação recomendada.\n- Se N = 0: apenas a linha de resumo + uma frase curta confirmando que está tudo\n  saudável, sem listar pod por pod.\n\nSeja direto e curto. Não repita o STATUS como se fosse a causa.\n",
+          "label": "devops/triagem-de-pods/prompt.md: ---\nnome: Triagem de pods\ndescricao: Analisa um sn...",
+          "config": {}
+        },
+        "promptId": "711c84503d179822b189e433bb81f3f00606d84a150987a053db1895f54aedec",
+        "promptIdx": 1,
+        "provider": {
+          "id": "anthropic:claude-haiku-4-5-20251001",
+          "label": ""
+        },
+        "response": {
+          "output": "Resumo: 1 pod problemático\n\nsentinel-api-7d9c8b6f4-h4m2t | Memory leak ou pico de consumo acima do limite | Logs mostram heap crescendo de 410Mi para 498Mi em 1 minuto, seguido de \"out of memory\" (exit code 137 = OOMKilled); limite configurado em 512Mi insuficiente | Aumentar memory limit para 1Gi, investigar cache loading (6h alert cache) e GC behavior, considerar request/limit mais realistas baseado em carga real.",
+          "tokenUsage": {
+            "total": 1193,
+            "prompt": 1051,
+            "completion": 142,
+            "completionDetails": {
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "finishReason": "stop",
+          "cost": 0.001761
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "snapshot": "file://fixtures/entrada-1.txt"
+          },
+          "assert": [
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            },
+            {
+              "type": "contains",
+              "value": "sentinel-api-7d9c8b6f4-h4m2t"
+            },
+            {
+              "type": "javascript",
+              "value": "/OOMKilled|mem[oó]ria/i.test(output)"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "tokenUsage": {
+          "prompt": 1051,
+          "completion": 142,
+          "cached": 0,
+          "total": 1193,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "snapshot": "file://fixtures/entrada-1.txt"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.00021315,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "sentinel-api-7d9c8b6f4-zzp10"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "sentinel-ingest-8f7a9c5b-4dkqm"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "/2\\.9\\.2|ImagePullBackOff/i.test(output)"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "/cpu|insufficient/i.test(output)"
+              }
+            }
+          ]
+        },
+        "id": "fef3f1ed-dd23-49f8-a62b-b93f131e828d",
+        "latencyMs": 2421,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Triagem de pods\ndescricao: Analisa um snapshot de cluster Kubernetes (pods + eventos + logs) e aponta quais pods estão problemáticos, com causa provável e ação recomendada.\nversao: 1.0.0\ntags: [devops, kubernetes, sre, triagem]\ninputs:\n  - nome: snapshot\n    descricao: Saída combinada de `kubectl get pods`, `kubectl describe pod` e `kubectl logs` dos pods relevantes do namespace.\n---\n\nVocê é um SRE sênior de plantão, responsável pela triagem rápida de pods em produção.\n\nVocê vai receber um SNAPSHOT de um cluster Kubernetes, composto por até três blocos\n(nem sempre os três estarão presentes):\n1. saída de `kubectl get pods`\n2. saída de `kubectl describe pod` dos pods suspeitos\n3. trecho de `kubectl logs` desses pods\n\nSNAPSHOT:\n$ kubectl get pods -n sentinel-prod\nNAME                            READY   STATUS             RESTARTS   AGE\nsentinel-api-7d9c8b6f4-2xk9p    1/1     Running            0          6d\nsentinel-api-7d9c8b6f4-zzp10    0/1     ImagePullBackOff   0          8m\nsentinel-ingest-8f7a9c5b-4dkqm  0/1     Pending            0          8m\nsentinel-scheduler-6c4d7f-nn8vx 1/1     Running            0          6d\n\n$ kubectl describe pod sentinel-api-7d9c8b6f4-zzp10 -n sentinel-prod\n    State:    Waiting\n      Reason: ImagePullBackOff\n    Image:    registry.aegis.io/sentinel-api:2.9.2\nEvents:\n  Type     Reason   Age   From     Message\n  ----     ------   ----  ----     -------\n  Warning  Failed   7m    kubelet  Failed to pull image \"registry.aegis.io/sentinel-api:2.9.2\": manifest unknown\n  Warning  Failed   7m    kubelet  Error: ErrImagePull\n  Normal   BackOff  6m    kubelet  Back-off pulling image \"registry.aegis.io/sentinel-api:2.9.2\"\n\n$ kubectl describe pod sentinel-ingest-8f7a9c5b-4dkqm -n sentinel-prod\n    State:    Waiting\n      Reason: Pending\n    Requests: cpu: 2\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  7m    default-scheduler  0/6 nodes are available: 6 Insufficient cpu\n\nTarefa: para cada pod no snapshot:\n1. Diga se está saudável ou problemático — não confie só na coluna STATUS, cruze com\n   os eventos e os logs antes de concluir. Um único restart antigo (RESTARTS baixo,\n   ocorrido há dias) em um pod que está Running/Ready, sem CrashLoopBackOff nem\n   reinícios recentes, NÃO é por si só um problema — não classifique o pod como\n   problemático só por causa disso.\n2. Se problemático, aponte a causa provável citando a evidência (evento ou linha de\n   log) que sustenta essa causa.\n3. Recomende a próxima ação concreta para quem está de plantão.\n4. Se nenhum pod estiver problemático, diga isso claramente e não invente problema.\n\nFormato de saída (conciso, em TEXTO PURO — não use tabela markdown):\n- Linha 1, SEMPRE: \"Resumo: N pods problemáticos\" (N = número exato; use 0 se nenhum).\n- Uma linha por pod problemático: Pod | Causa provável | Evidência | Ação recomendada.\n- Se N = 0: apenas a linha de resumo + uma frase curta confirmando que está tudo\n  saudável, sem listar pod por pod.\n\nSeja direto e curto. Não repita o STATUS como se fosse a causa.\n",
+          "label": "devops/triagem-de-pods/prompt.md: ---\nnome: Triagem de pods\ndescricao: Analisa um sn...",
+          "config": {}
+        },
+        "promptId": "711c84503d179822b189e433bb81f3f00606d84a150987a053db1895f54aedec",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "Resumo: 2 pods problemáticos  \nsentinel-api-7d9c8b6f4-zzp10 | ImagePullBackOff | \"Failed to pull image 'registry.aegis.io/sentinel-api:2.9.2': manifest unknown\" | Verificar se a imagem existe no registro e se as credenciais estão corretas.  \nsentinel-ingest-8f7a9c5b-4dkqm | Insufficient cpu | \"0/6 nodes are available: 6 Insufficient cpu\" | Aumentar a capacidade de CPU dos nodes ou ajustar as solicitações de recursos do pod.",
+          "tokenUsage": {
+            "total": 1031,
+            "prompt": 901,
+            "completion": 130,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            }
+          },
+          "cached": false,
+          "latencyMs": 2421,
+          "finishReason": "stop",
+          "cost": 0.00021315,
+          "guardrails": {
+            "flagged": false
+          },
+          "metadata": {
+            "http": {
+              "status": 200,
+              "statusText": "OK",
+              "headers": {
+                "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+                "alt-svc": "h3=\":443\"; ma=86400",
+                "cf-cache-status": "[REDACTED]",
+                "cf-ray": "[REDACTED]",
+                "connection": "keep-alive",
+                "content-type": "application/json",
+                "date": "Sat, 20 Jun 2026 23:42:42 GMT",
+                "openai-organization": "[REDACTED]",
+                "openai-processing-ms": "1868",
+                "openai-project": "[REDACTED]",
+                "openai-version": "[REDACTED]",
+                "server": "cloudflare",
+                "set-cookie": "[REDACTED]",
+                "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                "transfer-encoding": "chunked",
+                "x-content-type-options": "nosniff",
+                "x-openai-proxy-wasm": "[REDACTED]",
+                "x-ratelimit-limit-requests": "[REDACTED]",
+                "x-ratelimit-limit-tokens": "[REDACTED]",
+                "x-ratelimit-remaining-requests": "[REDACTED]",
+                "x-ratelimit-remaining-tokens": "[REDACTED]",
+                "x-ratelimit-reset-requests": "[REDACTED]",
+                "x-ratelimit-reset-tokens": "[REDACTED]",
+                "x-request-id": "[REDACTED]"
+              }
+            }
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "snapshot": "file://fixtures/entrada-2.txt"
+          },
+          "assert": [
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            },
+            {
+              "type": "contains",
+              "value": "sentinel-api-7d9c8b6f4-zzp10"
+            },
+            {
+              "type": "contains",
+              "value": "sentinel-ingest-8f7a9c5b-4dkqm"
+            },
+            {
+              "type": "javascript",
+              "value": "/2\\.9\\.2|ImagePullBackOff/i.test(output)"
+            },
+            {
+              "type": "javascript",
+              "value": "/cpu|insufficient/i.test(output)"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "tokenUsage": {
+          "prompt": 901,
+          "completion": 130,
+          "cached": 0,
+          "total": 1031,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "snapshot": "file://fixtures/entrada-2.txt"
+        },
+        "metadata": {
+          "http": {
+            "status": 200,
+            "statusText": "OK",
+            "headers": {
+              "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+              "alt-svc": "h3=\":443\"; ma=86400",
+              "cf-cache-status": "[REDACTED]",
+              "cf-ray": "[REDACTED]",
+              "connection": "keep-alive",
+              "content-type": "application/json",
+              "date": "Sat, 20 Jun 2026 23:42:42 GMT",
+              "openai-organization": "[REDACTED]",
+              "openai-processing-ms": "1868",
+              "openai-project": "[REDACTED]",
+              "openai-version": "[REDACTED]",
+              "server": "cloudflare",
+              "set-cookie": "[REDACTED]",
+              "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+              "transfer-encoding": "chunked",
+              "x-content-type-options": "nosniff",
+              "x-openai-proxy-wasm": "[REDACTED]",
+              "x-ratelimit-limit-requests": "[REDACTED]",
+              "x-ratelimit-limit-tokens": "[REDACTED]",
+              "x-ratelimit-remaining-requests": "[REDACTED]",
+              "x-ratelimit-remaining-tokens": "[REDACTED]",
+              "x-ratelimit-reset-requests": "[REDACTED]",
+              "x-ratelimit-reset-tokens": "[REDACTED]",
+              "x-request-id": "[REDACTED]"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.002089,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "sentinel-api-7d9c8b6f4-zzp10"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "sentinel-ingest-8f7a9c5b-4dkqm"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "/2\\.9\\.2|ImagePullBackOff/i.test(output)"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "/cpu|insufficient/i.test(output)"
+              }
+            }
+          ]
+        },
+        "id": "5aa324e8-5ede-4952-b5ee-0347d30e98d0",
+        "latencyMs": 2810,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Triagem de pods\ndescricao: Analisa um snapshot de cluster Kubernetes (pods + eventos + logs) e aponta quais pods estão problemáticos, com causa provável e ação recomendada.\nversao: 1.0.0\ntags: [devops, kubernetes, sre, triagem]\ninputs:\n  - nome: snapshot\n    descricao: Saída combinada de `kubectl get pods`, `kubectl describe pod` e `kubectl logs` dos pods relevantes do namespace.\n---\n\nVocê é um SRE sênior de plantão, responsável pela triagem rápida de pods em produção.\n\nVocê vai receber um SNAPSHOT de um cluster Kubernetes, composto por até três blocos\n(nem sempre os três estarão presentes):\n1. saída de `kubectl get pods`\n2. saída de `kubectl describe pod` dos pods suspeitos\n3. trecho de `kubectl logs` desses pods\n\nSNAPSHOT:\n$ kubectl get pods -n sentinel-prod\nNAME                            READY   STATUS             RESTARTS   AGE\nsentinel-api-7d9c8b6f4-2xk9p    1/1     Running            0          6d\nsentinel-api-7d9c8b6f4-zzp10    0/1     ImagePullBackOff   0          8m\nsentinel-ingest-8f7a9c5b-4dkqm  0/1     Pending            0          8m\nsentinel-scheduler-6c4d7f-nn8vx 1/1     Running            0          6d\n\n$ kubectl describe pod sentinel-api-7d9c8b6f4-zzp10 -n sentinel-prod\n    State:    Waiting\n      Reason: ImagePullBackOff\n    Image:    registry.aegis.io/sentinel-api:2.9.2\nEvents:\n  Type     Reason   Age   From     Message\n  ----     ------   ----  ----     -------\n  Warning  Failed   7m    kubelet  Failed to pull image \"registry.aegis.io/sentinel-api:2.9.2\": manifest unknown\n  Warning  Failed   7m    kubelet  Error: ErrImagePull\n  Normal   BackOff  6m    kubelet  Back-off pulling image \"registry.aegis.io/sentinel-api:2.9.2\"\n\n$ kubectl describe pod sentinel-ingest-8f7a9c5b-4dkqm -n sentinel-prod\n    State:    Waiting\n      Reason: Pending\n    Requests: cpu: 2\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  7m    default-scheduler  0/6 nodes are available: 6 Insufficient cpu\n\nTarefa: para cada pod no snapshot:\n1. Diga se está saudável ou problemático — não confie só na coluna STATUS, cruze com\n   os eventos e os logs antes de concluir. Um único restart antigo (RESTARTS baixo,\n   ocorrido há dias) em um pod que está Running/Ready, sem CrashLoopBackOff nem\n   reinícios recentes, NÃO é por si só um problema — não classifique o pod como\n   problemático só por causa disso.\n2. Se problemático, aponte a causa provável citando a evidência (evento ou linha de\n   log) que sustenta essa causa.\n3. Recomende a próxima ação concreta para quem está de plantão.\n4. Se nenhum pod estiver problemático, diga isso claramente e não invente problema.\n\nFormato de saída (conciso, em TEXTO PURO — não use tabela markdown):\n- Linha 1, SEMPRE: \"Resumo: N pods problemáticos\" (N = número exato; use 0 se nenhum).\n- Uma linha por pod problemático: Pod | Causa provável | Evidência | Ação recomendada.\n- Se N = 0: apenas a linha de resumo + uma frase curta confirmando que está tudo\n  saudável, sem listar pod por pod.\n\nSeja direto e curto. Não repita o STATUS como se fosse a causa.\n",
+          "label": "devops/triagem-de-pods/prompt.md: ---\nnome: Triagem de pods\ndescricao: Analisa um sn...",
+          "config": {}
+        },
+        "promptId": "711c84503d179822b189e433bb81f3f00606d84a150987a053db1895f54aedec",
+        "promptIdx": 1,
+        "provider": {
+          "id": "anthropic:claude-haiku-4-5-20251001",
+          "label": ""
+        },
+        "response": {
+          "output": "Resumo: 2 pods problemáticos\n\nsentinel-api-7d9c8b6f4-zzp10 | Imagem não existe no registry | Evento: \"Failed to pull image registry.aegis.io/sentinel-api:2.9.2: manifest unknown\" | Verificar se a tag 2.9.2 foi publicada corretamente no registry; considerar fazer rollback para versão anterior conhecida como funcional.\n\nsentinel-ingest-8f7a9c5b-4dkqm | Recursos insuficientes no cluster | Evento: \"0/6 nodes are available: 6 Insufficient cpu\" (pod solicita 2 CPUs) | Aumentar capacidade do cluster (adicionar nodes) ou reduzir request de CPU do pod se for viável; verificar se há pods de baixa prioridade que possam ser removidos.",
+          "tokenUsage": {
+            "total": 1237,
+            "prompt": 1024,
+            "completion": 213,
+            "completionDetails": {
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "finishReason": "stop",
+          "cost": 0.002089
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "snapshot": "file://fixtures/entrada-2.txt"
+          },
+          "assert": [
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            },
+            {
+              "type": "contains",
+              "value": "sentinel-api-7d9c8b6f4-zzp10"
+            },
+            {
+              "type": "contains",
+              "value": "sentinel-ingest-8f7a9c5b-4dkqm"
+            },
+            {
+              "type": "javascript",
+              "value": "/2\\.9\\.2|ImagePullBackOff/i.test(output)"
+            },
+            {
+              "type": "javascript",
+              "value": "/cpu|insufficient/i.test(output)"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "tokenUsage": {
+          "prompt": 1024,
+          "completion": 213,
+          "cached": 0,
+          "total": 1237,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "snapshot": "file://fixtures/entrada-2.txt"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.0001251,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "/0 pods? problem[aá]tic|nenhum pod (problem|com problema)|tudo saud[aá]vel|todos.{0,30}saud[aá]ve/i.test(output)"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "!/[1-9]\\d*\\s*pods?\\s*problem[aá]tic/i.test(output)"
+              }
+            }
+          ]
+        },
+        "id": "3055c167-19e0-4e40-bd7e-cf88f42ec3ba",
+        "latencyMs": 621,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Triagem de pods\ndescricao: Analisa um snapshot de cluster Kubernetes (pods + eventos + logs) e aponta quais pods estão problemáticos, com causa provável e ação recomendada.\nversao: 1.0.0\ntags: [devops, kubernetes, sre, triagem]\ninputs:\n  - nome: snapshot\n    descricao: Saída combinada de `kubectl get pods`, `kubectl describe pod` e `kubectl logs` dos pods relevantes do namespace.\n---\n\nVocê é um SRE sênior de plantão, responsável pela triagem rápida de pods em produção.\n\nVocê vai receber um SNAPSHOT de um cluster Kubernetes, composto por até três blocos\n(nem sempre os três estarão presentes):\n1. saída de `kubectl get pods`\n2. saída de `kubectl describe pod` dos pods suspeitos\n3. trecho de `kubectl logs` desses pods\n\nSNAPSHOT:\n$ kubectl get pods -n sentinel-prod\nNAME                            READY   STATUS    RESTARTS     AGE\nsentinel-api-7d9c8b6f4-2xk9p    1/1     Running   0            6d\nsentinel-api-7d9c8b6f4-h4m2t    1/1     Running   0            6d\nsentinel-worker-5b8f9c8d-jq7rs  1/1     Running   1 (3d ago)   6d\nsentinel-scheduler-6c4d7f-nn8vx 1/1     Running   0            6d\n\n$ kubectl logs sentinel-api-7d9c8b6f4-2xk9p -n sentinel-prod --tail=3\n2026-05-13 11:02:31 [INFO] [api] health check OK, 0 errors in the last 5min\n2026-05-13 11:03:31 [INFO] [api] processed 4.2k alerts/min, p99 latency 120ms\n2026-05-13 11:04:31 [INFO] [api] health check OK\n\nTarefa: para cada pod no snapshot:\n1. Diga se está saudável ou problemático — não confie só na coluna STATUS, cruze com\n   os eventos e os logs antes de concluir. Um único restart antigo (RESTARTS baixo,\n   ocorrido há dias) em um pod que está Running/Ready, sem CrashLoopBackOff nem\n   reinícios recentes, NÃO é por si só um problema — não classifique o pod como\n   problemático só por causa disso.\n2. Se problemático, aponte a causa provável citando a evidência (evento ou linha de\n   log) que sustenta essa causa.\n3. Recomende a próxima ação concreta para quem está de plantão.\n4. Se nenhum pod estiver problemático, diga isso claramente e não invente problema.\n\nFormato de saída (conciso, em TEXTO PURO — não use tabela markdown):\n- Linha 1, SEMPRE: \"Resumo: N pods problemáticos\" (N = número exato; use 0 se nenhum).\n- Uma linha por pod problemático: Pod | Causa provável | Evidência | Ação recomendada.\n- Se N = 0: apenas a linha de resumo + uma frase curta confirmando que está tudo\n  saudável, sem listar pod por pod.\n\nSeja direto e curto. Não repita o STATUS como se fosse a causa.\n",
+          "label": "devops/triagem-de-pods/prompt.md: ---\nnome: Triagem de pods\ndescricao: Analisa um sn...",
+          "config": {}
+        },
+        "promptId": "711c84503d179822b189e433bb81f3f00606d84a150987a053db1895f54aedec",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "Resumo: 0 pods problemáticos. Todos os pods estão saudáveis e operando normalmente.",
+          "tokenUsage": {
+            "total": 777,
+            "prompt": 758,
+            "completion": 19,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            }
+          },
+          "cached": false,
+          "latencyMs": 621,
+          "finishReason": "stop",
+          "cost": 0.0001251,
+          "guardrails": {
+            "flagged": false
+          },
+          "metadata": {
+            "http": {
+              "status": 200,
+              "statusText": "OK",
+              "headers": {
+                "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+                "alt-svc": "h3=\":443\"; ma=86400",
+                "cf-cache-status": "[REDACTED]",
+                "cf-ray": "[REDACTED]",
+                "connection": "keep-alive",
+                "content-type": "application/json",
+                "date": "Sat, 20 Jun 2026 23:42:42 GMT",
+                "openai-organization": "[REDACTED]",
+                "openai-processing-ms": "446",
+                "openai-project": "[REDACTED]",
+                "openai-version": "[REDACTED]",
+                "server": "cloudflare",
+                "set-cookie": "[REDACTED]",
+                "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                "transfer-encoding": "chunked",
+                "x-content-type-options": "nosniff",
+                "x-openai-proxy-wasm": "[REDACTED]",
+                "x-ratelimit-limit-requests": "[REDACTED]",
+                "x-ratelimit-limit-tokens": "[REDACTED]",
+                "x-ratelimit-remaining-requests": "[REDACTED]",
+                "x-ratelimit-remaining-tokens": "[REDACTED]",
+                "x-ratelimit-reset-requests": "[REDACTED]",
+                "x-ratelimit-reset-tokens": "[REDACTED]",
+                "x-request-id": "[REDACTED]"
+              }
+            }
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "snapshot": "file://fixtures/entrada-3.txt"
+          },
+          "assert": [
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            },
+            {
+              "type": "javascript",
+              "value": "/0 pods? problem[aá]tic|nenhum pod (problem|com problema)|tudo saud[aá]vel|todos.{0,30}saud[aá]ve/i.test(output)"
+            },
+            {
+              "type": "javascript",
+              "value": "!/[1-9]\\d*\\s*pods?\\s*problem[aá]tic/i.test(output)"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 2,
+        "tokenUsage": {
+          "prompt": 758,
+          "completion": 19,
+          "cached": 0,
+          "total": 777,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "snapshot": "file://fixtures/entrada-3.txt"
+        },
+        "metadata": {
+          "http": {
+            "status": 200,
+            "statusText": "OK",
+            "headers": {
+              "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+              "alt-svc": "h3=\":443\"; ma=86400",
+              "cf-cache-status": "[REDACTED]",
+              "cf-ray": "[REDACTED]",
+              "connection": "keep-alive",
+              "content-type": "application/json",
+              "date": "Sat, 20 Jun 2026 23:42:42 GMT",
+              "openai-organization": "[REDACTED]",
+              "openai-processing-ms": "446",
+              "openai-project": "[REDACTED]",
+              "openai-version": "[REDACTED]",
+              "server": "cloudflare",
+              "set-cookie": "[REDACTED]",
+              "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+              "transfer-encoding": "chunked",
+              "x-content-type-options": "nosniff",
+              "x-openai-proxy-wasm": "[REDACTED]",
+              "x-ratelimit-limit-requests": "[REDACTED]",
+              "x-ratelimit-limit-tokens": "[REDACTED]",
+              "x-ratelimit-remaining-requests": "[REDACTED]",
+              "x-ratelimit-remaining-tokens": "[REDACTED]",
+              "x-ratelimit-reset-requests": "[REDACTED]",
+              "x-ratelimit-reset-tokens": "[REDACTED]",
+              "x-request-id": "[REDACTED]"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.0012460000000000001,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "/0 pods? problem[aá]tic|nenhum pod (problem|com problema)|tudo saud[aá]vel|todos.{0,30}saud[aá]ve/i.test(output)"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "!/[1-9]\\d*\\s*pods?\\s*problem[aá]tic/i.test(output)"
+              }
+            }
+          ]
+        },
+        "id": "3ea89db2-4fc6-48bc-be34-3300dd0f8974",
+        "latencyMs": 1585,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Triagem de pods\ndescricao: Analisa um snapshot de cluster Kubernetes (pods + eventos + logs) e aponta quais pods estão problemáticos, com causa provável e ação recomendada.\nversao: 1.0.0\ntags: [devops, kubernetes, sre, triagem]\ninputs:\n  - nome: snapshot\n    descricao: Saída combinada de `kubectl get pods`, `kubectl describe pod` e `kubectl logs` dos pods relevantes do namespace.\n---\n\nVocê é um SRE sênior de plantão, responsável pela triagem rápida de pods em produção.\n\nVocê vai receber um SNAPSHOT de um cluster Kubernetes, composto por até três blocos\n(nem sempre os três estarão presentes):\n1. saída de `kubectl get pods`\n2. saída de `kubectl describe pod` dos pods suspeitos\n3. trecho de `kubectl logs` desses pods\n\nSNAPSHOT:\n$ kubectl get pods -n sentinel-prod\nNAME                            READY   STATUS    RESTARTS     AGE\nsentinel-api-7d9c8b6f4-2xk9p    1/1     Running   0            6d\nsentinel-api-7d9c8b6f4-h4m2t    1/1     Running   0            6d\nsentinel-worker-5b8f9c8d-jq7rs  1/1     Running   1 (3d ago)   6d\nsentinel-scheduler-6c4d7f-nn8vx 1/1     Running   0            6d\n\n$ kubectl logs sentinel-api-7d9c8b6f4-2xk9p -n sentinel-prod --tail=3\n2026-05-13 11:02:31 [INFO] [api] health check OK, 0 errors in the last 5min\n2026-05-13 11:03:31 [INFO] [api] processed 4.2k alerts/min, p99 latency 120ms\n2026-05-13 11:04:31 [INFO] [api] health check OK\n\nTarefa: para cada pod no snapshot:\n1. Diga se está saudável ou problemático — não confie só na coluna STATUS, cruze com\n   os eventos e os logs antes de concluir. Um único restart antigo (RESTARTS baixo,\n   ocorrido há dias) em um pod que está Running/Ready, sem CrashLoopBackOff nem\n   reinícios recentes, NÃO é por si só um problema — não classifique o pod como\n   problemático só por causa disso.\n2. Se problemático, aponte a causa provável citando a evidência (evento ou linha de\n   log) que sustenta essa causa.\n3. Recomende a próxima ação concreta para quem está de plantão.\n4. Se nenhum pod estiver problemático, diga isso claramente e não invente problema.\n\nFormato de saída (conciso, em TEXTO PURO — não use tabela markdown):\n- Linha 1, SEMPRE: \"Resumo: N pods problemáticos\" (N = número exato; use 0 se nenhum).\n- Uma linha por pod problemático: Pod | Causa provável | Evidência | Ação recomendada.\n- Se N = 0: apenas a linha de resumo + uma frase curta confirmando que está tudo\n  saudável, sem listar pod por pod.\n\nSeja direto e curto. Não repita o STATUS como se fosse a causa.\n",
+          "label": "devops/triagem-de-pods/prompt.md: ---\nnome: Triagem de pods\ndescricao: Analisa um sn...",
+          "config": {}
+        },
+        "promptId": "711c84503d179822b189e433bb81f3f00606d84a150987a053db1895f54aedec",
+        "promptIdx": 1,
+        "provider": {
+          "id": "anthropic:claude-haiku-4-5-20251001",
+          "label": ""
+        },
+        "response": {
+          "output": "Resumo: 0 pods problemáticos\n\nTodos os pods estão saudáveis. Os quatro pods no namespace sentinel-prod estão em estado Running/Ready com logs normais. O restart único do sentinel-worker ocorreu há 3 dias sem recorrência, o que é esperado em operação normal.",
+          "tokenUsage": {
+            "total": 938,
+            "prompt": 861,
+            "completion": 77,
+            "completionDetails": {
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "finishReason": "stop",
+          "cost": 0.0012460000000000001
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "snapshot": "file://fixtures/entrada-3.txt"
+          },
+          "assert": [
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            },
+            {
+              "type": "javascript",
+              "value": "/0 pods? problem[aá]tic|nenhum pod (problem|com problema)|tudo saud[aá]vel|todos.{0,30}saud[aá]ve/i.test(output)"
+            },
+            {
+              "type": "javascript",
+              "value": "!/[1-9]\\d*\\s*pods?\\s*problem[aá]tic/i.test(output)"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 2,
+        "tokenUsage": {
+          "prompt": 861,
+          "completion": 77,
+          "cached": 0,
+          "total": 938,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "snapshot": "file://fixtures/entrada-3.txt"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      }
+    ],
+    "stats": {
+      "successes": 6,
+      "failures": 0,
+      "errors": 0,
+      "tokenUsage": {
+        "prompt": 5524,
+        "completion": 647,
+        "cached": 0,
+        "total": 6171,
+        "numRequests": 6,
+        "completionDetails": {
+          "reasoning": 0,
+          "acceptedPrediction": 0,
+          "rejectedPrediction": 0,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0
+        },
+        "assertions": {
+          "total": 0,
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "numRequests": 0,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          }
+        }
+      },
+      "durationMs": 3898,
+      "evaluationDurationMs": 3898
+    }
+  },
+  "config": {
+    "tags": {},
+    "description": "triagem-de-pods — causa provável por pod a partir do snapshot",
+    "prompts": [
+      "file:///home/evvolpe/repos/aiops/pos_aiops/Engenharia_de_Prompt/playbook-aegis/devops/triagem-de-pods/prompt.md"
+    ],
+    "providers": [
+      "openai:gpt-4o-mini",
+      "anthropic:messages:claude-haiku-4-5-20251001"
+    ],
+    "tests": [
+      {
+        "vars": {
+          "snapshot": "file://fixtures/entrada-1.txt"
+        },
+        "assert": [
+          {
+            "type": "contains",
+            "value": "sentinel-api-7d9c8b6f4-h4m2t"
+          },
+          {
+            "type": "javascript",
+            "value": "/OOMKilled|mem[oó]ria/i.test(output)"
+          }
+        ]
+      },
+      {
+        "vars": {
+          "snapshot": "file://fixtures/entrada-2.txt"
+        },
+        "assert": [
+          {
+            "type": "contains",
+            "value": "sentinel-api-7d9c8b6f4-zzp10"
+          },
+          {
+            "type": "contains",
+            "value": "sentinel-ingest-8f7a9c5b-4dkqm"
+          },
+          {
+            "type": "javascript",
+            "value": "/2\\.9\\.2|ImagePullBackOff/i.test(output)"
+          },
+          {
+            "type": "javascript",
+            "value": "/cpu|insufficient/i.test(output)"
+          }
+        ]
+      },
+      {
+        "vars": {
+          "snapshot": "file://fixtures/entrada-3.txt"
+        },
+        "assert": [
+          {
+            "type": "javascript",
+            "value": "/0 pods? problem[aá]tic|nenhum pod (problem|com problema)|tudo saud[aá]vel|todos.{0,30}saud[aá]ve/i.test(output)"
+          },
+          {
+            "type": "javascript",
+            "value": "!/[1-9]\\d*\\s*pods?\\s*problem[aá]tic/i.test(output)"
+          }
+        ]
+      }
+    ],
+    "env": {},
+    "defaultTest": {
+      "assert": [
+        {
+          "type": "latency",
+          "threshold": 5000
+        },
+        {
+          "type": "cost",
+          "threshold": 0.01
+        }
+      ],
+      "vars": {},
+      "options": {},
+      "metadata": {}
+    },
+    "outputPath": [
+      "evidencias/triagem-de-pods.json"
+    ],
+    "extensions": [],
+    "metadata": {},
+    "evaluateOptions": {}
+  },
+  "shareableUrl": null,
+  "metadata": {
+    "promptfooVersion": "0.121.17",
+    "nodeVersion": "v24.16.0",
+    "platform": "linux",
+    "arch": "x64",
+    "exportedAt": "2026-06-20T23:42:43.843Z",
+    "evaluationCreatedAt": "2026-06-20T23:42:39.848Z"
+  },
+  "vars": [
+    "snapshot"
+  ],
+  "runtimeOptions": {
+    "eventSource": "cli",
+    "showProgressBar": true,
+    "repeat": 1,
+    "maxConcurrency": 4,
+    "cache": false
+  }
+}

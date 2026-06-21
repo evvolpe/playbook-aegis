@@ -1,0 +1,731 @@
+{
+  "evalId": "eval-mV6-2026-06-20T23:42:46",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-06-20T23:42:46.581Z",
+    "prompts": [
+      {
+        "raw": "---\nnome: Endurecimento de NetworkPolicy\ndescricao: Recebe um manifesto de NetworkPolicy permissivo, as regras do padrão e o mapa de serviços, e devolve a versão endurecida (default-deny + regras mínimas comentadas).\nversao: 1.0.0\ntags: [devops, kubernetes, seguranca, networkpolicy]\ninputs:\n  - nome: manifesto\n    descricao: Manifesto de NetworkPolicy permissivo (allow-all) que precisa ser corrigido.\n  - nome: regras\n    descricao: Regras do padrão de segurança que a versão corrigida precisa cumprir.\n  - nome: mapa_servicos\n    descricao: Mapa de cada serviço com namespace, labels e portas, para escrever os seletores corretos sem inventar labels.\n---\n\nVocê é um engenheiro de segurança endurecendo uma NetworkPolicy de Kubernetes.\n\nManifesto permissivo a corrigir:\n{{manifesto}}\n\nRegras que a versão corrigida precisa seguir:\n{{regras}}\n\nMapa de serviços (namespace, labels, portas):\n{{mapa_servicos}}\n\nTarefa: produza a NetworkPolicy corrigida em YAML, com:\n- política default-deny explícita no namespace\n- ingress e egress restritos exatamente ao mapa de serviços, nunca com `{}` vazio\n- um comentário (#) em cada regra dizendo qual fluxo legítimo ela libera\n- nada de allow-all\n\nDevolva só o YAML final, comentado. Seja conciso: um comentário curto (uma frase) por\nregra, sem nenhum texto explicativo fora do bloco YAML.\n",
+        "label": "devops/networkpolicy-sentinel/prompt.md: ---\nnome: Endurecimento de NetworkPolicy\ndescricao...",
+        "id": "777ce4cab122abb906be5bf887d42445cd85ab5307a97953b946d283d15c521a",
+        "provider": "openai:gpt-4o-mini",
+        "metrics": {
+          "score": 0.8888888888888888,
+          "testPassCount": 0,
+          "testFailCount": 1,
+          "testErrorCount": 0,
+          "assertPassCount": 8,
+          "assertFailCount": 1,
+          "totalLatencyMs": 5213,
+          "tokenUsage": {
+            "prompt": 612,
+            "completion": 379,
+            "cached": 0,
+            "total": 991,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "namedScoreWeights": {},
+          "cost": 0.0003192
+        }
+      },
+      {
+        "raw": "---\nnome: Endurecimento de NetworkPolicy\ndescricao: Recebe um manifesto de NetworkPolicy permissivo, as regras do padrão e o mapa de serviços, e devolve a versão endurecida (default-deny + regras mínimas comentadas).\nversao: 1.0.0\ntags: [devops, kubernetes, seguranca, networkpolicy]\ninputs:\n  - nome: manifesto\n    descricao: Manifesto de NetworkPolicy permissivo (allow-all) que precisa ser corrigido.\n  - nome: regras\n    descricao: Regras do padrão de segurança que a versão corrigida precisa cumprir.\n  - nome: mapa_servicos\n    descricao: Mapa de cada serviço com namespace, labels e portas, para escrever os seletores corretos sem inventar labels.\n---\n\nVocê é um engenheiro de segurança endurecendo uma NetworkPolicy de Kubernetes.\n\nManifesto permissivo a corrigir:\n{{manifesto}}\n\nRegras que a versão corrigida precisa seguir:\n{{regras}}\n\nMapa de serviços (namespace, labels, portas):\n{{mapa_servicos}}\n\nTarefa: produza a NetworkPolicy corrigida em YAML, com:\n- política default-deny explícita no namespace\n- ingress e egress restritos exatamente ao mapa de serviços, nunca com `{}` vazio\n- um comentário (#) em cada regra dizendo qual fluxo legítimo ela libera\n- nada de allow-all\n\nDevolva só o YAML final, comentado. Seja conciso: um comentário curto (uma frase) por\nregra, sem nenhum texto explicativo fora do bloco YAML.\n",
+        "label": "devops/networkpolicy-sentinel/prompt.md: ---\nnome: Endurecimento de NetworkPolicy\ndescricao...",
+        "id": "777ce4cab122abb906be5bf887d42445cd85ab5307a97953b946d283d15c521a",
+        "provider": "anthropic:claude-haiku-4-5-20251001",
+        "metrics": {
+          "score": 1,
+          "testPassCount": 1,
+          "testFailCount": 0,
+          "testErrorCount": 0,
+          "assertPassCount": 9,
+          "assertFailCount": 0,
+          "totalLatencyMs": 3119,
+          "tokenUsage": {
+            "prompt": 773,
+            "completion": 556,
+            "cached": 0,
+            "total": 1329,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "namedScoreWeights": {},
+          "cost": 0.003553
+        }
+      }
+    ],
+    "results": [
+      {
+        "cost": 0.0003192,
+        "error": "Latency 5213ms is greater than threshold 5000ms",
+        "gradingResult": {
+          "pass": false,
+          "score": 0.8888888888888888,
+          "reason": "Latency 5213ms is greater than threshold 5000ms",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": false,
+              "score": 0,
+              "reason": "Latency 5213ms is greater than threshold 5000ms",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "kind: NetworkPolicy"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "Ingress"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "Egress"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "not-contains",
+                "value": "- {}"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "output.includes('5432') && output.includes('9200')"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "/app:\\s*relay/.test(output)"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "regex",
+                "value": "#.+"
+              }
+            }
+          ]
+        },
+        "id": "b414984c-6767-468c-bfed-328e741fa5d9",
+        "latencyMs": 5213,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Endurecimento de NetworkPolicy\ndescricao: Recebe um manifesto de NetworkPolicy permissivo, as regras do padrão e o mapa de serviços, e devolve a versão endurecida (default-deny + regras mínimas comentadas).\nversao: 1.0.0\ntags: [devops, kubernetes, seguranca, networkpolicy]\ninputs:\n  - nome: manifesto\n    descricao: Manifesto de NetworkPolicy permissivo (allow-all) que precisa ser corrigido.\n  - nome: regras\n    descricao: Regras do padrão de segurança que a versão corrigida precisa cumprir.\n  - nome: mapa_servicos\n    descricao: Mapa de cada serviço com namespace, labels e portas, para escrever os seletores corretos sem inventar labels.\n---\n\nVocê é um engenheiro de segurança endurecendo uma NetworkPolicy de Kubernetes.\n\nManifesto permissivo a corrigir:\n{\"apiVersion\":\"networking.k8s.io/v1\",\"kind\":\"NetworkPolicy\",\"metadata\":{\"name\":\"sentinel-allow\",\"namespace\":\"sentinel-prod\"},\"spec\":{\"podSelector\":{},\"policyTypes\":[\"Ingress\",\"Egress\"],\"ingress\":[{}],\"egress\":[{}]}}\n\nRegras que a versão corrigida precisa seguir:\nNetworkPolicy para o namespace \"sentinel-prod\":\n- pods do Sentinel só aceitam tráfego de entrada do Relay (consumo de\n  eventos) e do gateway de API da plataforma\n- pods do Sentinel só fazem saída para: Forge (warehouse, porta 5432),\n  Cerebro (busca, porta 9200) e DNS interno\n- nada de \"allow all\" em ingress ou egress\n- política default-deny explícita no namespace\n- toda regra precisa de comentário dizendo qual fluxo legítimo ela libera\n\nMapa de serviços (namespace, labels, portas):\nSentinel     → namespace sentinel-prod, pods com label app=sentinel\nRelay        → namespace relay-prod,    pods com label app=relay\nAPI gateway  → namespace edge,          pods com label app=api-gateway\nForge        → namespace forge-prod,    pods com label app=forge,   porta 5432 (Postgres do warehouse)\nCerebro      → namespace cerebro-prod,  pods com label app=cerebro, porta 9200 (Elasticsearch)\nDNS interno  → namespace kube-system,   pods com label k8s-app=kube-dns, porta 53\n\nTarefa: produza a NetworkPolicy corrigida em YAML, com:\n- política default-deny explícita no namespace\n- ingress e egress restritos exatamente ao mapa de serviços, nunca com `{}` vazio\n- um comentário (#) em cada regra dizendo qual fluxo legítimo ela libera\n- nada de allow-all\n\nDevolva só o YAML final, comentado. Seja conciso: um comentário curto (uma frase) por\nregra, sem nenhum texto explicativo fora do bloco YAML.\n",
+          "label": "devops/networkpolicy-sentinel/prompt.md: ---\nnome: Endurecimento de NetworkPolicy\ndescricao...",
+          "config": {}
+        },
+        "promptId": "777ce4cab122abb906be5bf887d42445cd85ab5307a97953b946d283d15c521a",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "```yaml\napiVersion: networking.k8s.io/v1\nkind: NetworkPolicy\nmetadata:\n  name: sentinel-default-deny\n  namespace: sentinel-prod\nspec:\n  podSelector: {}  # Aplica a política a todos os pods no namespace\n  policyTypes:\n    - Ingress\n    - Egress\n  ingress:\n    - from:\n        - namespaceSelector:\n            matchLabels:\n              name: relay-prod  # Permite tráfego do Relay\n          podSelector:\n            matchLabels:\n              app: relay  # Permite tráfego do Relay\n    - from:\n        - namespaceSelector:\n            matchLabels:\n              name: edge  # Permite tráfego do API gateway\n          podSelector:\n            matchLabels:\n              app: api-gateway  # Permite tráfego do API gateway\n  egress:\n    - to:\n        - namespaceSelector:\n            matchLabels:\n              name: forge-prod  # Permite saída para o Forge\n          podSelector:\n            matchLabels:\n              app: forge  # Permite saída para o Forge\n          ports:\n            - port: 5432  # Porta do Postgres do warehouse\n    - to:\n        - namespaceSelector:\n            matchLabels:\n              name: cerebro-prod  # Permite saída para o Cerebro\n          podSelector:\n            matchLabels:\n              app: cerebro  # Permite saída para o Cerebro\n          ports:\n            - port: 9200  # Porta do Elasticsearch\n    - to:\n        - namespaceSelector:\n            matchLabels:\n              name: kube-system  # Permite saída para o DNS interno\n          podSelector:\n            matchLabels:\n              k8s-app: kube-dns  # Permite saída para o DNS interno\n          ports:\n            - port: 53  # Porta do DNS\n```",
+          "tokenUsage": {
+            "total": 991,
+            "prompt": 612,
+            "completion": 379,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            }
+          },
+          "cached": false,
+          "latencyMs": 5213,
+          "finishReason": "stop",
+          "cost": 0.0003192,
+          "guardrails": {
+            "flagged": false
+          },
+          "metadata": {
+            "http": {
+              "status": 200,
+              "statusText": "OK",
+              "headers": {
+                "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+                "alt-svc": "h3=\":443\"; ma=86400",
+                "cf-cache-status": "[REDACTED]",
+                "cf-ray": "[REDACTED]",
+                "connection": "keep-alive",
+                "content-type": "application/json",
+                "date": "Sat, 20 Jun 2026 23:42:51 GMT",
+                "openai-organization": "[REDACTED]",
+                "openai-processing-ms": "4682",
+                "openai-project": "[REDACTED]",
+                "openai-version": "[REDACTED]",
+                "server": "cloudflare",
+                "set-cookie": "[REDACTED]",
+                "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                "transfer-encoding": "chunked",
+                "x-content-type-options": "nosniff",
+                "x-openai-proxy-wasm": "[REDACTED]",
+                "x-ratelimit-limit-requests": "[REDACTED]",
+                "x-ratelimit-limit-tokens": "[REDACTED]",
+                "x-ratelimit-remaining-requests": "[REDACTED]",
+                "x-ratelimit-remaining-tokens": "[REDACTED]",
+                "x-ratelimit-reset-requests": "[REDACTED]",
+                "x-ratelimit-reset-tokens": "[REDACTED]",
+                "x-request-id": "[REDACTED]"
+              }
+            }
+          }
+        },
+        "score": 0.8888888888888888,
+        "success": false,
+        "testCase": {
+          "vars": {
+            "manifesto": "file://fixtures/manifesto-permissivo.yaml",
+            "regras": "file://fixtures/regras.txt",
+            "mapa_servicos": "file://fixtures/mapa-servicos.txt"
+          },
+          "assert": [
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            },
+            {
+              "type": "contains",
+              "value": "kind: NetworkPolicy"
+            },
+            {
+              "type": "contains",
+              "value": "Ingress"
+            },
+            {
+              "type": "contains",
+              "value": "Egress"
+            },
+            {
+              "type": "not-contains",
+              "value": "- {}"
+            },
+            {
+              "type": "javascript",
+              "value": "output.includes('5432') && output.includes('9200')"
+            },
+            {
+              "type": "javascript",
+              "value": "/app:\\s*relay/.test(output)"
+            },
+            {
+              "type": "regex",
+              "value": "#.+"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "tokenUsage": {
+          "prompt": 612,
+          "completion": 379,
+          "cached": 0,
+          "total": 991,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "manifesto": "file://fixtures/manifesto-permissivo.yaml",
+          "regras": "file://fixtures/regras.txt",
+          "mapa_servicos": "file://fixtures/mapa-servicos.txt"
+        },
+        "metadata": {
+          "http": {
+            "status": 200,
+            "statusText": "OK",
+            "headers": {
+              "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+              "alt-svc": "h3=\":443\"; ma=86400",
+              "cf-cache-status": "[REDACTED]",
+              "cf-ray": "[REDACTED]",
+              "connection": "keep-alive",
+              "content-type": "application/json",
+              "date": "Sat, 20 Jun 2026 23:42:51 GMT",
+              "openai-organization": "[REDACTED]",
+              "openai-processing-ms": "4682",
+              "openai-project": "[REDACTED]",
+              "openai-version": "[REDACTED]",
+              "server": "cloudflare",
+              "set-cookie": "[REDACTED]",
+              "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+              "transfer-encoding": "chunked",
+              "x-content-type-options": "nosniff",
+              "x-openai-proxy-wasm": "[REDACTED]",
+              "x-ratelimit-limit-requests": "[REDACTED]",
+              "x-ratelimit-limit-tokens": "[REDACTED]",
+              "x-ratelimit-remaining-requests": "[REDACTED]",
+              "x-ratelimit-remaining-tokens": "[REDACTED]",
+              "x-ratelimit-reset-requests": "[REDACTED]",
+              "x-ratelimit-reset-tokens": "[REDACTED]",
+              "x-request-id": "[REDACTED]"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 1
+      },
+      {
+        "cost": 0.003553,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "kind: NetworkPolicy"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "Ingress"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "Egress"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "not-contains",
+                "value": "- {}"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "output.includes('5432') && output.includes('9200')"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "/app:\\s*relay/.test(output)"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "regex",
+                "value": "#.+"
+              }
+            }
+          ]
+        },
+        "id": "eaa04060-c21c-4cea-8e9f-3915c6d56977",
+        "latencyMs": 3119,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Endurecimento de NetworkPolicy\ndescricao: Recebe um manifesto de NetworkPolicy permissivo, as regras do padrão e o mapa de serviços, e devolve a versão endurecida (default-deny + regras mínimas comentadas).\nversao: 1.0.0\ntags: [devops, kubernetes, seguranca, networkpolicy]\ninputs:\n  - nome: manifesto\n    descricao: Manifesto de NetworkPolicy permissivo (allow-all) que precisa ser corrigido.\n  - nome: regras\n    descricao: Regras do padrão de segurança que a versão corrigida precisa cumprir.\n  - nome: mapa_servicos\n    descricao: Mapa de cada serviço com namespace, labels e portas, para escrever os seletores corretos sem inventar labels.\n---\n\nVocê é um engenheiro de segurança endurecendo uma NetworkPolicy de Kubernetes.\n\nManifesto permissivo a corrigir:\n{\"apiVersion\":\"networking.k8s.io/v1\",\"kind\":\"NetworkPolicy\",\"metadata\":{\"name\":\"sentinel-allow\",\"namespace\":\"sentinel-prod\"},\"spec\":{\"podSelector\":{},\"policyTypes\":[\"Ingress\",\"Egress\"],\"ingress\":[{}],\"egress\":[{}]}}\n\nRegras que a versão corrigida precisa seguir:\nNetworkPolicy para o namespace \"sentinel-prod\":\n- pods do Sentinel só aceitam tráfego de entrada do Relay (consumo de\n  eventos) e do gateway de API da plataforma\n- pods do Sentinel só fazem saída para: Forge (warehouse, porta 5432),\n  Cerebro (busca, porta 9200) e DNS interno\n- nada de \"allow all\" em ingress ou egress\n- política default-deny explícita no namespace\n- toda regra precisa de comentário dizendo qual fluxo legítimo ela libera\n\nMapa de serviços (namespace, labels, portas):\nSentinel     → namespace sentinel-prod, pods com label app=sentinel\nRelay        → namespace relay-prod,    pods com label app=relay\nAPI gateway  → namespace edge,          pods com label app=api-gateway\nForge        → namespace forge-prod,    pods com label app=forge,   porta 5432 (Postgres do warehouse)\nCerebro      → namespace cerebro-prod,  pods com label app=cerebro, porta 9200 (Elasticsearch)\nDNS interno  → namespace kube-system,   pods com label k8s-app=kube-dns, porta 53\n\nTarefa: produza a NetworkPolicy corrigida em YAML, com:\n- política default-deny explícita no namespace\n- ingress e egress restritos exatamente ao mapa de serviços, nunca com `{}` vazio\n- um comentário (#) em cada regra dizendo qual fluxo legítimo ela libera\n- nada de allow-all\n\nDevolva só o YAML final, comentado. Seja conciso: um comentário curto (uma frase) por\nregra, sem nenhum texto explicativo fora do bloco YAML.\n",
+          "label": "devops/networkpolicy-sentinel/prompt.md: ---\nnome: Endurecimento de NetworkPolicy\ndescricao...",
+          "config": {}
+        },
+        "promptId": "777ce4cab122abb906be5bf887d42445cd85ab5307a97953b946d283d15c521a",
+        "promptIdx": 1,
+        "provider": {
+          "id": "anthropic:claude-haiku-4-5-20251001",
+          "label": ""
+        },
+        "response": {
+          "output": "```yaml\n---\n# Default-deny policy para o namespace sentinel-prod\napiVersion: networking.k8s.io/v1\nkind: NetworkPolicy\nmetadata:\n  name: sentinel-default-deny\n  namespace: sentinel-prod\nspec:\n  podSelector: {}\n  policyTypes:\n    - Ingress\n    - Egress\n  ingress: []\n  egress: []\n\n---\n# Policy restritiva para pods do Sentinel\napiVersion: networking.k8s.io/v1\nkind: NetworkPolicy\nmetadata:\n  name: sentinel-allow\n  namespace: sentinel-prod\nspec:\n  podSelector:\n    matchLabels:\n      app: sentinel\n  policyTypes:\n    - Ingress\n    - Egress\n  ingress:\n    # Aceita eventos do Relay\n    - from:\n        - namespaceSelector:\n            matchLabels:\n              name: relay-prod\n          podSelector:\n            matchLabels:\n              app: relay\n      ports:\n        - protocol: TCP\n          port: 8080\n    # Aceita requisições do API gateway\n    - from:\n        - namespaceSelector:\n            matchLabels:\n              name: edge\n          podSelector:\n            matchLabels:\n              app: api-gateway\n      ports:\n        - protocol: TCP\n          port: 8080\n  egress:\n    # Saída para Forge (warehouse Postgres)\n    - to:\n        - namespaceSelector:\n            matchLabels:\n              name: forge-prod\n          podSelector:\n            matchLabels:\n              app: forge\n      ports:\n        - protocol: TCP\n          port: 5432\n    # Saída para Cerebro (Elasticsearch)\n    - to:\n        - namespaceSelector:\n            matchLabels:\n              name: cerebro-prod\n          podSelector:\n            matchLabels:\n              app: cerebro\n      ports:\n        - protocol: TCP\n          port: 9200\n    # Saída para DNS interno\n    - to:\n        - namespaceSelector:\n            matchLabels:\n              name: kube-system\n          podSelector:\n            matchLabels:\n              k8s-app: kube-dns\n      ports:\n        - protocol: UDP\n          port: 53\n```",
+          "tokenUsage": {
+            "total": 1329,
+            "prompt": 773,
+            "completion": 556,
+            "completionDetails": {
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "finishReason": "stop",
+          "cost": 0.003553
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "manifesto": "file://fixtures/manifesto-permissivo.yaml",
+            "regras": "file://fixtures/regras.txt",
+            "mapa_servicos": "file://fixtures/mapa-servicos.txt"
+          },
+          "assert": [
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            },
+            {
+              "type": "contains",
+              "value": "kind: NetworkPolicy"
+            },
+            {
+              "type": "contains",
+              "value": "Ingress"
+            },
+            {
+              "type": "contains",
+              "value": "Egress"
+            },
+            {
+              "type": "not-contains",
+              "value": "- {}"
+            },
+            {
+              "type": "javascript",
+              "value": "output.includes('5432') && output.includes('9200')"
+            },
+            {
+              "type": "javascript",
+              "value": "/app:\\s*relay/.test(output)"
+            },
+            {
+              "type": "regex",
+              "value": "#.+"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "tokenUsage": {
+          "prompt": 773,
+          "completion": 556,
+          "cached": 0,
+          "total": 1329,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "manifesto": "file://fixtures/manifesto-permissivo.yaml",
+          "regras": "file://fixtures/regras.txt",
+          "mapa_servicos": "file://fixtures/mapa-servicos.txt"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      }
+    ],
+    "stats": {
+      "successes": 1,
+      "failures": 1,
+      "errors": 0,
+      "tokenUsage": {
+        "prompt": 1385,
+        "completion": 935,
+        "cached": 0,
+        "total": 2320,
+        "numRequests": 2,
+        "completionDetails": {
+          "reasoning": 0,
+          "acceptedPrediction": 0,
+          "rejectedPrediction": 0,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0
+        },
+        "assertions": {
+          "total": 0,
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "numRequests": 0,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          }
+        }
+      },
+      "durationMs": 5258,
+      "evaluationDurationMs": 5258
+    }
+  },
+  "config": {
+    "tags": {},
+    "description": "networkpolicy-sentinel — NetworkPolicy endurecida e default-deny",
+    "prompts": [
+      "file:///home/evvolpe/repos/aiops/pos_aiops/Engenharia_de_Prompt/playbook-aegis/devops/networkpolicy-sentinel/prompt.md"
+    ],
+    "providers": [
+      "openai:gpt-4o-mini",
+      "anthropic:messages:claude-haiku-4-5-20251001"
+    ],
+    "tests": [
+      {
+        "vars": {
+          "manifesto": "file://fixtures/manifesto-permissivo.yaml",
+          "regras": "file://fixtures/regras.txt",
+          "mapa_servicos": "file://fixtures/mapa-servicos.txt"
+        },
+        "assert": [
+          {
+            "type": "contains",
+            "value": "kind: NetworkPolicy"
+          },
+          {
+            "type": "contains",
+            "value": "Ingress"
+          },
+          {
+            "type": "contains",
+            "value": "Egress"
+          },
+          {
+            "type": "not-contains",
+            "value": "- {}"
+          },
+          {
+            "type": "javascript",
+            "value": "output.includes('5432') && output.includes('9200')"
+          },
+          {
+            "type": "javascript",
+            "value": "/app:\\s*relay/.test(output)"
+          },
+          {
+            "type": "regex",
+            "value": "#.+"
+          }
+        ]
+      }
+    ],
+    "env": {},
+    "defaultTest": {
+      "assert": [
+        {
+          "type": "latency",
+          "threshold": 5000
+        },
+        {
+          "type": "cost",
+          "threshold": 0.01
+        }
+      ],
+      "vars": {},
+      "options": {},
+      "metadata": {}
+    },
+    "outputPath": [
+      "evidencias/networkpolicy-sentinel.json"
+    ],
+    "extensions": [],
+    "metadata": {},
+    "evaluateOptions": {}
+  },
+  "shareableUrl": null,
+  "metadata": {
+    "promptfooVersion": "0.121.17",
+    "nodeVersion": "v24.16.0",
+    "platform": "linux",
+    "arch": "x64",
+    "exportedAt": "2026-06-20T23:42:51.977Z",
+    "evaluationCreatedAt": "2026-06-20T23:42:46.581Z"
+  },
+  "vars": [
+    "manifesto",
+    "regras",
+    "mapa_servicos"
+  ],
+  "runtimeOptions": {
+    "eventSource": "cli",
+    "showProgressBar": true,
+    "repeat": 1,
+    "maxConcurrency": 4,
+    "cache": false
+  }
+}

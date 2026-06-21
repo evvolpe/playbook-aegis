@@ -1,0 +1,360 @@
+{
+  "evalId": "eval-4IM-2026-06-21T00:08:05",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-06-21T00:08:05.088Z",
+    "prompts": [
+      {
+        "raw": "---\nnome: Migração batch para event-driven (cadeia)\ndescricao: Cadeia de 3 prompts encadeados que migra o pipeline Forge de lote para orientado a eventos — diagnóstico, plano de etapas reversíveis e detalhamento executável da primeira etapa.\nversao: 1.0.0\ntags: [devops, dados, migracao, prompt-chaining]\ninputs:\n  - nome: estado_atual\n    descricao: \"Elo 1 — estado atual do pipeline em lote (ingestão, transformação, destino, dependentes, pontos frágeis).\"\n  - nome: diagnostico\n    descricao: \"Elo 2 — saída do Prompt 1 (pontos que dependem de lote fechado, riscos por dependente, pré-condições).\"\n  - nome: restricoes\n    descricao: \"Elo 2 — restrições da migração (continuidade dos dependentes, sem big-bang, reversibilidade).\"\n  - nome: plano_etapas\n    descricao: \"Elo 3 — saída do Prompt 2 (plano de migração em etapas incrementais e reversíveis).\"\n---\n\n# Cadeia de migração do Forge — 3 elos encadeados\n# Cada elo recebe a saída do anterior como variável de entrada. Rode em ordem.\n\n## Prompt 1 — Diagnóstico\n\nVocê é um arquiteto de dados analisando um pipeline de processamento em lote que vai\nmigrar para um modelo orientado a eventos.\n\nEstado atual do pipeline:\n{{estado_atual}}\n\nTarefa: diagnostique o estado atual, identificando:\n1. Os pontos que dependem da semântica de \"lote fechado\" e por isso não migram\n   direto pra streaming sem ajuste.\n2. Os riscos da migração para cada sistema dependente listado no estado atual.\n3. As pré-condições que precisam existir antes de iniciar a migração.\n\nSaída: lista objetiva. Não proponha o plano de migração ainda, só o diagnóstico.\n\n## Prompt 2 — Plano de etapas\n\nVocê é o mesmo arquiteto. Com base no diagnóstico abaixo, proponha o plano de\nmigração em etapas incrementais — nunca big-bang, cada etapa reversível.\n\nDiagnóstico:\n{{diagnostico}}\n\nRestrições:\n{{restricoes}}\n\nTarefa: liste as etapas em ordem, cada uma com objetivo, o que muda, como reverter se\nder problema, e o que precisa continuar rodando em paralelo (old + new) até a etapa\nseguinte.\n\n## Prompt 3 — Plano executável e reversível (Etapa 1)\n\nVocê é o mesmo arquiteto, agora detalhando a primeira etapa do plano para execução\nreal.\n\nPlano de etapas:\n{{plano_etapas}}\n\nTarefa: detalhe a Etapa 1 como plano executável: passos técnicos concretos, critério\nde sucesso mensurável, ponto de rollback, e quem precisa validar antes de avançar\npra etapa 2.\n",
+        "label": "devops/migracao-forge/prompt.md: ---\nnome: Migração batch para event-driven (cadeia...",
+        "id": "604c05901c1272387813be6a3fdea48d9512c4e5d8c725129eebca451f91f7c5",
+        "provider": "anthropic:messages:claude-sonnet-4-6",
+        "metrics": {
+          "score": 1,
+          "testPassCount": 1,
+          "testFailCount": 0,
+          "testErrorCount": 0,
+          "assertPassCount": 3,
+          "assertFailCount": 0,
+          "totalLatencyMs": 78193,
+          "tokenUsage": {
+            "prompt": 1120,
+            "completion": 4096,
+            "cached": 0,
+            "total": 5216,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 3674,
+              "prompt": 3643,
+              "completion": 31,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "namedScoreWeights": {},
+          "cost": 0.0648
+        }
+      }
+    ],
+    "results": [
+      {
+        "cost": 0.0648,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 3674,
+            "prompt": 3643,
+            "completion": 31,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 120000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.15
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "provider": "openai:gpt-4o",
+                "rubricPrompt": "Você é um revisor avaliando um plano de migração de pipeline batch para\nevent-driven. Avalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Diagnóstico ancorado (0-2): identifica os pontos presos à semântica\n   de \"lote fechado\" (tabelas particionadas por hora, billing noturno)\n   e os riscos por dependente (Sentinel, Cerebro, billing)? 2 = ambos;\n   1 = parcial; 0 = genérico.\n2. Etapas incrementais (0-2): propõe a migração em etapas em ordem, não\n   big-bang? 2 = etapas claras e ordenadas; 1 = etapas vagas; 0 = virada\n   única ou sem etapas.\n3. Reversibilidade (0-2): cada etapa tem rollback/forma de voltar atrás e\n   paralelo old+new onde necessário? 2 = reversibilidade explícita por\n   etapa; 1 = menção genérica; 0 = sem rollback.\n4. Dependente sensível por último (0-2): trata o billing (partição\n   fechada, custo financeiro) como o mais sensível, migrado por último e\n   só após paridade validada? 2 = sim; 1 = menciona sem priorizar;\n   0 = ignora.\n\nRESPOSTA A AVALIAR:\n{{output}}\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n",
+                "threshold": 0.75,
+                "value": "Você é um revisor avaliando um plano de migração de pipeline batch para\nevent-driven. Avalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Diagnóstico ancorado (0-2): identifica os pontos presos à semântica\n   de \"lote fechado\" (tabelas particionadas por hora, billing noturno)\n   e os riscos por dependente (Sentinel, Cerebro, billing)? 2 = ambos;\n   1 = parcial; 0 = genérico.\n2. Etapas incrementais (0-2): propõe a migração em etapas em ordem, não\n   big-bang? 2 = etapas claras e ordenadas; 1 = etapas vagas; 0 = virada\n   única ou sem etapas.\n3. Reversibilidade (0-2): cada etapa tem rollback/forma de voltar atrás e\n   paralelo old+new onde necessário? 2 = reversibilidade explícita por\n   etapa; 1 = menção genérica; 0 = sem rollback.\n4. Dependente sensível por último (0-2): trata o billing (partição\n   fechada, custo financeiro) como o mais sensível, migrado por último e\n   só após paridade validada? 2 = sim; 1 = menciona sem priorizar;\n   0 = ignora.\n\nRESPOSTA A AVALIAR:\n{{output}}\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "2, 2, 2, 2 = 8",
+              "tokensUsed": {
+                "total": 3674,
+                "prompt": 3643,
+                "completion": 31,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+                    "alt-svc": "h3=\":443\"; ma=86400",
+                    "cf-cache-status": "[REDACTED]",
+                    "cf-ray": "[REDACTED]",
+                    "connection": "keep-alive",
+                    "content-type": "application/json",
+                    "date": "Sun, 21 Jun 2026 00:09:25 GMT",
+                    "openai-organization": "[REDACTED]",
+                    "openai-processing-ms": "777",
+                    "openai-project": "[REDACTED]",
+                    "openai-version": "[REDACTED]",
+                    "server": "cloudflare",
+                    "set-cookie": "[REDACTED]",
+                    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                    "transfer-encoding": "chunked",
+                    "x-content-type-options": "nosniff",
+                    "x-openai-proxy-wasm": "[REDACTED]",
+                    "x-ratelimit-limit-requests": "[REDACTED]",
+                    "x-ratelimit-limit-tokens": "[REDACTED]",
+                    "x-ratelimit-remaining-requests": "[REDACTED]",
+                    "x-ratelimit-remaining-tokens": "[REDACTED]",
+                    "x-ratelimit-reset-requests": "[REDACTED]",
+                    "x-ratelimit-reset-tokens": "[REDACTED]",
+                    "x-request-id": "[REDACTED]"
+                  }
+                },
+                "renderedGradingPrompt": "Você é um revisor avaliando um plano de migração de pipeline batch para\nevent-driven. Avalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Diagnóstico ancorado (0-2): identifica os pontos presos à semântica\n   de \"lote fechado\" (tabelas particionadas por hora, billing noturno)\n   e os riscos por dependente (Sentinel, Cerebro, billing)? 2 = ambos;\n   1 = parcial; 0 = genérico.\n2. Etapas incrementais (0-2): propõe a migração em etapas em ordem, não\n   big-bang? 2 = etapas claras e ordenadas; 1 = etapas vagas; 0 = virada\n   única ou sem etapas.\n3. Reversibilidade (0-2): cada etapa tem rollback/forma de voltar atrás e\n   paralelo old+new onde necessário? 2 = reversibilidade explícita por\n   etapa; 1 = menção genérica; 0 = sem rollback.\n4. Dependente sensível por último (0-2): trata o billing (partição\n   fechada, custo financeiro) como o mais sensível, migrado por último e\n   só após paridade validada? 2 = sim; 1 = menciona sem priorizar;\n   0 = ignora.\n\nRESPOSTA A AVALIAR:\n# Cadeia de Migração Forge — Execução Completa dos 3 Elos\n\n---\n\n## ELO 1 — Diagnóstico\n\n> **Input:** `estado_atual` (conforme especificado no cabeçalho)\n\n---\n\n### 1. Pontos que dependem de semântica de \"lote fechado\"\n\n| # | Ponto | Por que não migra direto |\n|---|-------|--------------------------|\n| 1.1 | **Particionamento por hora no DW** | As tabelas de destino são escritas em partições horárias completas. Consumidores downstream assumem que, ao ler a partição `2024-06-10T14`, ela está fechada e imutável. Streaming contínuo produziria partições abertas e em mutação constante. |\n| 1.2 | **14 etapas Spark encadeadas como DAG único** | O DAG foi projetado para receber um volume previsível de 1h de uma vez. Etapas intermediárias fazem agregações (ex.: deduplicação, joins temporais) que precisam de janela fechada para produzir resultado determinístico. |\n| 1.3 | **Lógica de reprocessamento por acúmulo** | O mecanismo de retry atual reprocessa o lote anterior inteiro quando há falha. Em streaming, esse comportamento precisa ser substituído por offset management e idempotência por evento — conceitos inexistentes hoje. |\n| 1.4 | **Relatórios de billing da Pepper** | Rodam de madrugada sobre partições horárias já fechadas do dia. Dependem de completude garantida: todos os eventos da hora H estão na partição H antes de H+1 começar. Streaming contínuo quebra essa garantia sem uma camada de materialização explícita. |\n| 1.5 | **Watermark e ordenação temporal** | As etapas Spark assumem que todos os eventos de um intervalo chegaram (late data = zero tolerância). Streaming exige definição explícita de watermark e política para eventos atrasados — hoje inexistente. |\n\n---\n\n### 2. Riscos por sistema dependente\n\n#### Sentinel\n- **Risco principal:** Sentinel lê tabelas agregadas. Se a migração produzir partições parciais ou com granularidade diferente (micro-batches de 5min em vez de 1h), as queries do Sentinel retornarão resultados inconsistentes sem nenhum erro explícito — falha silenciosa.\n- **Risco secundário:** Latência de leitura pode cair (positivo), mas se o schema das tabelas mudar durante a migração, Sentinel quebra sem aviso.\n- **Severidade:** Alta — falha silenciosa é pior que falha ruidosa.\n\n#### Cerebro\n- **Risco principal:** Cerebro indexa eventos transformados. Se o Forge começar a emitir eventos duplicados durante a transição (período em que old pipeline e new pipeline rodam em paralelo), o índice do Cerebro acumula duplicatas.\n- **Risco secundário:** Cerebro pode não ter idempotência na ingestão — nunca foi necessário porque o lote garantia unicidade por design.\n- **Severidade:** Alta — requer auditoria de idempotência no Cerebro antes de qualquer mudança no Forge.\n\n#### Billing Pepper\n- **Risco principal:** É o consumidor mais sensível. Qualquer evento faltante ou duplicado em uma partição horária se traduz diretamente em cobrança errada para o cliente final.\n- **Risco secundário:** Roda de madrugada sem monitoramento humano ativo. Um erro introduzido às 23h só será percebido no relatório do dia seguinte.\n- **Risco terciário:** Não há SLA de reprocessamento definido — se o billing rodar sobre dados errados, o processo de correção é manual e custoso.\n- **Severidade:** Crítica — deve ser o último consumidor a migrar e precisa de freeze period durante qualquer mudança estrutural.\n\n---\n\n### 3. Pré-condições antes de iniciar a migração\n\n| # | Pré-condição | Justificativa |\n|---|-------------|---------------|\n| P1 | **Relay disponível e com replay de offsets** | O Forge precisa conseguir reprocessar eventos a partir de um offset específico para garantir rollback. Sem replay, não há reversibilidade real. |\n| P2 | **Idempotência validada no Cerebro** | Antes de qualquer emissão dupla (período de paralelismo old+new), confirmar que o Cerebro descarta ou deduplica eventos com mesmo ID. |\n| P3 | **Camada de materialização de partições fechadas** | Criar mecanismo que, mesmo com ingestão contínua, produza uma \"partição fechada\" ao fim de cada hora para o billing e o Sentinel. Pode ser uma view materializada ou um job de compactação leve. |\n| P4 | **Observabilidade end-to-end instalada** | Métricas de lag do Relay, contagem de eventos por janela, e alertas de partição incompleta precisam existir antes do dia 1 da migração — não depois. |\n| P5 | **Definição de watermark e política de late data** | Decidir: eventos atrasados mais de X minutos são descartados, reprocessados ou vão para dead-letter? Sem essa decisão, as etapas Spark não podem ser reescritas. |\n| P6 | **Contrato de schema versionado entre Forge e consumidores** | Formalizar o schema atual das tabelas de destino como v1. Qualquer mudança durante a migração deve ser aditiva e retrocompatível, com consumidores notificados. |\n| P7 | **Janela de freeze para billing** | Acordar com a Pepper uma janela de congelamento (ex.: sem mudanças estruturais no Forge entre D-1 e D+1 do fechamento mensal) para proteger o relatório mais crítico. |\n\n---\n\n---\n\n## ELO 2 — Plano de Etapas\n\n> **Input:** `diagnostico` (saída do Elo 1) + `restricoes` (conforme cabeçalho)\n\n---\n\n### Princípios que governam o plano\n\n- **Nenhuma etapa é irreversível.** Cada etapa tem rollback definido antes de começar.\n- **Old pipeline e new pipeline rodam em paralelo** até a etapa seguinte estar validada.\n- **Billing é o último a migrar** — é o consumidor mais sensível e o critério de saída mais rigoroso.\n- **Cada etapa tem critério de sucesso mensurável** — sem critério, não há avanço.\n\n---\n\n### Etapa 0 — Fundação (pré-condições)\n**Objetivo:** Garantir que todas as P1–P7 do diagnóstico estão satisfeitas antes de tocar no pipeline produtivo.\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| Instalar observabilidade (lag, contagem por janela, alertas de partição) | Infraestrutura de monitoramento adicionada | Desligar dashboards — zero impacto no pipeline | Pipeline atual inalterado |\n| Validar idempotência do Cerebro | Teste de carga com eventos duplicados em ambiente de staging | N/A — é validação, não mudança | — |\n| Construir camada de materialização de partições fechadas | Job leve que compacta micro-batches em partição horária | Desligar o job — consumidores voltam a ler do pipeline atual | Pipeline atual inalterado |\n| Definir watermark e política de late data | Decisão arquitetural documentada | N/A — é decisão, não mudança | — |\n| Versionar schema das tabelas de destino como v1 | Contrato formal registrado | N/A | — |\n| Acordar freeze period com Pepper | Acordo operacional | N/A | — |\n\n**Critério de saída:** Todas as P1–P7 verificadas e documentadas. Nenhum consumidor impactado.\n\n---\n\n### Etapa 1 — Ingestão paralela (shadow mode)\n**Objetivo:** Conectar o novo consumidor de streaming ao Relay sem desligar o cron. O novo pipeline lê os mesmos eventos, transforma, e grava em tabelas *shadow* (separadas das produtivas). Nenhum consumidor lê as tabelas shadow ainda.\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| Novo job de streaming (Spark Structured Streaming ou Flink) consome do Relay | Novo processo rodando; cron continua intacto | Desligar o novo job — zero impacto | forge-batch-ingest (cron) continua produzindo tabelas produtivas |\n| Tabelas shadow criadas com mesmo schema das produtivas (sufixo `_shadow`) | Novas tabelas no DW | Dropar as tabelas shadow | Tabelas produtivas inalteradas |\n| Comparação automática de resultados: shadow vs. produtivo por janela horária | Job de reconciliação rodando | Desligar o job de reconciliação | — |\n\n**Critério de saída:** Shadow e produtivo convergem em ≥99,9% dos eventos por janela horária durante 7 dias consecutivos, sem intervenção manual.\n\n**Quem valida:** Arquiteto de dados + engenheiro do Forge.\n\n---\n\n### Etapa 2 — Migração do Sentinel (consumidor de menor risco)\n**Objetivo:** Redirecionar o Sentinel para ler das tabelas shadow (agora promovidas a tabelas de staging), mantendo as tabelas produtivas como fallback.\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| Tabelas shadow renomeadas para `_v2` | Novo conjunto de tabelas no DW | Sentinel aponta de volta para tabelas v1 (produtivas) via config | Tabelas v1 continuam sendo escritas pelo cron |\n| Sentinel aponta para tabelas v2 via feature flag | Mudança de configuração no Sentinel | Flip da feature flag — rollback em < 5min | forge-batch-ingest ainda grava v1 |\n| Monitoramento de divergência v1 vs. v2 ativo | Dashboard de comparação | — | — |\n\n**Critério de saída:** Sentinel operando sobre v2 por 5 dias sem alertas de divergência ou incidentes reportados.\n\n**Quem valida:** Time do Sentinel + arquiteto de dados.\n\n---\n\n### Etapa 3 — Migração do Cerebro (requer idempotência confirmada)\n**Objetivo:** Redirecionar o Cerebro para consumir os eventos transformados do novo pipeline. Esta etapa só começa após P2 (idempotência) estar confirmada da Etapa 0.\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| Cerebro passa a indexar a partir das tabelas v2 / stream de eventos do novo pipeline | Mudança na fonte de ingestão do Cerebro | Cerebro volta a ler de v1 via config | forge-batch-ingest ainda grava v1; Sentinel já em v2 |\n| Período de dual-write: Cerebro indexa de ambas as fontes com deduplicação por event ID | Lógica de deduplicação ativada | Desligar dual-write, manter apenas v1 | — |\n| Auditoria de índice: comparar contagem e amostra de documentos entre indexação v1 e v2 | Job de auditoria | — | — |\n\n**Critério de saída:** Índice do Cerebro com divergência < 0,01% em relação ao baseline v1, por 5 dias. Zero duplicatas detectadas na auditoria.\n\n**Quem valida:** Time do Cerebro + arquiteto de dados.\n\n---\n\n### Etapa 4 — Desligamento do cron (exceto billing)\n**Objetivo:** Desligar o forge-batch-ingest para Sentinel e Cerebro. Billing ainda consome de v1 (cron continua rodando só para ele).\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| forge-batch-ingest desligado para as tabelas consumidas por Sentinel e Cerebro | Cron parcialmente desativado | Reativar o cron — tabelas v1 voltam a ser escritas | Cron continua rodando apenas para as partições do billing |\n| Novo pipeline é a única fonte para Sentinel e Cerebro | — | Rollback via reativação do cron | — |\n\n**Critério de saída:** 10 dias sem incidentes em Sentinel e Cerebro com cron desligado para eles.\n\n**Quem valida:** Times de Sentinel, Cerebro e arquiteto de dados.\n\n---\n\n### Etapa 5 — Migração do Billing (etapa final e mais crítica)\n**Objetivo:** Migrar o billing da Pepper para consumir das partições horárias fechadas produzidas pelo novo pipeline (via camada de materialização criada na Etapa 0).\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| Camada de materialização promovida a produtiva para billing | Billing passa a ler partições geradas pelo novo pipeline | Billing volta a ler partições v1 via config; cron reativado | Cron ainda rodando em standby durante esta etapa |\n| Dry-run: billing roda sobre v2 em paralelo com v1 por 2 ciclos de fechamento (2 noites) | Dois relatórios gerados por noite — comparação manual | Descartar relatório v2, manter v1 | forge-batch-ingest em standby (pode ser reativado em < 10min) |\n| Validação financeira: divergência entre relatório v1 e v2 deve ser zero | Auditoria financeira | — | — |\n\n**Critério de saída:** Dois ciclos de fechamento consecutivos com relatórios v1 e v2 idênticos (divergência = R$ 0,00). Aprovação explícita da Pepper.\n\n**Quem valida:** Time financeiro da Pepper + arquiteto de dados + engenheiro do Forge.\n\n---\n\n### Etapa 6 — Descomissionamento\n**Objetivo:** Desligar forge-batch-ingest definitivamente e arquivar tabelas v1.\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| forge-batch-ingest desligado | Cron removido do scheduler | Restaurar cron do backup de configuração (plano de contingência, não rollback rápido) | — |\n| Tabelas v1 movidas para cold storage por 90 dias antes de deletar | Tabelas saem do DW ativo | Restaurar do cold storage | — |\n\n**Critério de saída:** Todos os consumidores em v2 por 30 dias. Nenhum acesso às tabelas v1 detectado nos logs.\n\n---\n\n### Visão consolidada do plano\n\n```\nEtapa 0 → Etapa 1 → Etapa 2 → Etapa 3 → Etapa 4 → Etapa 5 → Etapa 6\nFundação   Shadow    Sentinel  Cerebro   Desliga   Billing   Descomissiona\n                                         cron      (crítico)\n           ←————————————— rollback disponível em cada etapa ——————————————→\n```\n\n---\n\n---\n\n## ELO 3 — Plano Executável da Etapa 1\n\n> **Input:** `plano_etapas` (saída do Elo 2)\n\n---\n\n### Etapa 1 — Ingestão paralela em\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n"
+              }
+            }
+          ]
+        },
+        "id": "b729392e-ffc3-4bf7-b285-2a33c0b044de",
+        "latencyMs": 78193,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Migração batch para event-driven (cadeia)\ndescricao: Cadeia de 3 prompts encadeados que migra o pipeline Forge de lote para orientado a eventos — diagnóstico, plano de etapas reversíveis e detalhamento executável da primeira etapa.\nversao: 1.0.0\ntags: [devops, dados, migracao, prompt-chaining]\ninputs:\n  - nome: estado_atual\n    descricao: \"Elo 1 — estado atual do pipeline em lote (ingestão, transformação, destino, dependentes, pontos frágeis).\"\n  - nome: diagnostico\n    descricao: \"Elo 2 — saída do Prompt 1 (pontos que dependem de lote fechado, riscos por dependente, pré-condições).\"\n  - nome: restricoes\n    descricao: \"Elo 2 — restrições da migração (continuidade dos dependentes, sem big-bang, reversibilidade).\"\n  - nome: plano_etapas\n    descricao: \"Elo 3 — saída do Prompt 2 (plano de migração em etapas incrementais e reversíveis).\"\n---\n\n# Cadeia de migração do Forge — 3 elos encadeados\n# Cada elo recebe a saída do anterior como variável de entrada. Rode em ordem.\n\n## Prompt 1 — Diagnóstico\n\nVocê é um arquiteto de dados analisando um pipeline de processamento em lote que vai\nmigrar para um modelo orientado a eventos.\n\nEstado atual do pipeline:\nForge hoje:\n- ingestão: um job em cron acorda a cada 60min (o \"forge-batch-ingest\")\n- transformação: 14 etapas de processamento encadeadas (em Spark), ~40min no total\n- destino: grava em tabelas no data warehouse, particionadas por hora\n- ponto frágil: se um lote falha, o próximo acumula o dobro de volume\n- quem depende do Forge: Sentinel (lê as tabelas agregadas), Cerebro (indexa\n  os eventos transformados) e os relatórios de billing da Pepper (rodam de madrugada)\n\nO que a migração precisa garantir:\n- consumir do Relay continuamente, processando em pequenos blocos no lugar do lote de 1h\n- manter quem depende do Forge funcionando durante a transição\n- nada de virada única (big-bang): a migração tem que ir em passos e poder voltar atrás\n\nTarefa: diagnostique o estado atual, identificando:\n1. Os pontos que dependem da semântica de \"lote fechado\" e por isso não migram\n   direto pra streaming sem ajuste.\n2. Os riscos da migração para cada sistema dependente listado no estado atual.\n3. As pré-condições que precisam existir antes de iniciar a migração.\n\nSaída: lista objetiva. Não proponha o plano de migração ainda, só o diagnóstico.\n\n## Prompt 2 — Plano de etapas\n\nVocê é o mesmo arquiteto. Com base no diagnóstico abaixo, proponha o plano de\nmigração em etapas incrementais — nunca big-bang, cada etapa reversível.\n\nDiagnóstico:\n\n\nRestrições:\n- consumir do Relay continuamente, processando em pequenos blocos no lugar do lote de 1h\n- manter quem depende do Forge (Sentinel, Cerebro, billing) funcionando durante a transição\n- nada de virada única (big-bang): a migração tem que ir em passos e poder voltar atrás\n- billing roda sobre partição fechada e é o consumidor mais sensível a erro\n\nTarefa: liste as etapas em ordem, cada uma com objetivo, o que muda, como reverter se\nder problema, e o que precisa continuar rodando em paralelo (old + new) até a etapa\nseguinte.\n\n## Prompt 3 — Plano executável e reversível (Etapa 1)\n\nVocê é o mesmo arquiteto, agora detalhando a primeira etapa do plano para execução\nreal.\n\nPlano de etapas:\n\n\nTarefa: detalhe a Etapa 1 como plano executável: passos técnicos concretos, critério\nde sucesso mensurável, ponto de rollback, e quem precisa validar antes de avançar\npra etapa 2.\n",
+          "label": "devops/migracao-forge/prompt.md: ---\nnome: Migração batch para event-driven (cadeia...",
+          "config": {}
+        },
+        "promptId": "604c05901c1272387813be6a3fdea48d9512c4e5d8c725129eebca451f91f7c5",
+        "promptIdx": 0,
+        "provider": {
+          "id": "anthropic:messages:claude-sonnet-4-6",
+          "label": ""
+        },
+        "response": {
+          "output": "# Cadeia de Migração Forge — Execução Completa dos 3 Elos\n\n---\n\n## ELO 1 — Diagnóstico\n\n> **Input:** `estado_atual` (conforme especificado no cabeçalho)\n\n---\n\n### 1. Pontos que dependem de semântica de \"lote fechado\"\n\n| # | Ponto | Por que não migra direto |\n|---|-------|--------------------------|\n| 1.1 | **Particionamento por hora no DW** | As tabelas de destino são escritas em partições horárias completas. Consumidores downstream assumem que, ao ler a partição `2024-06-10T14`, ela está fechada e imutável. Streaming contínuo produziria partições abertas e em mutação constante. |\n| 1.2 | **14 etapas Spark encadeadas como DAG único** | O DAG foi projetado para receber um volume previsível de 1h de uma vez. Etapas intermediárias fazem agregações (ex.: deduplicação, joins temporais) que precisam de janela fechada para produzir resultado determinístico. |\n| 1.3 | **Lógica de reprocessamento por acúmulo** | O mecanismo de retry atual reprocessa o lote anterior inteiro quando há falha. Em streaming, esse comportamento precisa ser substituído por offset management e idempotência por evento — conceitos inexistentes hoje. |\n| 1.4 | **Relatórios de billing da Pepper** | Rodam de madrugada sobre partições horárias já fechadas do dia. Dependem de completude garantida: todos os eventos da hora H estão na partição H antes de H+1 começar. Streaming contínuo quebra essa garantia sem uma camada de materialização explícita. |\n| 1.5 | **Watermark e ordenação temporal** | As etapas Spark assumem que todos os eventos de um intervalo chegaram (late data = zero tolerância). Streaming exige definição explícita de watermark e política para eventos atrasados — hoje inexistente. |\n\n---\n\n### 2. Riscos por sistema dependente\n\n#### Sentinel\n- **Risco principal:** Sentinel lê tabelas agregadas. Se a migração produzir partições parciais ou com granularidade diferente (micro-batches de 5min em vez de 1h), as queries do Sentinel retornarão resultados inconsistentes sem nenhum erro explícito — falha silenciosa.\n- **Risco secundário:** Latência de leitura pode cair (positivo), mas se o schema das tabelas mudar durante a migração, Sentinel quebra sem aviso.\n- **Severidade:** Alta — falha silenciosa é pior que falha ruidosa.\n\n#### Cerebro\n- **Risco principal:** Cerebro indexa eventos transformados. Se o Forge começar a emitir eventos duplicados durante a transição (período em que old pipeline e new pipeline rodam em paralelo), o índice do Cerebro acumula duplicatas.\n- **Risco secundário:** Cerebro pode não ter idempotência na ingestão — nunca foi necessário porque o lote garantia unicidade por design.\n- **Severidade:** Alta — requer auditoria de idempotência no Cerebro antes de qualquer mudança no Forge.\n\n#### Billing Pepper\n- **Risco principal:** É o consumidor mais sensível. Qualquer evento faltante ou duplicado em uma partição horária se traduz diretamente em cobrança errada para o cliente final.\n- **Risco secundário:** Roda de madrugada sem monitoramento humano ativo. Um erro introduzido às 23h só será percebido no relatório do dia seguinte.\n- **Risco terciário:** Não há SLA de reprocessamento definido — se o billing rodar sobre dados errados, o processo de correção é manual e custoso.\n- **Severidade:** Crítica — deve ser o último consumidor a migrar e precisa de freeze period durante qualquer mudança estrutural.\n\n---\n\n### 3. Pré-condições antes de iniciar a migração\n\n| # | Pré-condição | Justificativa |\n|---|-------------|---------------|\n| P1 | **Relay disponível e com replay de offsets** | O Forge precisa conseguir reprocessar eventos a partir de um offset específico para garantir rollback. Sem replay, não há reversibilidade real. |\n| P2 | **Idempotência validada no Cerebro** | Antes de qualquer emissão dupla (período de paralelismo old+new), confirmar que o Cerebro descarta ou deduplica eventos com mesmo ID. |\n| P3 | **Camada de materialização de partições fechadas** | Criar mecanismo que, mesmo com ingestão contínua, produza uma \"partição fechada\" ao fim de cada hora para o billing e o Sentinel. Pode ser uma view materializada ou um job de compactação leve. |\n| P4 | **Observabilidade end-to-end instalada** | Métricas de lag do Relay, contagem de eventos por janela, e alertas de partição incompleta precisam existir antes do dia 1 da migração — não depois. |\n| P5 | **Definição de watermark e política de late data** | Decidir: eventos atrasados mais de X minutos são descartados, reprocessados ou vão para dead-letter? Sem essa decisão, as etapas Spark não podem ser reescritas. |\n| P6 | **Contrato de schema versionado entre Forge e consumidores** | Formalizar o schema atual das tabelas de destino como v1. Qualquer mudança durante a migração deve ser aditiva e retrocompatível, com consumidores notificados. |\n| P7 | **Janela de freeze para billing** | Acordar com a Pepper uma janela de congelamento (ex.: sem mudanças estruturais no Forge entre D-1 e D+1 do fechamento mensal) para proteger o relatório mais crítico. |\n\n---\n\n---\n\n## ELO 2 — Plano de Etapas\n\n> **Input:** `diagnostico` (saída do Elo 1) + `restricoes` (conforme cabeçalho)\n\n---\n\n### Princípios que governam o plano\n\n- **Nenhuma etapa é irreversível.** Cada etapa tem rollback definido antes de começar.\n- **Old pipeline e new pipeline rodam em paralelo** até a etapa seguinte estar validada.\n- **Billing é o último a migrar** — é o consumidor mais sensível e o critério de saída mais rigoroso.\n- **Cada etapa tem critério de sucesso mensurável** — sem critério, não há avanço.\n\n---\n\n### Etapa 0 — Fundação (pré-condições)\n**Objetivo:** Garantir que todas as P1–P7 do diagnóstico estão satisfeitas antes de tocar no pipeline produtivo.\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| Instalar observabilidade (lag, contagem por janela, alertas de partição) | Infraestrutura de monitoramento adicionada | Desligar dashboards — zero impacto no pipeline | Pipeline atual inalterado |\n| Validar idempotência do Cerebro | Teste de carga com eventos duplicados em ambiente de staging | N/A — é validação, não mudança | — |\n| Construir camada de materialização de partições fechadas | Job leve que compacta micro-batches em partição horária | Desligar o job — consumidores voltam a ler do pipeline atual | Pipeline atual inalterado |\n| Definir watermark e política de late data | Decisão arquitetural documentada | N/A — é decisão, não mudança | — |\n| Versionar schema das tabelas de destino como v1 | Contrato formal registrado | N/A | — |\n| Acordar freeze period com Pepper | Acordo operacional | N/A | — |\n\n**Critério de saída:** Todas as P1–P7 verificadas e documentadas. Nenhum consumidor impactado.\n\n---\n\n### Etapa 1 — Ingestão paralela (shadow mode)\n**Objetivo:** Conectar o novo consumidor de streaming ao Relay sem desligar o cron. O novo pipeline lê os mesmos eventos, transforma, e grava em tabelas *shadow* (separadas das produtivas). Nenhum consumidor lê as tabelas shadow ainda.\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| Novo job de streaming (Spark Structured Streaming ou Flink) consome do Relay | Novo processo rodando; cron continua intacto | Desligar o novo job — zero impacto | forge-batch-ingest (cron) continua produzindo tabelas produtivas |\n| Tabelas shadow criadas com mesmo schema das produtivas (sufixo `_shadow`) | Novas tabelas no DW | Dropar as tabelas shadow | Tabelas produtivas inalteradas |\n| Comparação automática de resultados: shadow vs. produtivo por janela horária | Job de reconciliação rodando | Desligar o job de reconciliação | — |\n\n**Critério de saída:** Shadow e produtivo convergem em ≥99,9% dos eventos por janela horária durante 7 dias consecutivos, sem intervenção manual.\n\n**Quem valida:** Arquiteto de dados + engenheiro do Forge.\n\n---\n\n### Etapa 2 — Migração do Sentinel (consumidor de menor risco)\n**Objetivo:** Redirecionar o Sentinel para ler das tabelas shadow (agora promovidas a tabelas de staging), mantendo as tabelas produtivas como fallback.\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| Tabelas shadow renomeadas para `_v2` | Novo conjunto de tabelas no DW | Sentinel aponta de volta para tabelas v1 (produtivas) via config | Tabelas v1 continuam sendo escritas pelo cron |\n| Sentinel aponta para tabelas v2 via feature flag | Mudança de configuração no Sentinel | Flip da feature flag — rollback em < 5min | forge-batch-ingest ainda grava v1 |\n| Monitoramento de divergência v1 vs. v2 ativo | Dashboard de comparação | — | — |\n\n**Critério de saída:** Sentinel operando sobre v2 por 5 dias sem alertas de divergência ou incidentes reportados.\n\n**Quem valida:** Time do Sentinel + arquiteto de dados.\n\n---\n\n### Etapa 3 — Migração do Cerebro (requer idempotência confirmada)\n**Objetivo:** Redirecionar o Cerebro para consumir os eventos transformados do novo pipeline. Esta etapa só começa após P2 (idempotência) estar confirmada da Etapa 0.\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| Cerebro passa a indexar a partir das tabelas v2 / stream de eventos do novo pipeline | Mudança na fonte de ingestão do Cerebro | Cerebro volta a ler de v1 via config | forge-batch-ingest ainda grava v1; Sentinel já em v2 |\n| Período de dual-write: Cerebro indexa de ambas as fontes com deduplicação por event ID | Lógica de deduplicação ativada | Desligar dual-write, manter apenas v1 | — |\n| Auditoria de índice: comparar contagem e amostra de documentos entre indexação v1 e v2 | Job de auditoria | — | — |\n\n**Critério de saída:** Índice do Cerebro com divergência < 0,01% em relação ao baseline v1, por 5 dias. Zero duplicatas detectadas na auditoria.\n\n**Quem valida:** Time do Cerebro + arquiteto de dados.\n\n---\n\n### Etapa 4 — Desligamento do cron (exceto billing)\n**Objetivo:** Desligar o forge-batch-ingest para Sentinel e Cerebro. Billing ainda consome de v1 (cron continua rodando só para ele).\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| forge-batch-ingest desligado para as tabelas consumidas por Sentinel e Cerebro | Cron parcialmente desativado | Reativar o cron — tabelas v1 voltam a ser escritas | Cron continua rodando apenas para as partições do billing |\n| Novo pipeline é a única fonte para Sentinel e Cerebro | — | Rollback via reativação do cron | — |\n\n**Critério de saída:** 10 dias sem incidentes em Sentinel e Cerebro com cron desligado para eles.\n\n**Quem valida:** Times de Sentinel, Cerebro e arquiteto de dados.\n\n---\n\n### Etapa 5 — Migração do Billing (etapa final e mais crítica)\n**Objetivo:** Migrar o billing da Pepper para consumir das partições horárias fechadas produzidas pelo novo pipeline (via camada de materialização criada na Etapa 0).\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| Camada de materialização promovida a produtiva para billing | Billing passa a ler partições geradas pelo novo pipeline | Billing volta a ler partições v1 via config; cron reativado | Cron ainda rodando em standby durante esta etapa |\n| Dry-run: billing roda sobre v2 em paralelo com v1 por 2 ciclos de fechamento (2 noites) | Dois relatórios gerados por noite — comparação manual | Descartar relatório v2, manter v1 | forge-batch-ingest em standby (pode ser reativado em < 10min) |\n| Validação financeira: divergência entre relatório v1 e v2 deve ser zero | Auditoria financeira | — | — |\n\n**Critério de saída:** Dois ciclos de fechamento consecutivos com relatórios v1 e v2 idênticos (divergência = R$ 0,00). Aprovação explícita da Pepper.\n\n**Quem valida:** Time financeiro da Pepper + arquiteto de dados + engenheiro do Forge.\n\n---\n\n### Etapa 6 — Descomissionamento\n**Objetivo:** Desligar forge-batch-ingest definitivamente e arquivar tabelas v1.\n\n| Item | O que muda | Como reverter | Roda em paralelo |\n|------|-----------|---------------|-----------------|\n| forge-batch-ingest desligado | Cron removido do scheduler | Restaurar cron do backup de configuração (plano de contingência, não rollback rápido) | — |\n| Tabelas v1 movidas para cold storage por 90 dias antes de deletar | Tabelas saem do DW ativo | Restaurar do cold storage | — |\n\n**Critério de saída:** Todos os consumidores em v2 por 30 dias. Nenhum acesso às tabelas v1 detectado nos logs.\n\n---\n\n### Visão consolidada do plano\n\n```\nEtapa 0 → Etapa 1 → Etapa 2 → Etapa 3 → Etapa 4 → Etapa 5 → Etapa 6\nFundação   Shadow    Sentinel  Cerebro   Desliga   Billing   Descomissiona\n                                         cron      (crítico)\n           ←————————————— rollback disponível em cada etapa ——————————————→\n```\n\n---\n\n---\n\n## ELO 3 — Plano Executável da Etapa 1\n\n> **Input:** `plano_etapas` (saída do Elo 2)\n\n---\n\n### Etapa 1 — Ingestão paralela em",
+          "tokenUsage": {
+            "total": 5216,
+            "prompt": 1120,
+            "completion": 4096,
+            "completionDetails": {
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "finishReason": "length",
+          "cost": 0.0648
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "estado_atual": "file://fixtures/estado-atual.txt",
+            "restricoes": "file://fixtures/restricoes.txt",
+            "diagnostico": "",
+            "plano_etapas": ""
+          },
+          "assert": [
+            {
+              "type": "latency",
+              "threshold": 120000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.15
+            },
+            {
+              "type": "llm-rubric",
+              "provider": "openai:gpt-4o",
+              "rubricPrompt": "Você é um revisor avaliando um plano de migração de pipeline batch para\nevent-driven. Avalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Diagnóstico ancorado (0-2): identifica os pontos presos à semântica\n   de \"lote fechado\" (tabelas particionadas por hora, billing noturno)\n   e os riscos por dependente (Sentinel, Cerebro, billing)? 2 = ambos;\n   1 = parcial; 0 = genérico.\n2. Etapas incrementais (0-2): propõe a migração em etapas em ordem, não\n   big-bang? 2 = etapas claras e ordenadas; 1 = etapas vagas; 0 = virada\n   única ou sem etapas.\n3. Reversibilidade (0-2): cada etapa tem rollback/forma de voltar atrás e\n   paralelo old+new onde necessário? 2 = reversibilidade explícita por\n   etapa; 1 = menção genérica; 0 = sem rollback.\n4. Dependente sensível por último (0-2): trata o billing (partição\n   fechada, custo financeiro) como o mais sensível, migrado por último e\n   só após paridade validada? 2 = sim; 1 = menciona sem priorizar;\n   0 = ignora.\n\nRESPOSTA A AVALIAR:\n{{output}}\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n",
+              "threshold": 0.75,
+              "value": "Você é um revisor avaliando um plano de migração de pipeline batch para\nevent-driven. Avalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Diagnóstico ancorado (0-2): identifica os pontos presos à semântica\n   de \"lote fechado\" (tabelas particionadas por hora, billing noturno)\n   e os riscos por dependente (Sentinel, Cerebro, billing)? 2 = ambos;\n   1 = parcial; 0 = genérico.\n2. Etapas incrementais (0-2): propõe a migração em etapas em ordem, não\n   big-bang? 2 = etapas claras e ordenadas; 1 = etapas vagas; 0 = virada\n   única ou sem etapas.\n3. Reversibilidade (0-2): cada etapa tem rollback/forma de voltar atrás e\n   paralelo old+new onde necessário? 2 = reversibilidade explícita por\n   etapa; 1 = menção genérica; 0 = sem rollback.\n4. Dependente sensível por último (0-2): trata o billing (partição\n   fechada, custo financeiro) como o mais sensível, migrado por último e\n   só após paridade validada? 2 = sim; 1 = menciona sem priorizar;\n   0 = ignora.\n\nRESPOSTA A AVALIAR:\n{{output}}\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "tokenUsage": {
+          "prompt": 1120,
+          "completion": 4096,
+          "cached": 0,
+          "total": 5216,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 3674,
+            "prompt": 3643,
+            "completion": 31,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "estado_atual": "file://fixtures/estado-atual.txt",
+          "restricoes": "file://fixtures/restricoes.txt",
+          "diagnostico": "",
+          "plano_etapas": ""
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      }
+    ],
+    "stats": {
+      "successes": 1,
+      "failures": 0,
+      "errors": 0,
+      "tokenUsage": {
+        "prompt": 1120,
+        "completion": 4096,
+        "cached": 0,
+        "total": 5216,
+        "numRequests": 1,
+        "completionDetails": {
+          "reasoning": 0,
+          "acceptedPrediction": 0,
+          "rejectedPrediction": 0,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0
+        },
+        "assertions": {
+          "total": 3674,
+          "prompt": 3643,
+          "completion": 31,
+          "cached": 0,
+          "numRequests": 0,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          }
+        }
+      },
+      "durationMs": 79877,
+      "evaluationDurationMs": 79877
+    }
+  },
+  "config": {
+    "tags": {},
+    "description": "migracao-forge — gate LLM-as-judge (rubrica 4 critérios, corte >= 6/8)",
+    "prompts": [
+      "file:///home/evvolpe/repos/aiops/pos_aiops/Engenharia_de_Prompt/playbook-aegis/devops/migracao-forge/prompt.md"
+    ],
+    "providers": [
+      {
+        "id": "anthropic:messages:claude-sonnet-4-6",
+        "config": {
+          "max_tokens": 4096
+        }
+      }
+    ],
+    "tests": [
+      {
+        "vars": {
+          "estado_atual": "file://fixtures/estado-atual.txt",
+          "restricoes": "file://fixtures/restricoes.txt",
+          "diagnostico": "",
+          "plano_etapas": ""
+        },
+        "assert": [
+          {
+            "type": "llm-rubric",
+            "provider": "openai:gpt-4o",
+            "rubricPrompt": "Você é um revisor avaliando um plano de migração de pipeline batch para\nevent-driven. Avalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Diagnóstico ancorado (0-2): identifica os pontos presos à semântica\n   de \"lote fechado\" (tabelas particionadas por hora, billing noturno)\n   e os riscos por dependente (Sentinel, Cerebro, billing)? 2 = ambos;\n   1 = parcial; 0 = genérico.\n2. Etapas incrementais (0-2): propõe a migração em etapas em ordem, não\n   big-bang? 2 = etapas claras e ordenadas; 1 = etapas vagas; 0 = virada\n   única ou sem etapas.\n3. Reversibilidade (0-2): cada etapa tem rollback/forma de voltar atrás e\n   paralelo old+new onde necessário? 2 = reversibilidade explícita por\n   etapa; 1 = menção genérica; 0 = sem rollback.\n4. Dependente sensível por último (0-2): trata o billing (partição\n   fechada, custo financeiro) como o mais sensível, migrado por último e\n   só após paridade validada? 2 = sim; 1 = menciona sem priorizar;\n   0 = ignora.\n\nRESPOSTA A AVALIAR:\n{{output}}\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n",
+            "threshold": 0.75,
+            "value": "Você é um revisor avaliando um plano de migração de pipeline batch para\nevent-driven. Avalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Diagnóstico ancorado (0-2): identifica os pontos presos à semântica\n   de \"lote fechado\" (tabelas particionadas por hora, billing noturno)\n   e os riscos por dependente (Sentinel, Cerebro, billing)? 2 = ambos;\n   1 = parcial; 0 = genérico.\n2. Etapas incrementais (0-2): propõe a migração em etapas em ordem, não\n   big-bang? 2 = etapas claras e ordenadas; 1 = etapas vagas; 0 = virada\n   única ou sem etapas.\n3. Reversibilidade (0-2): cada etapa tem rollback/forma de voltar atrás e\n   paralelo old+new onde necessário? 2 = reversibilidade explícita por\n   etapa; 1 = menção genérica; 0 = sem rollback.\n4. Dependente sensível por último (0-2): trata o billing (partição\n   fechada, custo financeiro) como o mais sensível, migrado por último e\n   só após paridade validada? 2 = sim; 1 = menciona sem priorizar;\n   0 = ignora.\n\nRESPOSTA A AVALIAR:\n{{output}}\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n"
+          }
+        ]
+      }
+    ],
+    "env": {},
+    "defaultTest": {
+      "assert": [
+        {
+          "type": "latency",
+          "threshold": 120000
+        },
+        {
+          "type": "cost",
+          "threshold": 0.15
+        }
+      ],
+      "vars": {},
+      "options": {},
+      "metadata": {}
+    },
+    "outputPath": [
+      "evidencias/migracao-forge.json"
+    ],
+    "extensions": [],
+    "metadata": {},
+    "evaluateOptions": {}
+  },
+  "shareableUrl": null,
+  "metadata": {
+    "promptfooVersion": "0.121.17",
+    "nodeVersion": "v24.16.0",
+    "platform": "linux",
+    "arch": "x64",
+    "exportedAt": "2026-06-21T00:09:25.034Z",
+    "evaluationCreatedAt": "2026-06-21T00:08:05.088Z"
+  },
+  "vars": [
+    "estado_atual",
+    "restricoes",
+    "diagnostico",
+    "plano_etapas"
+  ],
+  "runtimeOptions": {
+    "eventSource": "cli",
+    "showProgressBar": true,
+    "repeat": 1,
+    "maxConcurrency": 4,
+    "cache": false
+  }
+}

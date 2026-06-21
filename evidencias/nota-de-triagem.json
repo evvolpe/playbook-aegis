@@ -1,0 +1,1704 @@
+{
+  "evalId": "eval-IGk-2026-06-20T23:36:29",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-06-20T23:36:29.060Z",
+    "prompts": [
+      {
+        "raw": "---\nnome: Nota de triagem\ndescricao: Transforma um alerta cru do Sentinel em uma nota de triagem padronizada de 5 campos (ALERTA, IMPACTO, HIPÓTESE INICIAL, AÇÃO IMEDIATA, ESCALAR PARA).\nversao: 1.0.0\ntags: [devops, sre, plantao, incidentes]\ninputs:\n  - nome: alerta_cru\n    descricao: Texto cru do alerta disparado pelo Sentinel (sistema, condição, tenant, métricas), exatamente como chega no plantão.\n---\n\nVocê é o plantonista do Sentinel e precisa abrir uma nota de triagem padronizada a\npartir de um alerta cru.\n\nAlerta cru recebido:\n{{alerta_cru}}\n\nGere a nota seguindo EXATAMENTE este formato, um campo por linha, sem texto antes ou\ndepois dos campos:\n\nALERTA: <sistema + condição que disparou, resumida>\nIMPACTO: <quem/o que é afetado e em que grau>\nHIPÓTESE INICIAL: <causa mais provável, inferida só do que está no alerta>\nAÇÃO IMEDIATA: <primeira ação que o plantonista deve tomar agora>\nESCALAR PARA: <@time responsável> se <condição/tempo>\n\nRegras:\n- No máximo 8 linhas no total.\n- Não invente dado que não está no alerta cru; se faltar informação, generalize sem\n  fingir certeza.\n- Use os termos técnicos que já aparecem no próprio alerta (sistema, tenant, métrica).\n",
+        "label": "devops/nota-de-triagem/prompt.md: ---\nnome: Nota de triagem\ndescricao: Transforma um...",
+        "id": "4a9ac4459bd2a3e13d6f1149d7794d084a82f28f1c0b05b95b35ff843bb7d7e0",
+        "provider": "openai:gpt-4o-mini",
+        "metrics": {
+          "score": 3,
+          "testPassCount": 3,
+          "testFailCount": 0,
+          "testErrorCount": 0,
+          "assertPassCount": 27,
+          "assertFailCount": 0,
+          "totalLatencyMs": 6397,
+          "tokenUsage": {
+            "prompt": 1132,
+            "completion": 267,
+            "cached": 0,
+            "total": 1399,
+            "numRequests": 3,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "namedScoreWeights": {},
+          "cost": 0.00033
+        }
+      },
+      {
+        "raw": "---\nnome: Nota de triagem\ndescricao: Transforma um alerta cru do Sentinel em uma nota de triagem padronizada de 5 campos (ALERTA, IMPACTO, HIPÓTESE INICIAL, AÇÃO IMEDIATA, ESCALAR PARA).\nversao: 1.0.0\ntags: [devops, sre, plantao, incidentes]\ninputs:\n  - nome: alerta_cru\n    descricao: Texto cru do alerta disparado pelo Sentinel (sistema, condição, tenant, métricas), exatamente como chega no plantão.\n---\n\nVocê é o plantonista do Sentinel e precisa abrir uma nota de triagem padronizada a\npartir de um alerta cru.\n\nAlerta cru recebido:\n{{alerta_cru}}\n\nGere a nota seguindo EXATAMENTE este formato, um campo por linha, sem texto antes ou\ndepois dos campos:\n\nALERTA: <sistema + condição que disparou, resumida>\nIMPACTO: <quem/o que é afetado e em que grau>\nHIPÓTESE INICIAL: <causa mais provável, inferida só do que está no alerta>\nAÇÃO IMEDIATA: <primeira ação que o plantonista deve tomar agora>\nESCALAR PARA: <@time responsável> se <condição/tempo>\n\nRegras:\n- No máximo 8 linhas no total.\n- Não invente dado que não está no alerta cru; se faltar informação, generalize sem\n  fingir certeza.\n- Use os termos técnicos que já aparecem no próprio alerta (sistema, tenant, métrica).\n",
+        "label": "devops/nota-de-triagem/prompt.md: ---\nnome: Nota de triagem\ndescricao: Transforma um...",
+        "id": "4a9ac4459bd2a3e13d6f1149d7794d084a82f28f1c0b05b95b35ff843bb7d7e0",
+        "provider": "anthropic:claude-haiku-4-5-20251001",
+        "metrics": {
+          "score": 3,
+          "testPassCount": 3,
+          "testFailCount": 0,
+          "testErrorCount": 0,
+          "assertPassCount": 27,
+          "assertFailCount": 0,
+          "totalLatencyMs": 8460,
+          "tokenUsage": {
+            "prompt": 1397,
+            "completion": 493,
+            "cached": 0,
+            "total": 1890,
+            "numRequests": 3,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "namedScoreWeights": {},
+          "cost": 0.003862
+        }
+      }
+    ],
+    "results": [
+      {
+        "cost": 0.0001137,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "ALERTA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "IMPACTO:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "HIPÓTESE INICIAL:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "AÇÃO IMEDIATA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "ESCALAR PARA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "regex",
+                "value": "ESCALAR PARA:.*@\\w+"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "output.trim().split('\\n').length <= 8"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            }
+          ]
+        },
+        "id": "5ebee5dd-3464-4603-8773-9cd49ebeec66",
+        "latencyMs": 2360,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Nota de triagem\ndescricao: Transforma um alerta cru do Sentinel em uma nota de triagem padronizada de 5 campos (ALERTA, IMPACTO, HIPÓTESE INICIAL, AÇÃO IMEDIATA, ESCALAR PARA).\nversao: 1.0.0\ntags: [devops, sre, plantao, incidentes]\ninputs:\n  - nome: alerta_cru\n    descricao: Texto cru do alerta disparado pelo Sentinel (sistema, condição, tenant, métricas), exatamente como chega no plantão.\n---\n\nVocê é o plantonista do Sentinel e precisa abrir uma nota de triagem padronizada a\npartir de um alerta cru.\n\nAlerta cru recebido:\n2026-05-12 14:02:09 UTC [Sentinel] autoscaler hit max replicas (60/60) on sentinel-api, queue depth on Relay growing 2k/min, CPU avg 88%, tenant stark-industries sending 4x baseline volume after onboarding new region\n\nGere a nota seguindo EXATAMENTE este formato, um campo por linha, sem texto antes ou\ndepois dos campos:\n\nALERTA: <sistema + condição que disparou, resumida>\nIMPACTO: <quem/o que é afetado e em que grau>\nHIPÓTESE INICIAL: <causa mais provável, inferida só do que está no alerta>\nAÇÃO IMEDIATA: <primeira ação que o plantonista deve tomar agora>\nESCALAR PARA: <@time responsável> se <condição/tempo>\n\nRegras:\n- No máximo 8 linhas no total.\n- Não invente dado que não está no alerta cru; se faltar informação, generalize sem\n  fingir certeza.\n- Use os termos técnicos que já aparecem no próprio alerta (sistema, tenant, métrica).\n",
+          "label": "devops/nota-de-triagem/prompt.md: ---\nnome: Nota de triagem\ndescricao: Transforma um...",
+          "config": {}
+        },
+        "promptId": "4a9ac4459bd2a3e13d6f1149d7794d084a82f28f1c0b05b95b35ff843bb7d7e0",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "ALERTA: sentinel-api hit max replicas (60/60)  \nIMPACTO: tenant stark-industries com aumento de volume 4x, afetando a performance  \nHIPÓTESE INICIAL: aumento de volume devido ao onboarding de nova região  \nAÇÃO IMEDIATA: monitorar a fila no Relay e a utilização de CPU  \nESCALAR PARA: @time_de_infra se a CPU continuar acima de 90% por 5 minutos  ",
+          "tokenUsage": {
+            "total": 482,
+            "prompt": 390,
+            "completion": 92,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            }
+          },
+          "cached": false,
+          "latencyMs": 2360,
+          "finishReason": "stop",
+          "cost": 0.0001137,
+          "guardrails": {
+            "flagged": false
+          },
+          "metadata": {
+            "http": {
+              "status": 200,
+              "statusText": "OK",
+              "headers": {
+                "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+                "alt-svc": "h3=\":443\"; ma=86400",
+                "cf-cache-status": "[REDACTED]",
+                "cf-ray": "[REDACTED]",
+                "connection": "keep-alive",
+                "content-type": "application/json",
+                "date": "Sat, 20 Jun 2026 23:36:31 GMT",
+                "openai-organization": "[REDACTED]",
+                "openai-processing-ms": "1230",
+                "openai-project": "[REDACTED]",
+                "openai-version": "[REDACTED]",
+                "server": "cloudflare",
+                "set-cookie": "[REDACTED]",
+                "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                "transfer-encoding": "chunked",
+                "x-content-type-options": "nosniff",
+                "x-openai-proxy-wasm": "[REDACTED]",
+                "x-ratelimit-limit-requests": "[REDACTED]",
+                "x-ratelimit-limit-tokens": "[REDACTED]",
+                "x-ratelimit-remaining-requests": "[REDACTED]",
+                "x-ratelimit-remaining-tokens": "[REDACTED]",
+                "x-ratelimit-reset-requests": "[REDACTED]",
+                "x-ratelimit-reset-tokens": "[REDACTED]",
+                "x-request-id": "[REDACTED]"
+              }
+            }
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "alerta_cru": "2026-05-12 14:02:09 UTC [Sentinel] autoscaler hit max replicas (60/60) on sentinel-api, queue depth on Relay growing 2k/min, CPU avg 88%, tenant stark-industries sending 4x baseline volume after onboarding new region\n"
+          },
+          "assert": [
+            {
+              "type": "contains",
+              "value": "ALERTA:"
+            },
+            {
+              "type": "contains",
+              "value": "IMPACTO:"
+            },
+            {
+              "type": "contains",
+              "value": "HIPÓTESE INICIAL:"
+            },
+            {
+              "type": "contains",
+              "value": "AÇÃO IMEDIATA:"
+            },
+            {
+              "type": "contains",
+              "value": "ESCALAR PARA:"
+            },
+            {
+              "type": "regex",
+              "value": "ESCALAR PARA:.*@\\w+"
+            },
+            {
+              "type": "javascript",
+              "value": "output.trim().split('\\n').length <= 8"
+            },
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "tokenUsage": {
+          "prompt": 390,
+          "completion": 92,
+          "cached": 0,
+          "total": 482,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "alerta_cru": "2026-05-12 14:02:09 UTC [Sentinel] autoscaler hit max replicas (60/60) on sentinel-api, queue depth on Relay growing 2k/min, CPU avg 88%, tenant stark-industries sending 4x baseline volume after onboarding new region\n"
+        },
+        "metadata": {
+          "http": {
+            "status": 200,
+            "statusText": "OK",
+            "headers": {
+              "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+              "alt-svc": "h3=\":443\"; ma=86400",
+              "cf-cache-status": "[REDACTED]",
+              "cf-ray": "[REDACTED]",
+              "connection": "keep-alive",
+              "content-type": "application/json",
+              "date": "Sat, 20 Jun 2026 23:36:31 GMT",
+              "openai-organization": "[REDACTED]",
+              "openai-processing-ms": "1230",
+              "openai-project": "[REDACTED]",
+              "openai-version": "[REDACTED]",
+              "server": "cloudflare",
+              "set-cookie": "[REDACTED]",
+              "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+              "transfer-encoding": "chunked",
+              "x-content-type-options": "nosniff",
+              "x-openai-proxy-wasm": "[REDACTED]",
+              "x-ratelimit-limit-requests": "[REDACTED]",
+              "x-ratelimit-limit-tokens": "[REDACTED]",
+              "x-ratelimit-remaining-requests": "[REDACTED]",
+              "x-ratelimit-remaining-tokens": "[REDACTED]",
+              "x-ratelimit-reset-requests": "[REDACTED]",
+              "x-ratelimit-reset-tokens": "[REDACTED]",
+              "x-request-id": "[REDACTED]"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.001381,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "ALERTA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "IMPACTO:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "HIPÓTESE INICIAL:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "AÇÃO IMEDIATA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "ESCALAR PARA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "regex",
+                "value": "ESCALAR PARA:.*@\\w+"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "output.trim().split('\\n').length <= 8"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            }
+          ]
+        },
+        "id": "b34ea3c7-6d60-49c8-a973-3f826cad259a",
+        "latencyMs": 3091,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Nota de triagem\ndescricao: Transforma um alerta cru do Sentinel em uma nota de triagem padronizada de 5 campos (ALERTA, IMPACTO, HIPÓTESE INICIAL, AÇÃO IMEDIATA, ESCALAR PARA).\nversao: 1.0.0\ntags: [devops, sre, plantao, incidentes]\ninputs:\n  - nome: alerta_cru\n    descricao: Texto cru do alerta disparado pelo Sentinel (sistema, condição, tenant, métricas), exatamente como chega no plantão.\n---\n\nVocê é o plantonista do Sentinel e precisa abrir uma nota de triagem padronizada a\npartir de um alerta cru.\n\nAlerta cru recebido:\n2026-05-12 14:02:09 UTC [Sentinel] autoscaler hit max replicas (60/60) on sentinel-api, queue depth on Relay growing 2k/min, CPU avg 88%, tenant stark-industries sending 4x baseline volume after onboarding new region\n\nGere a nota seguindo EXATAMENTE este formato, um campo por linha, sem texto antes ou\ndepois dos campos:\n\nALERTA: <sistema + condição que disparou, resumida>\nIMPACTO: <quem/o que é afetado e em que grau>\nHIPÓTESE INICIAL: <causa mais provável, inferida só do que está no alerta>\nAÇÃO IMEDIATA: <primeira ação que o plantonista deve tomar agora>\nESCALAR PARA: <@time responsável> se <condição/tempo>\n\nRegras:\n- No máximo 8 linhas no total.\n- Não invente dado que não está no alerta cru; se faltar informação, generalize sem\n  fingir certeza.\n- Use os termos técnicos que já aparecem no próprio alerta (sistema, tenant, métrica).\n",
+          "label": "devops/nota-de-triagem/prompt.md: ---\nnome: Nota de triagem\ndescricao: Transforma um...",
+          "config": {}
+        },
+        "promptId": "4a9ac4459bd2a3e13d6f1149d7794d084a82f28f1c0b05b95b35ff843bb7d7e0",
+        "promptIdx": 1,
+        "provider": {
+          "id": "anthropic:claude-haiku-4-5-20251001",
+          "label": ""
+        },
+        "response": {
+          "output": "ALERTA: sentinel-api autoscaler atingiu limite máximo (60/60 replicas) com fila do Relay crescendo 2k/min\nIMPACTO: Tenant stark-industries em degradação; risco de timeout e perda de requisições se fila continuar crescendo\nHIPÓTESE INICIAL: Aumento de 4x no volume baseline após onboarding de nova região; capacidade atual insuficiente\nAÇÃO IMEDIATA: Verificar métricas em tempo real do Relay, confirmar se fila continua crescendo e avaliar CPU dos nós\nESCALAR PARA: @platform-team se fila ultrapassar 5k/min ou CPU > 95% nos próximos 5 minutos",
+          "tokenUsage": {
+            "total": 661,
+            "prompt": 481,
+            "completion": 180,
+            "completionDetails": {
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "finishReason": "stop",
+          "cost": 0.001381
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "alerta_cru": "2026-05-12 14:02:09 UTC [Sentinel] autoscaler hit max replicas (60/60) on sentinel-api, queue depth on Relay growing 2k/min, CPU avg 88%, tenant stark-industries sending 4x baseline volume after onboarding new region\n"
+          },
+          "assert": [
+            {
+              "type": "contains",
+              "value": "ALERTA:"
+            },
+            {
+              "type": "contains",
+              "value": "IMPACTO:"
+            },
+            {
+              "type": "contains",
+              "value": "HIPÓTESE INICIAL:"
+            },
+            {
+              "type": "contains",
+              "value": "AÇÃO IMEDIATA:"
+            },
+            {
+              "type": "contains",
+              "value": "ESCALAR PARA:"
+            },
+            {
+              "type": "regex",
+              "value": "ESCALAR PARA:.*@\\w+"
+            },
+            {
+              "type": "javascript",
+              "value": "output.trim().split('\\n').length <= 8"
+            },
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "tokenUsage": {
+          "prompt": 481,
+          "completion": 180,
+          "cached": 0,
+          "total": 661,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "alerta_cru": "2026-05-12 14:02:09 UTC [Sentinel] autoscaler hit max replicas (60/60) on sentinel-api, queue depth on Relay growing 2k/min, CPU avg 88%, tenant stark-industries sending 4x baseline volume after onboarding new region\n"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.00010424999999999999,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "ALERTA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "IMPACTO:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "HIPÓTESE INICIAL:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "AÇÃO IMEDIATA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "ESCALAR PARA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "regex",
+                "value": "ESCALAR PARA:.*@\\w+"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "output.trim().split('\\n').length <= 8"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            }
+          ]
+        },
+        "id": "ec99425d-0db4-4465-90f3-6018eb1c7f7a",
+        "latencyMs": 2237,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Nota de triagem\ndescricao: Transforma um alerta cru do Sentinel em uma nota de triagem padronizada de 5 campos (ALERTA, IMPACTO, HIPÓTESE INICIAL, AÇÃO IMEDIATA, ESCALAR PARA).\nversao: 1.0.0\ntags: [devops, sre, plantao, incidentes]\ninputs:\n  - nome: alerta_cru\n    descricao: Texto cru do alerta disparado pelo Sentinel (sistema, condição, tenant, métricas), exatamente como chega no plantão.\n---\n\nVocê é o plantonista do Sentinel e precisa abrir uma nota de triagem padronizada a\npartir de um alerta cru.\n\nAlerta cru recebido:\n2026-05-13 03:11:00 UTC [Relay] ingest reject rate 6% for 8min, tenant wakanda-systems, buffer saturated after deploy 02:55\n\nGere a nota seguindo EXATAMENTE este formato, um campo por linha, sem texto antes ou\ndepois dos campos:\n\nALERTA: <sistema + condição que disparou, resumida>\nIMPACTO: <quem/o que é afetado e em que grau>\nHIPÓTESE INICIAL: <causa mais provável, inferida só do que está no alerta>\nAÇÃO IMEDIATA: <primeira ação que o plantonista deve tomar agora>\nESCALAR PARA: <@time responsável> se <condição/tempo>\n\nRegras:\n- No máximo 8 linhas no total.\n- Não invente dado que não está no alerta cru; se faltar informação, generalize sem\n  fingir certeza.\n- Use os termos técnicos que já aparecem no próprio alerta (sistema, tenant, métrica).\n",
+          "label": "devops/nota-de-triagem/prompt.md: ---\nnome: Nota de triagem\ndescricao: Transforma um...",
+          "config": {}
+        },
+        "promptId": "4a9ac4459bd2a3e13d6f1149d7794d084a82f28f1c0b05b95b35ff843bb7d7e0",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "ALERTA: Relay ingest reject rate 6%  \nIMPACTO: Tenant wakanda-systems, afetado com rejeição de ingestão  \nHIPÓTESE INICIAL: Buffer saturado após deploy  \nAÇÃO IMEDIATA: Verificar logs do Relay e monitorar a taxa de rejeição  \nESCALAR PARA: @time responsável se a situação não se normalizar em 10 minutos  ",
+          "tokenUsage": {
+            "total": 452,
+            "prompt": 371,
+            "completion": 81,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            }
+          },
+          "cached": false,
+          "latencyMs": 2237,
+          "finishReason": "stop",
+          "cost": 0.00010424999999999999,
+          "guardrails": {
+            "flagged": false
+          },
+          "metadata": {
+            "http": {
+              "status": 200,
+              "statusText": "OK",
+              "headers": {
+                "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+                "alt-svc": "h3=\":443\"; ma=86400",
+                "cf-cache-status": "[REDACTED]",
+                "cf-ray": "[REDACTED]",
+                "connection": "keep-alive",
+                "content-type": "application/json",
+                "date": "Sat, 20 Jun 2026 23:36:31 GMT",
+                "openai-organization": "[REDACTED]",
+                "openai-processing-ms": "1084",
+                "openai-project": "[REDACTED]",
+                "openai-version": "[REDACTED]",
+                "server": "cloudflare",
+                "set-cookie": "[REDACTED]",
+                "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                "transfer-encoding": "chunked",
+                "x-content-type-options": "nosniff",
+                "x-openai-proxy-wasm": "[REDACTED]",
+                "x-ratelimit-limit-requests": "[REDACTED]",
+                "x-ratelimit-limit-tokens": "[REDACTED]",
+                "x-ratelimit-remaining-requests": "[REDACTED]",
+                "x-ratelimit-remaining-tokens": "[REDACTED]",
+                "x-ratelimit-reset-requests": "[REDACTED]",
+                "x-ratelimit-reset-tokens": "[REDACTED]",
+                "x-request-id": "[REDACTED]"
+              }
+            }
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "alerta_cru": "2026-05-13 03:11:00 UTC [Relay] ingest reject rate 6% for 8min, tenant wakanda-systems, buffer saturated after deploy 02:55\n"
+          },
+          "assert": [
+            {
+              "type": "contains",
+              "value": "ALERTA:"
+            },
+            {
+              "type": "contains",
+              "value": "IMPACTO:"
+            },
+            {
+              "type": "contains",
+              "value": "HIPÓTESE INICIAL:"
+            },
+            {
+              "type": "contains",
+              "value": "AÇÃO IMEDIATA:"
+            },
+            {
+              "type": "contains",
+              "value": "ESCALAR PARA:"
+            },
+            {
+              "type": "regex",
+              "value": "ESCALAR PARA:.*@\\w+"
+            },
+            {
+              "type": "javascript",
+              "value": "output.trim().split('\\n').length <= 8"
+            },
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "tokenUsage": {
+          "prompt": 371,
+          "completion": 81,
+          "cached": 0,
+          "total": 452,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "alerta_cru": "2026-05-13 03:11:00 UTC [Relay] ingest reject rate 6% for 8min, tenant wakanda-systems, buffer saturated after deploy 02:55\n"
+        },
+        "metadata": {
+          "http": {
+            "status": 200,
+            "statusText": "OK",
+            "headers": {
+              "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+              "alt-svc": "h3=\":443\"; ma=86400",
+              "cf-cache-status": "[REDACTED]",
+              "cf-ray": "[REDACTED]",
+              "connection": "keep-alive",
+              "content-type": "application/json",
+              "date": "Sat, 20 Jun 2026 23:36:31 GMT",
+              "openai-organization": "[REDACTED]",
+              "openai-processing-ms": "1084",
+              "openai-project": "[REDACTED]",
+              "openai-version": "[REDACTED]",
+              "server": "cloudflare",
+              "set-cookie": "[REDACTED]",
+              "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+              "transfer-encoding": "chunked",
+              "x-content-type-options": "nosniff",
+              "x-openai-proxy-wasm": "[REDACTED]",
+              "x-ratelimit-limit-requests": "[REDACTED]",
+              "x-ratelimit-limit-tokens": "[REDACTED]",
+              "x-ratelimit-remaining-requests": "[REDACTED]",
+              "x-ratelimit-remaining-tokens": "[REDACTED]",
+              "x-ratelimit-reset-requests": "[REDACTED]",
+              "x-ratelimit-reset-tokens": "[REDACTED]",
+              "x-request-id": "[REDACTED]"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.001258,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "ALERTA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "IMPACTO:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "HIPÓTESE INICIAL:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "AÇÃO IMEDIATA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "ESCALAR PARA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "regex",
+                "value": "ESCALAR PARA:.*@\\w+"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "output.trim().split('\\n').length <= 8"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            }
+          ]
+        },
+        "id": "8e0b736c-5635-467b-bcf5-a52bbefa3cab",
+        "latencyMs": 3161,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Nota de triagem\ndescricao: Transforma um alerta cru do Sentinel em uma nota de triagem padronizada de 5 campos (ALERTA, IMPACTO, HIPÓTESE INICIAL, AÇÃO IMEDIATA, ESCALAR PARA).\nversao: 1.0.0\ntags: [devops, sre, plantao, incidentes]\ninputs:\n  - nome: alerta_cru\n    descricao: Texto cru do alerta disparado pelo Sentinel (sistema, condição, tenant, métricas), exatamente como chega no plantão.\n---\n\nVocê é o plantonista do Sentinel e precisa abrir uma nota de triagem padronizada a\npartir de um alerta cru.\n\nAlerta cru recebido:\n2026-05-13 03:11:00 UTC [Relay] ingest reject rate 6% for 8min, tenant wakanda-systems, buffer saturated after deploy 02:55\n\nGere a nota seguindo EXATAMENTE este formato, um campo por linha, sem texto antes ou\ndepois dos campos:\n\nALERTA: <sistema + condição que disparou, resumida>\nIMPACTO: <quem/o que é afetado e em que grau>\nHIPÓTESE INICIAL: <causa mais provável, inferida só do que está no alerta>\nAÇÃO IMEDIATA: <primeira ação que o plantonista deve tomar agora>\nESCALAR PARA: <@time responsável> se <condição/tempo>\n\nRegras:\n- No máximo 8 linhas no total.\n- Não invente dado que não está no alerta cru; se faltar informação, generalize sem\n  fingir certeza.\n- Use os termos técnicos que já aparecem no próprio alerta (sistema, tenant, métrica).\n",
+          "label": "devops/nota-de-triagem/prompt.md: ---\nnome: Nota de triagem\ndescricao: Transforma um...",
+          "config": {}
+        },
+        "promptId": "4a9ac4459bd2a3e13d6f1149d7794d084a82f28f1c0b05b95b35ff843bb7d7e0",
+        "promptIdx": 1,
+        "provider": {
+          "id": "anthropic:claude-haiku-4-5-20251001",
+          "label": ""
+        },
+        "response": {
+          "output": "ALERTA: Relay - ingest reject rate 6% por 8 minutos, buffer saturado pós-deploy\nIMPACTO: Tenant wakanda-systems com degradação de ingestão de dados; 6% das requisições sendo rejeitadas\nHIPÓTESE INICIAL: Deploy 02:55 causou aumento de carga ou vazamento de recursos, saturando buffer do Relay\nAÇÃO IMEDIATA: Verificar logs do deploy 02:55 e status atual do buffer; considerar rollback se reject rate persistir\nESCALAR PARA: @platform-team se reject rate > 10% ou se persistir por mais 5 minutos",
+          "tokenUsage": {
+            "total": 618,
+            "prompt": 458,
+            "completion": 160,
+            "completionDetails": {
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "finishReason": "stop",
+          "cost": 0.001258
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "alerta_cru": "2026-05-13 03:11:00 UTC [Relay] ingest reject rate 6% for 8min, tenant wakanda-systems, buffer saturated after deploy 02:55\n"
+          },
+          "assert": [
+            {
+              "type": "contains",
+              "value": "ALERTA:"
+            },
+            {
+              "type": "contains",
+              "value": "IMPACTO:"
+            },
+            {
+              "type": "contains",
+              "value": "HIPÓTESE INICIAL:"
+            },
+            {
+              "type": "contains",
+              "value": "AÇÃO IMEDIATA:"
+            },
+            {
+              "type": "contains",
+              "value": "ESCALAR PARA:"
+            },
+            {
+              "type": "regex",
+              "value": "ESCALAR PARA:.*@\\w+"
+            },
+            {
+              "type": "javascript",
+              "value": "output.trim().split('\\n').length <= 8"
+            },
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "tokenUsage": {
+          "prompt": 458,
+          "completion": 160,
+          "cached": 0,
+          "total": 618,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "alerta_cru": "2026-05-13 03:11:00 UTC [Relay] ingest reject rate 6% for 8min, tenant wakanda-systems, buffer saturated after deploy 02:55\n"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.00011204999999999999,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "ALERTA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "IMPACTO:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "HIPÓTESE INICIAL:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "AÇÃO IMEDIATA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "ESCALAR PARA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "regex",
+                "value": "ESCALAR PARA:.*@\\w+"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "output.trim().split('\\n').length <= 8"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            }
+          ]
+        },
+        "id": "12ce04b2-9b69-49d4-9bda-9b07fe67baff",
+        "latencyMs": 1800,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Nota de triagem\ndescricao: Transforma um alerta cru do Sentinel em uma nota de triagem padronizada de 5 campos (ALERTA, IMPACTO, HIPÓTESE INICIAL, AÇÃO IMEDIATA, ESCALAR PARA).\nversao: 1.0.0\ntags: [devops, sre, plantao, incidentes]\ninputs:\n  - nome: alerta_cru\n    descricao: Texto cru do alerta disparado pelo Sentinel (sistema, condição, tenant, métricas), exatamente como chega no plantão.\n---\n\nVocê é o plantonista do Sentinel e precisa abrir uma nota de triagem padronizada a\npartir de um alerta cru.\n\nAlerta cru recebido:\n2026-05-13 11:40:22 UTC [Forge] consumer lag 9min and climbing, batch forge-batch-ingest delayed after previous job failure, downstream Sentinel starting to lag\n\nGere a nota seguindo EXATAMENTE este formato, um campo por linha, sem texto antes ou\ndepois dos campos:\n\nALERTA: <sistema + condição que disparou, resumida>\nIMPACTO: <quem/o que é afetado e em que grau>\nHIPÓTESE INICIAL: <causa mais provável, inferida só do que está no alerta>\nAÇÃO IMEDIATA: <primeira ação que o plantonista deve tomar agora>\nESCALAR PARA: <@time responsável> se <condição/tempo>\n\nRegras:\n- No máximo 8 linhas no total.\n- Não invente dado que não está no alerta cru; se faltar informação, generalize sem\n  fingir certeza.\n- Use os termos técnicos que já aparecem no próprio alerta (sistema, tenant, métrica).\n",
+          "label": "devops/nota-de-triagem/prompt.md: ---\nnome: Nota de triagem\ndescricao: Transforma um...",
+          "config": {}
+        },
+        "promptId": "4a9ac4459bd2a3e13d6f1149d7794d084a82f28f1c0b05b95b35ff843bb7d7e0",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "ALERTA: Forge consumer lag 9min and climbing  \nIMPACTO: Sistema Forge afetado, com risco de atrasos em processamento  \nHIPÓTESE INICIAL: Atraso no batch forge-batch-ingest devido a falha em job anterior  \nAÇÃO IMEDIATA: Verificar logs do job anterior e status do batch forge-batch-ingest  \nESCALAR PARA: @time_responsavel se o lag continuar por mais 5 minutos  ",
+          "tokenUsage": {
+            "total": 465,
+            "prompt": 371,
+            "completion": 94,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            }
+          },
+          "cached": false,
+          "latencyMs": 1800,
+          "finishReason": "stop",
+          "cost": 0.00011204999999999999,
+          "guardrails": {
+            "flagged": false
+          },
+          "metadata": {
+            "http": {
+              "status": 200,
+              "statusText": "OK",
+              "headers": {
+                "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+                "alt-svc": "h3=\":443\"; ma=86400",
+                "cf-cache-status": "[REDACTED]",
+                "cf-ray": "[REDACTED]",
+                "connection": "keep-alive",
+                "content-type": "application/json",
+                "date": "Sat, 20 Jun 2026 23:36:33 GMT",
+                "openai-organization": "[REDACTED]",
+                "openai-processing-ms": "1310",
+                "openai-project": "[REDACTED]",
+                "openai-version": "[REDACTED]",
+                "server": "cloudflare",
+                "set-cookie": "[REDACTED]",
+                "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                "transfer-encoding": "chunked",
+                "x-content-type-options": "nosniff",
+                "x-openai-proxy-wasm": "[REDACTED]",
+                "x-ratelimit-limit-requests": "[REDACTED]",
+                "x-ratelimit-limit-tokens": "[REDACTED]",
+                "x-ratelimit-remaining-requests": "[REDACTED]",
+                "x-ratelimit-remaining-tokens": "[REDACTED]",
+                "x-ratelimit-reset-requests": "[REDACTED]",
+                "x-ratelimit-reset-tokens": "[REDACTED]",
+                "x-request-id": "[REDACTED]"
+              }
+            }
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "alerta_cru": "2026-05-13 11:40:22 UTC [Forge] consumer lag 9min and climbing, batch forge-batch-ingest delayed after previous job failure, downstream Sentinel starting to lag\n"
+          },
+          "assert": [
+            {
+              "type": "contains",
+              "value": "ALERTA:"
+            },
+            {
+              "type": "contains",
+              "value": "IMPACTO:"
+            },
+            {
+              "type": "contains",
+              "value": "HIPÓTESE INICIAL:"
+            },
+            {
+              "type": "contains",
+              "value": "AÇÃO IMEDIATA:"
+            },
+            {
+              "type": "contains",
+              "value": "ESCALAR PARA:"
+            },
+            {
+              "type": "regex",
+              "value": "ESCALAR PARA:.*@\\w+"
+            },
+            {
+              "type": "javascript",
+              "value": "output.trim().split('\\n').length <= 8"
+            },
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 2,
+        "tokenUsage": {
+          "prompt": 371,
+          "completion": 94,
+          "cached": 0,
+          "total": 465,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "alerta_cru": "2026-05-13 11:40:22 UTC [Forge] consumer lag 9min and climbing, batch forge-batch-ingest delayed after previous job failure, downstream Sentinel starting to lag\n"
+        },
+        "metadata": {
+          "http": {
+            "status": 200,
+            "statusText": "OK",
+            "headers": {
+              "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+              "alt-svc": "h3=\":443\"; ma=86400",
+              "cf-cache-status": "[REDACTED]",
+              "cf-ray": "[REDACTED]",
+              "connection": "keep-alive",
+              "content-type": "application/json",
+              "date": "Sat, 20 Jun 2026 23:36:33 GMT",
+              "openai-organization": "[REDACTED]",
+              "openai-processing-ms": "1310",
+              "openai-project": "[REDACTED]",
+              "openai-version": "[REDACTED]",
+              "server": "cloudflare",
+              "set-cookie": "[REDACTED]",
+              "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+              "transfer-encoding": "chunked",
+              "x-content-type-options": "nosniff",
+              "x-openai-proxy-wasm": "[REDACTED]",
+              "x-ratelimit-limit-requests": "[REDACTED]",
+              "x-ratelimit-limit-tokens": "[REDACTED]",
+              "x-ratelimit-remaining-requests": "[REDACTED]",
+              "x-ratelimit-remaining-tokens": "[REDACTED]",
+              "x-ratelimit-reset-requests": "[REDACTED]",
+              "x-ratelimit-reset-tokens": "[REDACTED]",
+              "x-request-id": "[REDACTED]"
+            }
+          },
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.0012230000000000001,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "ALERTA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "IMPACTO:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "HIPÓTESE INICIAL:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "AÇÃO IMEDIATA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "ESCALAR PARA:"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "regex",
+                "value": "ESCALAR PARA:.*@\\w+"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "output.trim().split('\\n').length <= 8"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 5000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.01
+              }
+            }
+          ]
+        },
+        "id": "0bbb4c71-7388-4dbd-ac07-85d133f318f2",
+        "latencyMs": 2208,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Nota de triagem\ndescricao: Transforma um alerta cru do Sentinel em uma nota de triagem padronizada de 5 campos (ALERTA, IMPACTO, HIPÓTESE INICIAL, AÇÃO IMEDIATA, ESCALAR PARA).\nversao: 1.0.0\ntags: [devops, sre, plantao, incidentes]\ninputs:\n  - nome: alerta_cru\n    descricao: Texto cru do alerta disparado pelo Sentinel (sistema, condição, tenant, métricas), exatamente como chega no plantão.\n---\n\nVocê é o plantonista do Sentinel e precisa abrir uma nota de triagem padronizada a\npartir de um alerta cru.\n\nAlerta cru recebido:\n2026-05-13 11:40:22 UTC [Forge] consumer lag 9min and climbing, batch forge-batch-ingest delayed after previous job failure, downstream Sentinel starting to lag\n\nGere a nota seguindo EXATAMENTE este formato, um campo por linha, sem texto antes ou\ndepois dos campos:\n\nALERTA: <sistema + condição que disparou, resumida>\nIMPACTO: <quem/o que é afetado e em que grau>\nHIPÓTESE INICIAL: <causa mais provável, inferida só do que está no alerta>\nAÇÃO IMEDIATA: <primeira ação que o plantonista deve tomar agora>\nESCALAR PARA: <@time responsável> se <condição/tempo>\n\nRegras:\n- No máximo 8 linhas no total.\n- Não invente dado que não está no alerta cru; se faltar informação, generalize sem\n  fingir certeza.\n- Use os termos técnicos que já aparecem no próprio alerta (sistema, tenant, métrica).\n",
+          "label": "devops/nota-de-triagem/prompt.md: ---\nnome: Nota de triagem\ndescricao: Transforma um...",
+          "config": {}
+        },
+        "promptId": "4a9ac4459bd2a3e13d6f1149d7794d084a82f28f1c0b05b95b35ff843bb7d7e0",
+        "promptIdx": 1,
+        "provider": {
+          "id": "anthropic:claude-haiku-4-5-20251001",
+          "label": ""
+        },
+        "response": {
+          "output": "ALERTA: Forge - consumer lag em 9 minutos e crescente, batch forge-batch-ingest atrasado após falha anterior\nIMPACTO: Pipeline de ingestão degradado; Sentinel começando a acumular lag downstream\nHIPÓTESE INICIAL: Job anterior falhou, causando bloqueio no batch e acúmulo de mensagens não processadas\nAÇÃO IMEDIATA: Verificar status do job forge-batch-ingest e logs da falha anterior; avaliar fila de consumer\nESCALAR PARA: @time-forge se lag ultrapassar 15min ou Sentinel começar a perder eventos",
+          "tokenUsage": {
+            "total": 611,
+            "prompt": 458,
+            "completion": 153,
+            "completionDetails": {
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "finishReason": "stop",
+          "cost": 0.0012230000000000001
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "alerta_cru": "2026-05-13 11:40:22 UTC [Forge] consumer lag 9min and climbing, batch forge-batch-ingest delayed after previous job failure, downstream Sentinel starting to lag\n"
+          },
+          "assert": [
+            {
+              "type": "contains",
+              "value": "ALERTA:"
+            },
+            {
+              "type": "contains",
+              "value": "IMPACTO:"
+            },
+            {
+              "type": "contains",
+              "value": "HIPÓTESE INICIAL:"
+            },
+            {
+              "type": "contains",
+              "value": "AÇÃO IMEDIATA:"
+            },
+            {
+              "type": "contains",
+              "value": "ESCALAR PARA:"
+            },
+            {
+              "type": "regex",
+              "value": "ESCALAR PARA:.*@\\w+"
+            },
+            {
+              "type": "javascript",
+              "value": "output.trim().split('\\n').length <= 8"
+            },
+            {
+              "type": "latency",
+              "threshold": 5000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.01
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 2,
+        "tokenUsage": {
+          "prompt": 458,
+          "completion": 153,
+          "cached": 0,
+          "total": 611,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "alerta_cru": "2026-05-13 11:40:22 UTC [Forge] consumer lag 9min and climbing, batch forge-batch-ingest delayed after previous job failure, downstream Sentinel starting to lag\n"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      }
+    ],
+    "stats": {
+      "successes": 6,
+      "failures": 0,
+      "errors": 0,
+      "tokenUsage": {
+        "prompt": 2529,
+        "completion": 760,
+        "cached": 0,
+        "total": 3289,
+        "numRequests": 6,
+        "completionDetails": {
+          "reasoning": 0,
+          "acceptedPrediction": 0,
+          "rejectedPrediction": 0,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0
+        },
+        "assertions": {
+          "total": 0,
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "numRequests": 0,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          }
+        }
+      },
+      "durationMs": 4621,
+      "evaluationDurationMs": 4621
+    }
+  },
+  "config": {
+    "tags": {},
+    "description": "nota-de-triagem — formato padronizado de 5 campos",
+    "prompts": [
+      "file:///home/evvolpe/repos/aiops/pos_aiops/Engenharia_de_Prompt/playbook-aegis/devops/nota-de-triagem/prompt.md"
+    ],
+    "providers": [
+      "openai:gpt-4o-mini",
+      "anthropic:messages:claude-haiku-4-5-20251001"
+    ],
+    "tests": [
+      {
+        "vars": {
+          "alerta_cru": "2026-05-12 14:02:09 UTC [Sentinel] autoscaler hit max replicas (60/60) on sentinel-api, queue depth on Relay growing 2k/min, CPU avg 88%, tenant stark-industries sending 4x baseline volume after onboarding new region\n"
+        }
+      },
+      {
+        "vars": {
+          "alerta_cru": "2026-05-13 03:11:00 UTC [Relay] ingest reject rate 6% for 8min, tenant wakanda-systems, buffer saturated after deploy 02:55\n"
+        }
+      },
+      {
+        "vars": {
+          "alerta_cru": "2026-05-13 11:40:22 UTC [Forge] consumer lag 9min and climbing, batch forge-batch-ingest delayed after previous job failure, downstream Sentinel starting to lag\n"
+        }
+      }
+    ],
+    "env": {},
+    "defaultTest": {
+      "assert": [
+        {
+          "type": "contains",
+          "value": "ALERTA:"
+        },
+        {
+          "type": "contains",
+          "value": "IMPACTO:"
+        },
+        {
+          "type": "contains",
+          "value": "HIPÓTESE INICIAL:"
+        },
+        {
+          "type": "contains",
+          "value": "AÇÃO IMEDIATA:"
+        },
+        {
+          "type": "contains",
+          "value": "ESCALAR PARA:"
+        },
+        {
+          "type": "regex",
+          "value": "ESCALAR PARA:.*@\\w+"
+        },
+        {
+          "type": "javascript",
+          "value": "output.trim().split('\\n').length <= 8"
+        },
+        {
+          "type": "latency",
+          "threshold": 5000
+        },
+        {
+          "type": "cost",
+          "threshold": 0.01
+        }
+      ],
+      "vars": {},
+      "options": {},
+      "metadata": {}
+    },
+    "outputPath": [
+      "evidencias/nota-de-triagem.json"
+    ],
+    "extensions": [],
+    "metadata": {},
+    "evaluateOptions": {}
+  },
+  "shareableUrl": null,
+  "metadata": {
+    "promptfooVersion": "0.121.17",
+    "nodeVersion": "v24.16.0",
+    "platform": "linux",
+    "arch": "x64",
+    "exportedAt": "2026-06-20T23:36:33.826Z",
+    "evaluationCreatedAt": "2026-06-20T23:36:29.060Z"
+  },
+  "vars": [
+    "alerta_cru"
+  ],
+  "runtimeOptions": {
+    "eventSource": "cli",
+    "showProgressBar": true,
+    "repeat": 1,
+    "maxConcurrency": 4,
+    "cache": false
+  }
+}

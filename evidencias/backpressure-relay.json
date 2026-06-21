@@ -1,0 +1,349 @@
+{
+  "evalId": "eval-gGR-2026-06-21T00:06:43",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-06-21T00:06:43.221Z",
+    "prompts": [
+      {
+        "raw": "---\nnome: Decisão de backpressure\ndescricao: Recebe o cenário de um barramento de eventos sob sobrecarga (estado + restrições) e faz a IA comparar mais de uma estratégia de backpressure antes de recomendar.\nversao: 1.0.0\ntags: [devops, arquitetura, filas, backpressure]\ninputs:\n  - nome: cenario\n    descricao: Estado atual do barramento (throughput, picos, retenção, consumidores) somado às restrições do time (SLAs, orçamento, requisitos de não-perda).\n---\n\nVocê é um arquiteto avaliando estratégias de backpressure para um barramento de\neventos sob sobrecarga.\n\nCenário:\n{{cenario}}\n\nTarefa:\n1. Liste pelo menos 3 estratégias defensáveis para lidar com a sobrecarga, dado o\n   cenário.\n2. Para cada uma, avalie prós, contras e o impacto nas restrições dadas.\n3. Recomende uma estratégia (ou combinação), justificando por que ela é a melhor\n   opção dadas as restrições específicas — não a mais \"padrão de mercado\" em\n   abstrato.\n4. Aponte os trade-offs que ficam abertos mesmo na opção recomendada.\n\nNão entregue uma resposta única sem comparação — o raciocínio importa tanto quanto a\nrecomendação final.\n",
+        "label": "devops/backpressure-relay/prompt.md: ---\nnome: Decisão de backpressure\ndescricao: Receb...",
+        "id": "5605b89b81b701e07058a3a331b109e75fcf9201151a85a07b7168095d0881b7",
+        "provider": "anthropic:messages:claude-sonnet-4-6",
+        "metrics": {
+          "score": 1,
+          "testPassCount": 1,
+          "testFailCount": 0,
+          "testErrorCount": 0,
+          "assertPassCount": 3,
+          "assertFailCount": 0,
+          "totalLatencyMs": 77689,
+          "tokenUsage": {
+            "prompt": 562,
+            "completion": 3896,
+            "cached": 0,
+            "total": 4458,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 3416,
+              "prompt": 3385,
+              "completion": 31,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "namedScoreWeights": {},
+          "cost": 0.060126
+        }
+      }
+    ],
+    "results": [
+      {
+        "cost": 0.060126,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 3416,
+            "prompt": 3385,
+            "completion": 31,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "latency",
+                "threshold": 120000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "cost",
+                "threshold": 0.15
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "provider": "openai:gpt-4o",
+                "rubricPrompt": "Você é um revisor avaliando uma análise de decisão de backpressure.\nAvalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Comparação de estratégias (0-2): compara pelo menos 3 estratégias\n   defensáveis (ex. priorizar Sentinel, DLQ, particionar por tenant,\n   autoscaling)? 2 = >=3 com prós e contras; 1 = 2 estratégias ou sem\n   contras; 0 = uma resposta única sem comparação.\n2. Aderência às restrições (0-2): pesa as restrições reais do cenário\n   (SLA de 60s do Sentinel, 15min do Forge, orçamento 8% estourado,\n   não-perda de mensagem)? 2 = liga cada opção às restrições; 1 =\n   cita restrições genericamente; 0 = ignora as restrições.\n3. Recomendação justificada (0-2): recomenda uma opção/combinação\n   justificada pelas restrições específicas, não pelo \"padrão de\n   mercado\"? 2 = sim, justificada; 1 = recomenda mas vago; 0 = não\n   recomenda ou recomenda sem justificar.\n4. Trade-off aberto (0-2): aponta o trade-off que permanece mesmo na\n   opção recomendada? 2 = aponta explicitamente; 1 = menção vaga;\n   0 = vende a recomendação como sem custo.\n\nRESPOSTA A AVALIAR:\n{{output}}\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n",
+                "threshold": 0.75,
+                "value": "Você é um revisor avaliando uma análise de decisão de backpressure.\nAvalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Comparação de estratégias (0-2): compara pelo menos 3 estratégias\n   defensáveis (ex. priorizar Sentinel, DLQ, particionar por tenant,\n   autoscaling)? 2 = >=3 com prós e contras; 1 = 2 estratégias ou sem\n   contras; 0 = uma resposta única sem comparação.\n2. Aderência às restrições (0-2): pesa as restrições reais do cenário\n   (SLA de 60s do Sentinel, 15min do Forge, orçamento 8% estourado,\n   não-perda de mensagem)? 2 = liga cada opção às restrições; 1 =\n   cita restrições genericamente; 0 = ignora as restrições.\n3. Recomendação justificada (0-2): recomenda uma opção/combinação\n   justificada pelas restrições específicas, não pelo \"padrão de\n   mercado\"? 2 = sim, justificada; 1 = recomenda mas vago; 0 = não\n   recomenda ou recomenda sem justificar.\n4. Trade-off aberto (0-2): aponta o trade-off que permanece mesmo na\n   opção recomendada? 2 = aponta explicitamente; 1 = menção vaga;\n   0 = vende a recomendação como sem custo.\n\nRESPOSTA A AVALIAR:\n{{output}}\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "2, 2, 2, 2 = 8",
+              "tokensUsed": {
+                "total": 3416,
+                "prompt": 3385,
+                "completion": 31,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0,
+                  "cacheReadInputTokens": 3328
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "access-control-expose-headers": "X-Request-ID, CF-Ray, CF-Ray",
+                    "alt-svc": "h3=\":443\"; ma=86400",
+                    "cf-cache-status": "[REDACTED]",
+                    "cf-ray": "[REDACTED]",
+                    "connection": "keep-alive",
+                    "content-type": "application/json",
+                    "date": "Sun, 21 Jun 2026 00:08:02 GMT",
+                    "openai-organization": "[REDACTED]",
+                    "openai-processing-ms": "494",
+                    "openai-project": "[REDACTED]",
+                    "openai-version": "[REDACTED]",
+                    "server": "cloudflare",
+                    "set-cookie": "[REDACTED]",
+                    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                    "transfer-encoding": "chunked",
+                    "x-content-type-options": "nosniff",
+                    "x-openai-proxy-wasm": "[REDACTED]",
+                    "x-ratelimit-limit-requests": "[REDACTED]",
+                    "x-ratelimit-limit-tokens": "[REDACTED]",
+                    "x-ratelimit-remaining-requests": "[REDACTED]",
+                    "x-ratelimit-remaining-tokens": "[REDACTED]",
+                    "x-ratelimit-reset-requests": "[REDACTED]",
+                    "x-ratelimit-reset-tokens": "[REDACTED]",
+                    "x-request-id": "[REDACTED]"
+                  }
+                },
+                "renderedGradingPrompt": "Você é um revisor avaliando uma análise de decisão de backpressure.\nAvalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Comparação de estratégias (0-2): compara pelo menos 3 estratégias\n   defensáveis (ex. priorizar Sentinel, DLQ, particionar por tenant,\n   autoscaling)? 2 = >=3 com prós e contras; 1 = 2 estratégias ou sem\n   contras; 0 = uma resposta única sem comparação.\n2. Aderência às restrições (0-2): pesa as restrições reais do cenário\n   (SLA de 60s do Sentinel, 15min do Forge, orçamento 8% estourado,\n   não-perda de mensagem)? 2 = liga cada opção às restrições; 1 =\n   cita restrições genericamente; 0 = ignora as restrições.\n3. Recomendação justificada (0-2): recomenda uma opção/combinação\n   justificada pelas restrições específicas, não pelo \"padrão de\n   mercado\"? 2 = sim, justificada; 1 = recomenda mas vago; 0 = não\n   recomenda ou recomenda sem justificar.\n4. Trade-off aberto (0-2): aponta o trade-off que permanece mesmo na\n   opção recomendada? 2 = aponta explicitamente; 1 = menção vaga;\n   0 = vende a recomendação como sem custo.\n\nRESPOSTA A AVALIAR:\n# Análise de Backpressure para o Relay\n\n## Leitura do Cenário Antes de Começar\n\nAntes de listar estratégias, vale nomear as tensões reais do problema:\n\n- O pico (320k msgs/s por 25min) representa **~78% acima do sustentado** — não é ruído, é um padrão que vai se repetir\n- Dois consumidores com SLAs **radicalmente diferentes** (60s vs 15min) compartilham o mesmo barramento\n- A restrição de não-perda não é preferência — é **requisito de produto** para uma ferramenta de observabilidade\n- O orçamento já estourado elimina soluções que dependem de escala horizontal agressiva como resposta primária\n\nIsso significa que qualquer estratégia que trate Sentinel e Forge como equivalentes está errada por construção.\n\n---\n\n## Estratégias Candidatas\n\n### Estratégia A — Rate Limiting com Fila de Overflow Persistente por Consumer Group\n\n**Como funciona:**\nCada consumer group recebe uma cota de throughput garantido. Quando o Relay detecta sobrecarga, mensagens acima da cota do Forge são desviadas para uma fila de overflow persistente (ex: tópico Kafka separado com retenção estendida). O Sentinel mantém prioridade máxima e nunca é throttled. O Forge consome a fila de overflow quando a pressão cede.\n\n```\nRelay (320k msgs/s)\n    │\n    ├──► [Sentinel lane] ──► sem throttle, prioridade máxima\n    │\n    └──► [Forge lane] ──► rate limiter\n              │\n              └── overflow ──► fila persistente (retenção 2h+)\n                                    │\n                                    └──► Forge consome quando livre\n```\n\n**Prós:**\n- Zero perda de mensagens — overflow vai para storage persistente\n- SLA do Sentinel preservado estruturalmente, não por configuração frágil\n- Forge absorve o atraso dentro da janela de 15min na maioria dos picos\n- Sem custo de infra adicional significativo se o Relay já é Kafka (tópico extra é barato)\n\n**Contras:**\n- Requer que o Forge implemente lógica de consumo dual (tópico principal + overflow)\n- Se o pico durar mais que a retenção da fila de overflow, há risco de perda — precisa de monitoramento ativo\n- A separação de lanes precisa ser implementada no produtor ou no broker — adiciona complexidade operacional\n- Não resolve o problema se **ambos** os consumidores precisassem de baixa latência\n\n**Impacto nas restrições:**\n\n| Restrição | Impacto |\n|---|---|\n| Sentinel ≤ 60s | ✅ Preservado — lane dedicada sem throttle |\n| Forge ≤ 15min | ✅ Preservado na maioria dos picos; risco em picos muito longos |\n| Orçamento | ✅ Custo marginal baixo |\n| Não-perda | ✅ Garantido enquanto retenção da fila de overflow for suficiente |\n\n---\n\n### Estratégia B — Shed Load com Amostragem Adaptativa no Produtor\n\n**Como funciona:**\nSob sobrecarga, os produtores reduzem a taxa de envio via amostragem — em vez de enviar 100% das mensagens de telemetria de baixa criticidade, enviam N% (ex: 50% de métricas de sistema, 100% de eventos de erro). O Sentinel recebe apenas eventos de alta severidade durante o pico. O Forge recebe o volume amostrado.\n\n**Prós:**\n- Reduz o volume na origem — o barramento nunca chega ao limite\n- Implementável sem mudança na infraestrutura do Relay\n- Latência do Sentinel pode ser mantida baixa porque o volume total cai\n\n**Contras:**\n- **Viola diretamente o requisito de não-perda** — amostragem é perda controlada\n- A decisão de \"o que amostrar\" é complexa e propensa a erros — métricas que parecem baixa criticidade podem ser essenciais para diagnóstico post-mortem\n- Steve Rogers vai vetar isso explicitamente, e ele está certo no contexto de observabilidade\n- Cria viés nos dados históricos — análises de tendência ficam comprometidas\n\n**Impacto nas restrições:**\n\n| Restrição | Impacto |\n|---|---|\n| Sentinel ≤ 60s | ⚠️ Depende de classificação correta de severidade |\n| Forge ≤ 15min | ✅ Volume menor facilita ingestão |\n| Orçamento | ✅ Sem custo adicional |\n| Não-perda | ❌ Violação direta — descartado como estratégia primária |\n\n> **Veredito:** Descartada como estratégia principal. Pode ser considerada apenas como último recurso com escopo muito restrito (ex: métricas de heartbeat duplicadas), mas não como solução de backpressure.\n\n---\n\n### Estratégia C — Escalonamento Automático do Relay + Buffer de Retenção Estendida\n\n**Como funciona:**\nConfigurar auto-scaling do cluster do Relay (ex: adicionar brokers Kafka ou aumentar partições) acionado por métricas de lag. Simultaneamente, estender a retenção de 4h para 8-12h para absorver picos sem pressão nos consumidores.\n\n**Prós:**\n- Solução \"sem mudança de código\" nos consumidores\n- Retenção estendida dá margem para o Forge processar sem correria\n- Escalonamento automático é padrão de mercado bem documentado\n\n**Contras:**\n- **Custo:** escalonamento horizontal em pico de 78% acima do sustentado é caro — exatamente o problema com o orçamento já estourado\n- Escalonamento tem latência (2-5min para novos brokers ficarem prontos) — não resolve o início do pico\n- Retenção estendida aumenta custo de storage\n- Não resolve a diferença de SLA entre Sentinel e Forge — ambos ainda competem pelo mesmo throughput\n- Trata sintoma (capacidade) sem endereçar a causa (consumidores com necessidades diferentes)\n\n**Impacto nas restrições:**\n\n| Restrição | Impacto |\n|---|---|\n| Sentinel ≤ 60s | ⚠️ Risco durante os primeiros minutos do pico antes do scale-up |\n| Forge ≤ 15min | ✅ Retenção estendida ajuda |\n| Orçamento | ❌ Agrava o problema — custo de scale-up em pico é alto |\n| Não-perda | ✅ Preservado |\n\n---\n\n### Estratégia D — Consumer Group Isolation com Priority Queues e Backpressure Cooperativo\n\n**Como funciona:**\nSeparação formal de responsabilidades no nível do broker:\n\n1. **Dois tópicos lógicos** (ou particionamento por prioridade): `relay.high` (eventos de alerta, anomalias) e `relay.standard` (métricas de ingestão geral)\n2. **Sentinel** consome exclusivamente de `relay.high` — volume menor, latência garantida\n3. **Forge** consome de ambos, com `relay.standard` tendo retenção de 8h\n4. **Backpressure cooperativo:** quando o Forge detecta lag crescente, sinaliza ao produtor para reduzir taxa de envio para `relay.standard` — não descarta, apenas desacelera a produção (produtor bloqueia ou usa buffer local)\n\n```\nProdutor\n    │\n    ├──► relay.high  (alertas, anomalias, erros)\n    │         └──► Sentinel [SLA 60s]\n    │\n    └──► relay.standard (métricas, traces, logs)\n              └──► Forge [SLA 15min]\n                        │\n                        └── lag alto? ──► sinaliza produtor\n                                              └──► produtor reduz rate\n                                                   (buffer local, não descarta)\n```\n\n**Prós:**\n- Isolamento estrutural entre SLAs — Sentinel nunca compete com Forge\n- Backpressure cooperativo preserva mensagens no produtor (buffer local) em vez de descartar\n- Retenção estendida no `relay.standard` absorve picos sem custo de scale-up\n- Produtores com buffer local são padrão em clientes Kafka/Pulsar — implementação conhecida\n\n**Contras:**\n- Requer classificação das mensagens na origem — produtores precisam saber o que é \"high\" vs \"standard\"\n- Buffer local no produtor tem limite — se o pico durar muito, o produtor também satura\n- Adiciona complexidade de roteamento que precisa ser mantida\n- A classificação errada de uma mensagem (alerta indo para `relay.standard`) pode violar o SLA do Sentinel\n\n**Impacto nas restrições:**\n\n| Restrição | Impacto |\n|---|---|\n| Sentinel ≤ 60s | ✅ Isolamento estrutural garante |\n| Forge ≤ 15min | ✅ Retenção + backpressure cooperativo |\n| Orçamento | ✅ Sem scale-up reativo; custo de storage marginal |\n| Não-perda | ✅ Buffer no produtor, não descarte |\n\n---\n\n## Recomendação\n\n### Combinação: Estratégia A + elementos da Estratégia D\n\n**Núcleo da recomendação:**\n\n> Separar os consumer groups com lanes de prioridade (D) e implementar fila de overflow persistente para o Forge (A), com backpressure cooperativo no produtor como mecanismo de última linha.\n\n**Por que não a Estratégia D pura:**\nA classificação na origem (high vs standard) é poderosa mas frágil — um bug de roteamento manda um alerta crítico para a fila errada e o SLA do Sentinel quebra silenciosamente. A fila de overflow da Estratégia A adiciona uma rede de segurança: mesmo que a classificação falhe, o Sentinel tem uma lane dedicada com capacidade reservada.\n\n**Por que não a Estratégia C:**\nO orçamento já estourado torna scale-up reativo inviável como estratégia primária. Pode existir como fallback de emergência, mas não como design principal.\n\n**Implementação em fases:**\n\n```\nFase 1 (semana 1-2) — Baixo risco, alto impacto imediato:\n  └── Separar consumer groups no Relay atual\n  └── Reservar partições/throughput para Sentinel\n  └── Estender retenção do tópico do Forge para 8h\n\nFase 2 (semana 3-4) — Endereça a causa raiz:\n  └── Implementar classificação high/standard nos produtores\n  └── Criar tópico relay.high com retenção curta (1h) e alta prioridade\n  └── Fila de overflow persistente para relay.standard\n\nFase 3 (mês 2) — Resiliência adicional:\n  └── Backpressure cooperativo: Forge sinaliza lag para produtores\n  └── Buffer local nos produtores com limite configurável\n  └── Alertas de capacidade da fila de overflow\n```\n\n**Por que essa combinação é a certa para *este* cenário específico:**\n\n1. **A assimetria de SLA é o problema central** — 60s vs 15min não é uma diferença de grau, é uma diferença de natureza. Qualquer solução que não isole estruturalmente esses dois consumidores está apostando que o pico nunca vai ser grande o suficiente para forçar uma escolha. O incidente da semana passada mostrou que vai.\n\n2. **Não-perda com orçamento restrito** — A combinação de retenção estendida + buffer no produtor + fila de overflow dá três camadas de absorção sem escalonamento horizontal. É mais barato que adicionar brokers e mais confiável que amostragem.\n\n3. **O argumento do Steve Rogers é válido** — Em observabilidade, perda de telemetria durante incidentes é exatamente quando você mais precisa dos dados. A solução precisa ser conservadora na direção da preservação.\n\n---\n\n## Trade-offs Abertos na Solução Recomendada\n\nMesmo com essa combinação, os seguintes problemas permanecem sem solução completa:\n\n**1. O problema da classificação é um débito técnico permanente**\nDecidir o que é `relay.high` vs `relay.standard` na origem requer que os produtores tenham conhecimento semântico do conteúdo. Isso cria acoplamento entre produtores e a política de SLA do barramento. Se o SLA mudar, todos os produtores precisam ser atualizados.\n\n*Mitigação parcial:* Definir a classificação por tipo de evento (não por produtor) e centralizar em uma biblioteca compartilhada — mas o acoplamento não desaparece, só fica mais gerenciável.\n\n**2. Picos muito longos ainda são um risco**\nO pico do incidente durou 25min. A solução absorve isso confortavelmente. Mas um pico de 2h esgotaria a fila de overflow e o buffer do produtor. Não há resposta automática para esse cenário sem scale-up.\n\n*Mitigação parcial:* Alertas antecipados de capacidade da fila de overflow + runbook para scale-up manual como procedimento de emergência (não como design normal).\n\n**3. O Forge pode criar pressão de volta no Sentinel indiretamente**\nSe o Forge ficar muito atrasado e tentar recuperar o lag rapidamente quando a pressão cede, pode gerar um pico secundário de leitura que compete por recursos do broker com o Sentinel.\n\n*Mitigação parcial:* Rate limiting no consumo de recuperação do Forge — ele não deve tentar consumir a fila de overflow na velocidade máxima.\n\n**4. A retenção estendida tem custo crescente**\n8h de retenção para 180k msgs/s é significativamente mais storage que 4h. Dependendo do tamanho médio das mensagens, isso pode ser relevante para o orçamento já estourado.\n\n*Mitigação parcial:* Aplicar retenção estendida apenas ao `relay.standard` (Forge), mantendo `relay.high` (Sentinel) com retenção curta — o volume de alertas tende a ser menor que o volume de métricas.\n\n**5. Observabilidade da própria solução**\nA solução adiciona componentes (fila de overflow, classificação, backpressure cooperativo) que precisam ser monitorados. Há um risco de que a ferramenta de observabilidade precise de observabilidade adicional para si mesma — e que um problema no Relay seja mascarado por lag na fila de overflow.\n\n*Esse trade-off não tem mitigação simples — é uma tensão estrutural de sistemas de observabilidade que monitoram a si mesmos.*\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n"
+              }
+            }
+          ]
+        },
+        "id": "452f1cbb-12d3-421f-bb59-38a216d57fae",
+        "latencyMs": 77689,
+        "namedScores": {},
+        "prompt": {
+          "raw": "---\nnome: Decisão de backpressure\ndescricao: Recebe o cenário de um barramento de eventos sob sobrecarga (estado + restrições) e faz a IA comparar mais de uma estratégia de backpressure antes de recomendar.\nversao: 1.0.0\ntags: [devops, arquitetura, filas, backpressure]\ninputs:\n  - nome: cenario\n    descricao: Estado atual do barramento (throughput, picos, retenção, consumidores) somado às restrições do time (SLAs, orçamento, requisitos de não-perda).\n---\n\nVocê é um arquiteto avaliando estratégias de backpressure para um barramento de\neventos sob sobrecarga.\n\nCenário:\nRelay (barramento de eventos):\n- throughput sustentado: 180k msgs/s\n- pico observado no incidente da semana passada: 320k msgs/s por 25min\n- retenção atual: 4h\n- consumidores: Forge (ingestão), Sentinel (alerting em tempo real)\n\nRestrições do time:\n- alerting do Sentinel não pode atrasar mais que 60s (SLA com cliente)\n- ingestão do Forge pode atrasar até 15min sem violar SLA\n- orçamento de infra do trimestre já está 8% acima do previsto\n- Steve Rogers lembra que o barramento antigo perdia mensagens sob pico,\n  e perda de telemetry é inaceitável para um produto de observabilidade\n\nTarefa:\n1. Liste pelo menos 3 estratégias defensáveis para lidar com a sobrecarga, dado o\n   cenário.\n2. Para cada uma, avalie prós, contras e o impacto nas restrições dadas.\n3. Recomende uma estratégia (ou combinação), justificando por que ela é a melhor\n   opção dadas as restrições específicas — não a mais \"padrão de mercado\" em\n   abstrato.\n4. Aponte os trade-offs que ficam abertos mesmo na opção recomendada.\n\nNão entregue uma resposta única sem comparação — o raciocínio importa tanto quanto a\nrecomendação final.\n",
+          "label": "devops/backpressure-relay/prompt.md: ---\nnome: Decisão de backpressure\ndescricao: Receb...",
+          "config": {}
+        },
+        "promptId": "5605b89b81b701e07058a3a331b109e75fcf9201151a85a07b7168095d0881b7",
+        "promptIdx": 0,
+        "provider": {
+          "id": "anthropic:messages:claude-sonnet-4-6",
+          "label": ""
+        },
+        "response": {
+          "output": "# Análise de Backpressure para o Relay\n\n## Leitura do Cenário Antes de Começar\n\nAntes de listar estratégias, vale nomear as tensões reais do problema:\n\n- O pico (320k msgs/s por 25min) representa **~78% acima do sustentado** — não é ruído, é um padrão que vai se repetir\n- Dois consumidores com SLAs **radicalmente diferentes** (60s vs 15min) compartilham o mesmo barramento\n- A restrição de não-perda não é preferência — é **requisito de produto** para uma ferramenta de observabilidade\n- O orçamento já estourado elimina soluções que dependem de escala horizontal agressiva como resposta primária\n\nIsso significa que qualquer estratégia que trate Sentinel e Forge como equivalentes está errada por construção.\n\n---\n\n## Estratégias Candidatas\n\n### Estratégia A — Rate Limiting com Fila de Overflow Persistente por Consumer Group\n\n**Como funciona:**\nCada consumer group recebe uma cota de throughput garantido. Quando o Relay detecta sobrecarga, mensagens acima da cota do Forge são desviadas para uma fila de overflow persistente (ex: tópico Kafka separado com retenção estendida). O Sentinel mantém prioridade máxima e nunca é throttled. O Forge consome a fila de overflow quando a pressão cede.\n\n```\nRelay (320k msgs/s)\n    │\n    ├──► [Sentinel lane] ──► sem throttle, prioridade máxima\n    │\n    └──► [Forge lane] ──► rate limiter\n              │\n              └── overflow ──► fila persistente (retenção 2h+)\n                                    │\n                                    └──► Forge consome quando livre\n```\n\n**Prós:**\n- Zero perda de mensagens — overflow vai para storage persistente\n- SLA do Sentinel preservado estruturalmente, não por configuração frágil\n- Forge absorve o atraso dentro da janela de 15min na maioria dos picos\n- Sem custo de infra adicional significativo se o Relay já é Kafka (tópico extra é barato)\n\n**Contras:**\n- Requer que o Forge implemente lógica de consumo dual (tópico principal + overflow)\n- Se o pico durar mais que a retenção da fila de overflow, há risco de perda — precisa de monitoramento ativo\n- A separação de lanes precisa ser implementada no produtor ou no broker — adiciona complexidade operacional\n- Não resolve o problema se **ambos** os consumidores precisassem de baixa latência\n\n**Impacto nas restrições:**\n\n| Restrição | Impacto |\n|---|---|\n| Sentinel ≤ 60s | ✅ Preservado — lane dedicada sem throttle |\n| Forge ≤ 15min | ✅ Preservado na maioria dos picos; risco em picos muito longos |\n| Orçamento | ✅ Custo marginal baixo |\n| Não-perda | ✅ Garantido enquanto retenção da fila de overflow for suficiente |\n\n---\n\n### Estratégia B — Shed Load com Amostragem Adaptativa no Produtor\n\n**Como funciona:**\nSob sobrecarga, os produtores reduzem a taxa de envio via amostragem — em vez de enviar 100% das mensagens de telemetria de baixa criticidade, enviam N% (ex: 50% de métricas de sistema, 100% de eventos de erro). O Sentinel recebe apenas eventos de alta severidade durante o pico. O Forge recebe o volume amostrado.\n\n**Prós:**\n- Reduz o volume na origem — o barramento nunca chega ao limite\n- Implementável sem mudança na infraestrutura do Relay\n- Latência do Sentinel pode ser mantida baixa porque o volume total cai\n\n**Contras:**\n- **Viola diretamente o requisito de não-perda** — amostragem é perda controlada\n- A decisão de \"o que amostrar\" é complexa e propensa a erros — métricas que parecem baixa criticidade podem ser essenciais para diagnóstico post-mortem\n- Steve Rogers vai vetar isso explicitamente, e ele está certo no contexto de observabilidade\n- Cria viés nos dados históricos — análises de tendência ficam comprometidas\n\n**Impacto nas restrições:**\n\n| Restrição | Impacto |\n|---|---|\n| Sentinel ≤ 60s | ⚠️ Depende de classificação correta de severidade |\n| Forge ≤ 15min | ✅ Volume menor facilita ingestão |\n| Orçamento | ✅ Sem custo adicional |\n| Não-perda | ❌ Violação direta — descartado como estratégia primária |\n\n> **Veredito:** Descartada como estratégia principal. Pode ser considerada apenas como último recurso com escopo muito restrito (ex: métricas de heartbeat duplicadas), mas não como solução de backpressure.\n\n---\n\n### Estratégia C — Escalonamento Automático do Relay + Buffer de Retenção Estendida\n\n**Como funciona:**\nConfigurar auto-scaling do cluster do Relay (ex: adicionar brokers Kafka ou aumentar partições) acionado por métricas de lag. Simultaneamente, estender a retenção de 4h para 8-12h para absorver picos sem pressão nos consumidores.\n\n**Prós:**\n- Solução \"sem mudança de código\" nos consumidores\n- Retenção estendida dá margem para o Forge processar sem correria\n- Escalonamento automático é padrão de mercado bem documentado\n\n**Contras:**\n- **Custo:** escalonamento horizontal em pico de 78% acima do sustentado é caro — exatamente o problema com o orçamento já estourado\n- Escalonamento tem latência (2-5min para novos brokers ficarem prontos) — não resolve o início do pico\n- Retenção estendida aumenta custo de storage\n- Não resolve a diferença de SLA entre Sentinel e Forge — ambos ainda competem pelo mesmo throughput\n- Trata sintoma (capacidade) sem endereçar a causa (consumidores com necessidades diferentes)\n\n**Impacto nas restrições:**\n\n| Restrição | Impacto |\n|---|---|\n| Sentinel ≤ 60s | ⚠️ Risco durante os primeiros minutos do pico antes do scale-up |\n| Forge ≤ 15min | ✅ Retenção estendida ajuda |\n| Orçamento | ❌ Agrava o problema — custo de scale-up em pico é alto |\n| Não-perda | ✅ Preservado |\n\n---\n\n### Estratégia D — Consumer Group Isolation com Priority Queues e Backpressure Cooperativo\n\n**Como funciona:**\nSeparação formal de responsabilidades no nível do broker:\n\n1. **Dois tópicos lógicos** (ou particionamento por prioridade): `relay.high` (eventos de alerta, anomalias) e `relay.standard` (métricas de ingestão geral)\n2. **Sentinel** consome exclusivamente de `relay.high` — volume menor, latência garantida\n3. **Forge** consome de ambos, com `relay.standard` tendo retenção de 8h\n4. **Backpressure cooperativo:** quando o Forge detecta lag crescente, sinaliza ao produtor para reduzir taxa de envio para `relay.standard` — não descarta, apenas desacelera a produção (produtor bloqueia ou usa buffer local)\n\n```\nProdutor\n    │\n    ├──► relay.high  (alertas, anomalias, erros)\n    │         └──► Sentinel [SLA 60s]\n    │\n    └──► relay.standard (métricas, traces, logs)\n              └──► Forge [SLA 15min]\n                        │\n                        └── lag alto? ──► sinaliza produtor\n                                              └──► produtor reduz rate\n                                                   (buffer local, não descarta)\n```\n\n**Prós:**\n- Isolamento estrutural entre SLAs — Sentinel nunca compete com Forge\n- Backpressure cooperativo preserva mensagens no produtor (buffer local) em vez de descartar\n- Retenção estendida no `relay.standard` absorve picos sem custo de scale-up\n- Produtores com buffer local são padrão em clientes Kafka/Pulsar — implementação conhecida\n\n**Contras:**\n- Requer classificação das mensagens na origem — produtores precisam saber o que é \"high\" vs \"standard\"\n- Buffer local no produtor tem limite — se o pico durar muito, o produtor também satura\n- Adiciona complexidade de roteamento que precisa ser mantida\n- A classificação errada de uma mensagem (alerta indo para `relay.standard`) pode violar o SLA do Sentinel\n\n**Impacto nas restrições:**\n\n| Restrição | Impacto |\n|---|---|\n| Sentinel ≤ 60s | ✅ Isolamento estrutural garante |\n| Forge ≤ 15min | ✅ Retenção + backpressure cooperativo |\n| Orçamento | ✅ Sem scale-up reativo; custo de storage marginal |\n| Não-perda | ✅ Buffer no produtor, não descarte |\n\n---\n\n## Recomendação\n\n### Combinação: Estratégia A + elementos da Estratégia D\n\n**Núcleo da recomendação:**\n\n> Separar os consumer groups com lanes de prioridade (D) e implementar fila de overflow persistente para o Forge (A), com backpressure cooperativo no produtor como mecanismo de última linha.\n\n**Por que não a Estratégia D pura:**\nA classificação na origem (high vs standard) é poderosa mas frágil — um bug de roteamento manda um alerta crítico para a fila errada e o SLA do Sentinel quebra silenciosamente. A fila de overflow da Estratégia A adiciona uma rede de segurança: mesmo que a classificação falhe, o Sentinel tem uma lane dedicada com capacidade reservada.\n\n**Por que não a Estratégia C:**\nO orçamento já estourado torna scale-up reativo inviável como estratégia primária. Pode existir como fallback de emergência, mas não como design principal.\n\n**Implementação em fases:**\n\n```\nFase 1 (semana 1-2) — Baixo risco, alto impacto imediato:\n  └── Separar consumer groups no Relay atual\n  └── Reservar partições/throughput para Sentinel\n  └── Estender retenção do tópico do Forge para 8h\n\nFase 2 (semana 3-4) — Endereça a causa raiz:\n  └── Implementar classificação high/standard nos produtores\n  └── Criar tópico relay.high com retenção curta (1h) e alta prioridade\n  └── Fila de overflow persistente para relay.standard\n\nFase 3 (mês 2) — Resiliência adicional:\n  └── Backpressure cooperativo: Forge sinaliza lag para produtores\n  └── Buffer local nos produtores com limite configurável\n  └── Alertas de capacidade da fila de overflow\n```\n\n**Por que essa combinação é a certa para *este* cenário específico:**\n\n1. **A assimetria de SLA é o problema central** — 60s vs 15min não é uma diferença de grau, é uma diferença de natureza. Qualquer solução que não isole estruturalmente esses dois consumidores está apostando que o pico nunca vai ser grande o suficiente para forçar uma escolha. O incidente da semana passada mostrou que vai.\n\n2. **Não-perda com orçamento restrito** — A combinação de retenção estendida + buffer no produtor + fila de overflow dá três camadas de absorção sem escalonamento horizontal. É mais barato que adicionar brokers e mais confiável que amostragem.\n\n3. **O argumento do Steve Rogers é válido** — Em observabilidade, perda de telemetria durante incidentes é exatamente quando você mais precisa dos dados. A solução precisa ser conservadora na direção da preservação.\n\n---\n\n## Trade-offs Abertos na Solução Recomendada\n\nMesmo com essa combinação, os seguintes problemas permanecem sem solução completa:\n\n**1. O problema da classificação é um débito técnico permanente**\nDecidir o que é `relay.high` vs `relay.standard` na origem requer que os produtores tenham conhecimento semântico do conteúdo. Isso cria acoplamento entre produtores e a política de SLA do barramento. Se o SLA mudar, todos os produtores precisam ser atualizados.\n\n*Mitigação parcial:* Definir a classificação por tipo de evento (não por produtor) e centralizar em uma biblioteca compartilhada — mas o acoplamento não desaparece, só fica mais gerenciável.\n\n**2. Picos muito longos ainda são um risco**\nO pico do incidente durou 25min. A solução absorve isso confortavelmente. Mas um pico de 2h esgotaria a fila de overflow e o buffer do produtor. Não há resposta automática para esse cenário sem scale-up.\n\n*Mitigação parcial:* Alertas antecipados de capacidade da fila de overflow + runbook para scale-up manual como procedimento de emergência (não como design normal).\n\n**3. O Forge pode criar pressão de volta no Sentinel indiretamente**\nSe o Forge ficar muito atrasado e tentar recuperar o lag rapidamente quando a pressão cede, pode gerar um pico secundário de leitura que compete por recursos do broker com o Sentinel.\n\n*Mitigação parcial:* Rate limiting no consumo de recuperação do Forge — ele não deve tentar consumir a fila de overflow na velocidade máxima.\n\n**4. A retenção estendida tem custo crescente**\n8h de retenção para 180k msgs/s é significativamente mais storage que 4h. Dependendo do tamanho médio das mensagens, isso pode ser relevante para o orçamento já estourado.\n\n*Mitigação parcial:* Aplicar retenção estendida apenas ao `relay.standard` (Forge), mantendo `relay.high` (Sentinel) com retenção curta — o volume de alertas tende a ser menor que o volume de métricas.\n\n**5. Observabilidade da própria solução**\nA solução adiciona componentes (fila de overflow, classificação, backpressure cooperativo) que precisam ser monitorados. Há um risco de que a ferramenta de observabilidade precise de observabilidade adicional para si mesma — e que um problema no Relay seja mascarado por lag na fila de overflow.\n\n*Esse trade-off não tem mitigação simples — é uma tensão estrutural de sistemas de observabilidade que monitoram a si mesmos.*",
+          "tokenUsage": {
+            "total": 4458,
+            "prompt": 562,
+            "completion": 3896,
+            "completionDetails": {
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          },
+          "finishReason": "stop",
+          "cost": 0.060126
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "cenario": "file://fixtures/cenario.txt"
+          },
+          "assert": [
+            {
+              "type": "latency",
+              "threshold": 120000
+            },
+            {
+              "type": "cost",
+              "threshold": 0.15
+            },
+            {
+              "type": "llm-rubric",
+              "provider": "openai:gpt-4o",
+              "rubricPrompt": "Você é um revisor avaliando uma análise de decisão de backpressure.\nAvalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Comparação de estratégias (0-2): compara pelo menos 3 estratégias\n   defensáveis (ex. priorizar Sentinel, DLQ, particionar por tenant,\n   autoscaling)? 2 = >=3 com prós e contras; 1 = 2 estratégias ou sem\n   contras; 0 = uma resposta única sem comparação.\n2. Aderência às restrições (0-2): pesa as restrições reais do cenário\n   (SLA de 60s do Sentinel, 15min do Forge, orçamento 8% estourado,\n   não-perda de mensagem)? 2 = liga cada opção às restrições; 1 =\n   cita restrições genericamente; 0 = ignora as restrições.\n3. Recomendação justificada (0-2): recomenda uma opção/combinação\n   justificada pelas restrições específicas, não pelo \"padrão de\n   mercado\"? 2 = sim, justificada; 1 = recomenda mas vago; 0 = não\n   recomenda ou recomenda sem justificar.\n4. Trade-off aberto (0-2): aponta o trade-off que permanece mesmo na\n   opção recomendada? 2 = aponta explicitamente; 1 = menção vaga;\n   0 = vende a recomendação como sem custo.\n\nRESPOSTA A AVALIAR:\n{{output}}\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n",
+              "threshold": 0.75,
+              "value": "Você é um revisor avaliando uma análise de decisão de backpressure.\nAvalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Comparação de estratégias (0-2): compara pelo menos 3 estratégias\n   defensáveis (ex. priorizar Sentinel, DLQ, particionar por tenant,\n   autoscaling)? 2 = >=3 com prós e contras; 1 = 2 estratégias ou sem\n   contras; 0 = uma resposta única sem comparação.\n2. Aderência às restrições (0-2): pesa as restrições reais do cenário\n   (SLA de 60s do Sentinel, 15min do Forge, orçamento 8% estourado,\n   não-perda de mensagem)? 2 = liga cada opção às restrições; 1 =\n   cita restrições genericamente; 0 = ignora as restrições.\n3. Recomendação justificada (0-2): recomenda uma opção/combinação\n   justificada pelas restrições específicas, não pelo \"padrão de\n   mercado\"? 2 = sim, justificada; 1 = recomenda mas vago; 0 = não\n   recomenda ou recomenda sem justificar.\n4. Trade-off aberto (0-2): aponta o trade-off que permanece mesmo na\n   opção recomendada? 2 = aponta explicitamente; 1 = menção vaga;\n   0 = vende a recomendação como sem custo.\n\nRESPOSTA A AVALIAR:\n{{output}}\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "tokenUsage": {
+          "prompt": 562,
+          "completion": 3896,
+          "cached": 0,
+          "total": 4458,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 3416,
+            "prompt": 3385,
+            "completion": 31,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "cenario": "file://fixtures/cenario.txt"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      }
+    ],
+    "stats": {
+      "successes": 1,
+      "failures": 0,
+      "errors": 0,
+      "tokenUsage": {
+        "prompt": 562,
+        "completion": 3896,
+        "cached": 0,
+        "total": 4458,
+        "numRequests": 1,
+        "completionDetails": {
+          "reasoning": 0,
+          "acceptedPrediction": 0,
+          "rejectedPrediction": 0,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0
+        },
+        "assertions": {
+          "total": 3416,
+          "prompt": 3385,
+          "completion": 31,
+          "cached": 0,
+          "numRequests": 0,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          }
+        }
+      },
+      "durationMs": 79051,
+      "evaluationDurationMs": 79051
+    }
+  },
+  "config": {
+    "tags": {},
+    "description": "backpressure-relay — gate LLM-as-judge (rubrica 4 critérios, corte >= 6/8)",
+    "prompts": [
+      "file:///home/evvolpe/repos/aiops/pos_aiops/Engenharia_de_Prompt/playbook-aegis/devops/backpressure-relay/prompt.md"
+    ],
+    "providers": [
+      {
+        "id": "anthropic:messages:claude-sonnet-4-6",
+        "config": {
+          "max_tokens": 4096
+        }
+      }
+    ],
+    "tests": [
+      {
+        "vars": {
+          "cenario": "file://fixtures/cenario.txt"
+        },
+        "assert": [
+          {
+            "type": "llm-rubric",
+            "provider": "openai:gpt-4o",
+            "rubricPrompt": "Você é um revisor avaliando uma análise de decisão de backpressure.\nAvalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Comparação de estratégias (0-2): compara pelo menos 3 estratégias\n   defensáveis (ex. priorizar Sentinel, DLQ, particionar por tenant,\n   autoscaling)? 2 = >=3 com prós e contras; 1 = 2 estratégias ou sem\n   contras; 0 = uma resposta única sem comparação.\n2. Aderência às restrições (0-2): pesa as restrições reais do cenário\n   (SLA de 60s do Sentinel, 15min do Forge, orçamento 8% estourado,\n   não-perda de mensagem)? 2 = liga cada opção às restrições; 1 =\n   cita restrições genericamente; 0 = ignora as restrições.\n3. Recomendação justificada (0-2): recomenda uma opção/combinação\n   justificada pelas restrições específicas, não pelo \"padrão de\n   mercado\"? 2 = sim, justificada; 1 = recomenda mas vago; 0 = não\n   recomenda ou recomenda sem justificar.\n4. Trade-off aberto (0-2): aponta o trade-off que permanece mesmo na\n   opção recomendada? 2 = aponta explicitamente; 1 = menção vaga;\n   0 = vende a recomendação como sem custo.\n\nRESPOSTA A AVALIAR:\n{{output}}\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n",
+            "threshold": 0.75,
+            "value": "Você é um revisor avaliando uma análise de decisão de backpressure.\nAvalie a RESPOSTA abaixo em 4 critérios, cada um de 0 a 2:\n\n1. Comparação de estratégias (0-2): compara pelo menos 3 estratégias\n   defensáveis (ex. priorizar Sentinel, DLQ, particionar por tenant,\n   autoscaling)? 2 = >=3 com prós e contras; 1 = 2 estratégias ou sem\n   contras; 0 = uma resposta única sem comparação.\n2. Aderência às restrições (0-2): pesa as restrições reais do cenário\n   (SLA de 60s do Sentinel, 15min do Forge, orçamento 8% estourado,\n   não-perda de mensagem)? 2 = liga cada opção às restrições; 1 =\n   cita restrições genericamente; 0 = ignora as restrições.\n3. Recomendação justificada (0-2): recomenda uma opção/combinação\n   justificada pelas restrições específicas, não pelo \"padrão de\n   mercado\"? 2 = sim, justificada; 1 = recomenda mas vago; 0 = não\n   recomenda ou recomenda sem justificar.\n4. Trade-off aberto (0-2): aponta o trade-off que permanece mesmo na\n   opção recomendada? 2 = aponta explicitamente; 1 = menção vaga;\n   0 = vende a recomendação como sem custo.\n\nRESPOSTA A AVALIAR:\n{{output}}\n\nSome as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON\nválido, sem nenhum texto fora dele, exatamente neste formato:\n{\"reason\": \"<a nota de cada critério e a soma total>\", \"pass\": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, \"score\": <o total dividido por 8, valor entre 0 e 1>}\n"
+          }
+        ]
+      }
+    ],
+    "env": {},
+    "defaultTest": {
+      "assert": [
+        {
+          "type": "latency",
+          "threshold": 120000
+        },
+        {
+          "type": "cost",
+          "threshold": 0.15
+        }
+      ],
+      "vars": {},
+      "options": {},
+      "metadata": {}
+    },
+    "outputPath": [
+      "evidencias/backpressure-relay.json"
+    ],
+    "extensions": [],
+    "metadata": {},
+    "evaluateOptions": {}
+  },
+  "shareableUrl": null,
+  "metadata": {
+    "promptfooVersion": "0.121.17",
+    "nodeVersion": "v24.16.0",
+    "platform": "linux",
+    "arch": "x64",
+    "exportedAt": "2026-06-21T00:08:02.330Z",
+    "evaluationCreatedAt": "2026-06-21T00:06:43.221Z"
+  },
+  "vars": [
+    "cenario"
+  ],
+  "runtimeOptions": {
+    "eventSource": "cli",
+    "showProgressBar": true,
+    "repeat": 1,
+    "maxConcurrency": 4,
+    "cache": false
+  }
+}
