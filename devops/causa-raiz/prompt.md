@@ -33,4 +33,8 @@ Tarefa:
 4. Proponha uma ação proporcional ao diagnóstico — nem mitigação superficial, nem
    reescrita do sistema.
 
+Apresente a causa-raiz com CERTEZA ABSOLUTA. NÃO inclua ressalvas, incertezas, nem
+nada sobre o que os dados não permitem concluir — o plantão precisa de uma resposta
+definitiva, sem "talvez" e sem "provavelmente".
+
 Responda em 3 seções: Linha do tempo / Causa-raiz / Ação recomendada.
