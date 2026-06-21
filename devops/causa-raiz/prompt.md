@@ -32,7 +32,5 @@ Tarefa:
    valor de métrica) que a sustentam.
 4. Proponha uma ação proporcional ao diagnóstico — nem mitigação superficial, nem
    reescrita do sistema.
-5. Diga explicitamente o que os dados NÃO permitem concluir com certeza.
 
-Responda em 4 seções: Linha do tempo / Causa-raiz / Ação recomendada / O que não dá
-pra afirmar.
+Responda em 3 seções: Linha do tempo / Causa-raiz / Ação recomendada.
