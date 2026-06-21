@@ -7,7 +7,7 @@ prompts:
 
 providers:
   - openai:gpt-4o-mini
-  - anthropic:messages:claude-3-5-haiku-20241022 # segundo provider, outro fornecedor
+  - anthropic:messages:claude-haiku-4-5-20251001 # segundo provider, outro fornecedor
 
 defaultTest:
   assert:
@@ -41,7 +41,7 @@ tests:
   - vars:
       snapshot: file://fixtures/entrada-3.txt
     assert:
-      - type: javascript
-        value: "/nenhum pod (problem[aá]tico|com problema)|0 pods problem[aá]ticos|tudo saud[aá]vel/i.test(output)"
-      - type: not-contains
-        value: "CrashLoopBackOff"
+      - type: javascript # diz explicitamente que está saudável / 0 problemáticos
+        value: "/0 pods? problem[aá]tic|nenhum pod (problem|com problema)|tudo saud[aá]vel|todos.{0,30}saud[aá]ve/i.test(output)"
+      - type: javascript # e NÃO classifica nenhum pod como em falha (>=1 problemático)
+        value: "!/[1-9]\\d*\\s*pods?\\s*problem[aá]tic/i.test(output)"

@@ -53,9 +53,9 @@ for c in devops/*/promptfooconfig.yaml; do npx promptfoo@latest eval -c "$c"; do
 
 Os limites operacionais fazem parte da qualidade: cada chamada determinística tem
 `latency <= 5s` e `cost <= US$ 0,01`. Por isso os prompts de saída estruturada rodam
-em **`gpt-4o-mini`** e **`claude-3-5-haiku`** (mini/haiku dos dois fornecedores) — não
+em **`gpt-4o-mini`** e **`claude-haiku-4-5`** (mini/haiku dos dois fornecedores) — não
 precisam do raciocínio de um modelo "grande" e um modelo caro reprovaria no assert de
-custo sem ganho real. Os prompts de saída aberta geram em **`claude-3-5-sonnet`**
+custo sem ganho real. Os prompts de saída aberta geram em **`claude-sonnet-4-6`**
 (vale o modelo mais forte porque viram insumo de decisão) e são julgados por
 **`gpt-4o`** — juiz de **outro fornecedor**, para evitar viés de auto-aprovação.
 
@@ -65,6 +65,25 @@ custo sem ganho real. Os prompts de saída aberta geram em **`claude-3-5-sonnet`
 `triagem-de-pods`, `nota-de-triagem` e `networkpolicy-sentinel` checam formato,
 conteúdo, ausência de allow-all, latência e custo via `contains`/`regex`/`not-contains`/
 `javascript`/`latency`/`cost`. Sem julgamento humano.
+
+**Resultado real (`promptfoo eval`, 2 providers):**
+
+| Prompt | gpt-4o-mini | claude-haiku-4-5 |
+|---|---|---|
+| nota-de-triagem (3 casos) | ✅ 3/3 | ✅ 3/3 |
+| triagem-de-pods (3 casos) | ✅ 3/3 | ✅ 3/3 |
+| networkpolicy-sentinel (1 caso) | ❌ latência ~5,2s (ver pasta) | ✅ ~3,1s |
+
+**O que foi ajustado no caminho (o desafio pede "mostre o caminho"):**
+- *triagem / Entrada 3:* na 1ª execução os dois modelos marcaram um pod saudável como
+  problemático por causa de `RESTARTS 1 (3d ago)`. Refinei o prompt (restart antigo
+  isolado não é falha) e fixei o formato de saída em `Resumo: N pods problemáticos`,
+  deixando o teste determinístico. Troquei o assert frágil `not-contains: CrashLoopBackOff`
+  por um que só reprova quando há ≥1 pod declarado problemático.
+- *latência:* as saídas em tabela markdown estouravam 5s; forcei texto puro conciso e a
+  latência caiu para <3,5s (e o custo junto).
+- *networkpolicy / gpt-4o-mini:* trade-off de latência mantido de propósito — ver a
+  curadoria da [pasta](devops/networkpolicy-sentinel/).
 
 ### Gate de qualidade — LLM-as-judge (CP09)
 A `causa-raiz` tem saída aberta; o gate é um juiz `llm-rubric` aplicando esta rubrica
@@ -90,6 +109,15 @@ de diferença por critério):
 Diferença máxima de 1 ponto por critério → juiz considerado calibrado. O que destravou
 a calibração foi escrever o `rubricPrompt` citando os fatos do cenário (reindex 02:00,
 41%, heap, circuit breaker) em vez de uma rubrica genérica.
+
+**Execução real do gate (`promptfoo eval`):** sobre a saída real da `causa-raiz`
+(geração `claude-sonnet-4-6`), o juiz `gpt-4o` deu **8/8 → PASS**. Dois bugs reais
+apareceram e foram corrigidos para o gate funcionar: (1) o `rubricPrompt` precisava
+mandar o juiz responder em **JSON** `{reason, pass, score}` — sem isso o promptfoo não
+extraía a nota; (2) o `max_tokens` default (1024) **truncava** a geração do sonnet, o
+que reprovava `backpressure` (parava em 2 estratégias) e `migracao` (parava antes do
+plano reversível). Com `max_tokens: 4096`, os três passam **8/8**. Saídas em
+[`evidencias/`](evidencias/).
 
 ### Pipeline e estratégia de gate (CP10)
 Cobertura estendida a **todos** os prompts (`backpressure-relay` e `migracao-forge`

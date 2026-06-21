@@ -7,7 +7,7 @@ prompts:
 
 providers:
   - openai:gpt-4o-mini
-  - anthropic:messages:claude-3-5-haiku-20241022 # segundo provider, outro fornecedor
+  - anthropic:messages:claude-haiku-4-5-20251001 # segundo provider, outro fornecedor
 
 defaultTest:
   assert:

@@ -29,4 +29,5 @@ Tarefa: produza a NetworkPolicy corrigida em YAML, com:
 - um comentário (#) em cada regra dizendo qual fluxo legítimo ela libera
 - nada de allow-all
 
-Devolva só o YAML final, comentado.
+Devolva só o YAML final, comentado. Seja conciso: um comentário curto (uma frase) por
+regra, sem nenhum texto explicativo fora do bloco YAML.

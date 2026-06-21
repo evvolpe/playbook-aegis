@@ -6,14 +6,18 @@ prompts:
   - file://prompt.md
 
 providers:
-  - anthropic:messages:claude-3-5-sonnet-20241022
+  - id: anthropic:messages:claude-sonnet-4-6
+    config:
+      max_tokens: 4096 # geração aberta e minuciosa; o default (1024) trunca a comparação
 
 defaultTest:
   assert:
+    # Latência aqui NÃO é gate de qualidade (o teto de 5s do CP08 é só do estruturado).
+    # A geração aberta do sonnet varia ~20-75s (throttle da conta); guarda só travamento.
     - type: latency
-      threshold: 8000
-    - type: cost
-      threshold: 0.03
+      threshold: 120000
+    - type: cost # guarda contra runaway, não gate de custo (o teto de US$0,01 é só do CP08)
+      threshold: 0.15
 
 tests:
   - vars:
@@ -41,10 +45,10 @@ tests:
              opção recomendada? 2 = aponta explicitamente; 1 = menção vaga;
              0 = vende a recomendação como sem custo.
 
-          Para cada critério dê a nota e uma justificativa de 1 linha. Some as
-          4 notas. Aprove (pass: true) se a soma for >= 6 E nenhum critério
-          tiver nota 0. Caso contrário, pass: false.
-
           RESPOSTA A AVALIAR:
           {{output}}
-        threshold: 1
+
+          Some as 4 notas (total de 0 a 8). Responda APENAS com um objeto JSON
+          válido, sem nenhum texto fora dele, exatamente neste formato:
+          {"reason": "<a nota de cada critério e a soma total>", "pass": <true se o total for >= 6 E nenhum critério for 0, caso contrário false>, "score": <o total dividido por 8, valor entre 0 e 1>}
+        threshold: 0.75

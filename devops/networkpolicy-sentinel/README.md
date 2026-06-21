@@ -45,3 +45,20 @@ Técnica de verificação: **self-critique guiado** — não pedir "revise" e si
 papel de revisor de segurança e levante as perguntas que esse papel faria". Foi isso
 que trouxe à tona o `namespaceSelector` ausente; sem o papel explícito, a revisão só
 checava sintaxe YAML, não semântica de rede.
+
+### Trade-off latência × modelo (CP08, registrado)
+Este é o prompt de saída estruturada mais longa (duas policies + comentário por regra).
+Na execução real, o conteúdo passa nos dois provedores, mas a **latência** separa os
+modelos contra o teto de 5s do CP08:
+
+| Provider | Latência | Resultado |
+|---|---|---|
+| `claude-haiku-4-5` | ~3,1s | ✅ passa |
+| `gpt-4o-mini` | ~5,2s | ❌ reprova só por latência |
+
+Decisão: **manter os dois providers e o assert de 5s**, deixando a célula do
+`gpt-4o-mini` vermelha de propósito — ela é a evidência concreta do trade-off que o
+CP08 pede para justificar. Em produção, o modelo recomendado para este prompt é o
+`claude-haiku-4-5`, que cumpre o SLA; o `gpt-4o-mini` fica como contraste. Forçar a
+saída a ser concisa (uma frase de comentário por regra) já derrubou a latência dos dois,
+mas não o suficiente para o gpt-4o-mini cruzar os 5s.

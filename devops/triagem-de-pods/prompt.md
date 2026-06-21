@@ -21,15 +21,19 @@ SNAPSHOT:
 
 Tarefa: para cada pod no snapshot:
 1. Diga se está saudável ou problemático — não confie só na coluna STATUS, cruze com
-   os eventos e os logs antes de concluir.
+   os eventos e os logs antes de concluir. Um único restart antigo (RESTARTS baixo,
+   ocorrido há dias) em um pod que está Running/Ready, sem CrashLoopBackOff nem
+   reinícios recentes, NÃO é por si só um problema — não classifique o pod como
+   problemático só por causa disso.
 2. Se problemático, aponte a causa provável citando a evidência (evento ou linha de
    log) que sustenta essa causa.
 3. Recomende a próxima ação concreta para quem está de plantão.
 4. Se nenhum pod estiver problemático, diga isso claramente e não invente problema.
 
-Formato de saída:
-- Resumo em 1 linha (quantos pods problemáticos)
-- Para cada pod problemático: Pod | Causa provável | Evidência | Ação recomendada
-- Se tudo saudável: uma linha confirmando isso
+Formato de saída (conciso, em TEXTO PURO — não use tabela markdown):
+- Linha 1, SEMPRE: "Resumo: N pods problemáticos" (N = número exato; use 0 se nenhum).
+- Uma linha por pod problemático: Pod | Causa provável | Evidência | Ação recomendada.
+- Se N = 0: apenas a linha de resumo + uma frase curta confirmando que está tudo
+  saudável, sem listar pod por pod.
 
-Seja direto. Não repita o STATUS como se fosse a causa.
+Seja direto e curto. Não repita o STATUS como se fosse a causa.
