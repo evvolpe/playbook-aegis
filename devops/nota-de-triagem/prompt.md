@@ -21,7 +21,6 @@ ALERTA: <sistema + condição que disparou, resumida>
 IMPACTO: <quem/o que é afetado e em que grau>
 HIPÓTESE INICIAL: <causa mais provável, inferida só do que está no alerta>
 AÇÃO IMEDIATA: <primeira ação que o plantonista deve tomar agora>
-ESCALAR PARA: <@time responsável> se <condição/tempo>
 
 Regras:
 - No máximo 8 linhas no total.
